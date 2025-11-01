@@ -1,0 +1,443 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Forest and Management — 110 Question Quiz</title>
+  <style>
+    /* ---------- Theme Variables ---------- */
+    :root {
+      --bg: #ffffff;
+      --text: #111827;
+      --card: #f3f4f6;
+      --accent: #059669; /* NPTEL Green */
+      --muted: #6b7280;
+      --correct-bg: #d1fae5;
+      --correct-border: #10b981;
+      --wrong-bg: #fee2e2;
+      --wrong-border: #ef4444;
+    }
+    body.dark {
+      --bg: #0b1220;
+      --text: #e6eef6;
+      --card: #071425;
+      --accent: #34d399; /* Lighter NPTEL Green */
+      --muted: #93a6b3;
+      --correct-bg: #064e3b;
+      --correct-border: #34d399;
+      --wrong-bg: #3f0d0d;
+      --wrong-border: #f87171;
+    }
+
+    /* ---------- Base Styles ---------- */
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: "Inter", ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, Arial;
+      background: var(--bg);
+      color: var(--text);
+      transition: background 0.25s, color 0.25s;
+      line-height: 1.5;
+    }
+
+    header {
+      position: sticky;
+      top: 0;
+      background: var(--card);
+      border-bottom: 1px solid rgba(0,0,0,.1);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 12px 16px;
+      z-index: 10;
+      flex-wrap: wrap;
+    }
+
+    header h1 {
+      font-size: 1.1rem;
+      font-weight: 600;
+      margin: 4px 0;
+    }
+
+    .controls { display: flex; gap: 8px; align-items: center; flex-wrap: wrap; }
+
+    .btn, .toggle {
+      border: none;
+      padding: 8px 12px;
+      border-radius: 8px;
+      cursor: pointer;
+      font-weight: 500;
+      transition: all 0.2s;
+    }
+    .btn {
+      background: var(--accent);
+      color: #fff;
+    }
+    .btn:hover { opacity: 0.9; }
+
+    .btn.ghost {
+      background: transparent;
+      border: 1px solid var(--muted);
+      color: var(--text);
+    }
+    .toggle {
+      background: transparent;
+      border: 1px solid var(--muted);
+      color: var(--text);
+    }
+
+    /* ---------- Layout ---------- */
+    .container {
+      max-width: 900px;
+      margin: 20px auto;
+      padding: 10px;
+      display: grid;
+      gap: 16px;
+    }
+
+    .summary {
+      padding: 12px;
+      border-radius: 10px;
+      background: var(--card);
+      box-shadow: 0 4px 16px rgba(0, 0, 0, 0.05);
+      text-align: center;
+    }
+
+    .small { font-size: 0.95rem; color: var(--muted); }
+
+    .qcard {
+      background: var(--card);
+      padding: 14px;
+      border-radius: 12px;
+      box-shadow: 0 4px 16px rgba(0, 0, 0, 0.05);
+      display: grid;
+      gap: 10px;
+      transition: background 0.3s ease, border 0.3s ease;
+    }
+
+    .qtitle { font-weight: 600; font-size: 1rem; }
+
+    .opts { display: flex; flex-direction: column; gap: 8px; }
+
+    label.opt {
+      display: flex;
+      gap: 10px;
+      align-items: center;
+      padding: 10px 12px;
+      border-radius: 8px;
+      border: 1px solid transparent;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+
+    input[type=radio] { width: 18px; height: 18px; cursor: pointer; }
+
+    label.opt:hover {
+      background: rgba(0, 0, 0, 0.05);
+    }
+
+    /* ---------- Answer Feedback ---------- */
+    .correct {
+      background: var(--correct-bg);
+      border: 1.5px solid var(--correct-border);
+      animation: fadeIn 0.5s ease;
+    }
+
+    .wrong {
+      background: var(--wrong-bg);
+      border: 1.5px solid var(--wrong-border);
+      animation: fadeIn 0.5s ease;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: scale(0.97); }
+      to { opacity: 1; transform: scale(1); }
+    }
+
+    footer {
+      padding: 20px;
+      text-align: center;
+      color: var(--muted);
+      font-size: 0.9rem;
+    }
+
+    /* ---------- Responsive Design ---------- */
+    @media (max-width: 720px) {
+      header { flex-direction: column; align-items: flex-start; gap: 10px; }
+      .controls { width: 100%; justify-content: space-between; }
+      .qcard { padding: 12px; }
+      .qtitle { font-size: 0.95rem; }
+      label.opt { font-size: 0.9rem; padding: 8px; }
+      .summary { font-size: 0.9rem; }
+      footer { font-size: 0.8rem; }
+    }
+
+    @media (max-width: 480px) {
+      body { font-size: 15px; }
+      .container { padding: 6px; }
+      header h1 { font-size: 1rem; text-align: center; }
+      .controls { flex-direction: column; align-items: stretch; gap: 6px; }
+      .btn, .toggle { width: 100%; text-align: center; }
+      label.opt { padding: 8px; }
+    }
+  </style>
+</head>
+
+<body>
+  <header>
+    <h1>Forest and Management — 110 Question Quiz</h1>
+    <div class="controls">
+      <button class="btn" id="checkBtn">✅ Check Answers</button>
+      <button class="btn ghost" id="resetBtn">🔄 Reset</button>
+      <button class="toggle" id="themeToggle">🌙 Dark</button>
+    </div>
+  </header>
+
+  <main class="container" id="app">
+    <div class="summary" id="scoreBox">
+      <div class="small">
+        Questions: <strong id="totalCount">0</strong> • 
+        Answered: <strong id="answeredCount">0</strong> • 
+        Score: <strong id="score">0</strong>
+      </div>
+    </div>
+    <div id="questionsRoot"></div>
+  </main>
+
+  <footer>Built for a smooth, responsive experience — switch to dark mode anytime 🌗</footer>
+
+  <script>
+    // QUESTIONS array - 110 questions from the course
+    const QUESTIONS = [
+      // Week 1
+      {q: "Which of these is not a consumptive value?", opts:["timber","firewood","non-timber forest products","education"], a:3},
+      {q: "Which of these is not a forest type found in India?", opts:["Mediterranean dry","Tropical dry","Montane temperate","Alpine"], a:0},
+      {q: "“Plant community, predominantly comprised of trees and other woody vegetation, usually with a closed canopy\" is", opts:["silvicultural definition of forests","FAO definition of forests","legal definition of forests","ecological definition of forests"], a:3},
+      {q: "According to the Supreme Court, the word forest must be understood according to its", opts:["biological meaning","ecological meaning","silvicultural meaning","dictionary meaning"], a:3},
+      {q: "Which of these is not a use value?", opts:["direct value","indirect value","option value","existence value"], a:3},
+      {q: "According to the Supreme Court, the term forest land includes", opts:["some area recorded as forest in the Government record according to ownership","any area recorded as forest in the Government record according to ownership","some area recorded as forest in the Government record irrespective of ownership","any area recorded as forest in the Government record irrespective of ownership"], a:3},
+      {q: "Tropical moist forests do not include", opts:["broadleaved forests","wet evergreen forests","semi-evergreen forests","moist deciduous forests"], a:0},
+      {q: "The value of leaving use and non-use values for offspring’s or future generations is called", opts:["altruistic value","bequest value","existence value","option value"], a:1},
+      {q: "The term 'forest' originates from", opts:["Latin foris meaning outside","Greek foris meaning outside","Latin foris meaning trees","Greek foris meaning trees"], a:0},
+      {q: "The value derived from the knowledge of use of resources by others in the current generation is called", opts:["altruistic value","bequest value","existence value","option value"], a:0},
+      
+      // Week 2
+      {q: "Lithosere is an example of", opts:["hydrosere","xerosere","psammosere","halosere"], a:1},
+      {q: "Which of these depicts correctly the lithosere primary succession?", opts:["Rock → Crustose lichen → Foliose lichen → Moss → Herbaceous stage → Shrub → Woodland → Climax","Rock → Foliose lichen → Crustose lichen → Moss → Herbaceous stage → Shrub → Woodland → Climax","Moss → Crustose lichen → Foliose lichen → Rock → Herbaceous stage → Shrub → Woodland → Climax","Rock → Crustose lichen → Foliose lichen → Shrub → Herbaceous stage → Moss → Woodland → Climax"], a:0},
+      {q: "At compensation point,", opts:["photosynthesis = respiration","photosynthesis > respiration","photosynthesis < respiration","none of these"], a:0},
+      {q: "The study of life history / general features of forest crops with respect to environmental factors is called", opts:["foresticulture","monoculture","silviculture","silvics"], a:3},
+      {q: "A climax caused by wildfires is an example of", opts:["climatic climax","edaphic climax","disclimax","catastrophic climax"], a:3},
+      {q: "Net primary productivity is given by", opts:["APAR + LUE","APAR X LUE","APAR - LUE","APAR ÷ LUE"], a:1},
+      {q: "Practical application of scientific, technical and economic principles of forestry comes under which branch of forestry ?", opts:["forest management","forest economics","forest mensuration","forest protection"], a:0},
+      {q: "In the context of plant nutrition, boron is", opts:["macronutrient","micronutrient","primary nutrient","secondary nutrient"], a:1},
+      {q: "Which of these is not a characteristic of pioneer species", opts:["ability to grow on bare rocks","ability to tolerate extreme temperatures","large size","short life span"], a:2},
+      {q: "The climax near Tindni village is being controlled by disturbance by cattle. This is an example of", opts:["climatic climax","edaphic climax","disclimax","catastrophic climax"], a:2},
+
+      // Week 3
+      {q: "Mechanical action of ocean waves is an example of", opts:["chemical weathering","physical weathering","biological weathering","none of the above"], a:1},
+      {q: "Khadar is a type of", opts:["black cotton soil","alluvial soil","saline soil","red and yellow soil"], a:1},
+      {q: "In soil profile, C refers to", opts:["organic surface layer","topsoil layer","subsoil layer","substratum layer"], a:3},
+      {q: "Regur is a term for", opts:["black cotton soil","alluvial soil","saline soil","red and yellow soil"], a:0},
+      {q: "Bangar is a type of", opts:["black cotton soil","alluvial soil","saline soil","red and yellow soil"], a:1},
+      {q: "Soil formation is dependent upon", opts:["vegetation","time","climate","all of the above"], a:3},
+      {q: "Thermal stresses lead to", opts:["chemical weathering","physical weathering","biological weathering","none of the above"], a:1},
+      {q: "Carbonation is an example of", opts:["chemical weathering","physical weathering","biological weathering","none of the above"], a:0},
+      {q: "Cryofracturing is an example of", opts:["chemical weathering","physical weathering","biological weathering","none of the above"], a:1},
+      {q: "Hydrolysis is an example of", opts:["chemical weathering","physical weathering","biological weathering","none of the above"], a:0},
+
+      // Week 4
+      {q: "For absolute form factor, the reference for the base of the cylinder is", opts:["base of the tree","breast height","10% of tree height","20% of tree height"], a:0},
+      {q: "For normal form factor, the reference for the base of the cylinder is", opts:["a.base of the tree","breast height","10% of tree height","20% of tree height"], a:2},
+      {q: "In India, the breast height is considered to be", opts:["1.37 m","1.47 m","1.57 m","2.47 m"], a:0},
+      {q: "Measurement of height based on similar triangles comes under:", opts:["similar measurement","dissimilar measurement","direct measurement","indirect measurement"], a:3},
+      {q: "For a tree with dbh = 45.6 cm, height = 27 m and total stem volume of 1.78 cum, the artificial form factor for the tree is:", opts:["0.1","0.2","0.3","0.4"], a:3},
+      {q: "Consider a stand of eucalyptus trees that are on average 30 cm in diameter and spaced on a regular 3 m grid. Find the spacing factor.", opts:["5","10","15","data insufficient"], a:1},
+      {q: "Diameter over bark (dob), diameter under bark (dub) and bark thickness (tb) are related as:", opts:["dob = dub + tb","dob = dub - tb","dob = dub + 2 × tb","dob = dub - 2 × tb"], a:2},
+      {q: "For false form factor, the reference for the base of the cylinder is", opts:["base of the tree","breast height","10% of tree height","20% of tree height"], a:1},
+      {q: "Choose the correct statement:", opts:["For a non-circular cross-section, girth tape over-estimates the sectional area.","For a non-circular cross-section, girth tape under-estimates the sectional area.","For a non-circular cross-section, girth tape correctly estimates the sectional area.","None of these is a correct statement."], a:0},
+      {q: "A tree has dbh of 25 cm. Find its basal area in sq m.", opts:[".049",".096",".149",".195"], a:0},
+
+      // Week 5
+      {q: "“This sampling employs a simple rule of selecting every kth unit starting with a number chosen at random from 1 to k as the random start.” We're talking about", opts:["Simple random sampling","Systematic sampling","Stratified sampling","Multistage sampling"], a:1},
+      {q: "IMU stands for", opts:["Imperial metering unit","Inertial metering unit","Imperial measurement unit","Inertial measurement unit"], a:3},
+      {q: "___ is how close the measured values are to the correct value.", opts:["Accuracy","Precision","Bias","Variance"], a:0},
+      {q: "A list of sampling units is called a", opts:["frame","window","sample","population"], a:0},
+      {q: "The time of flight for LiDAR is 0.00001 sec. Find the distance of the object from the instrument.", opts:["500 m","1000 m","1500 m","2000 m"], a:2},
+      {q: "Which of these is correct?", opts:["Plane surveying takes into account the true shape of the Earth and is used for smaller areas (< 250 sq km)","Plane surveying takes into account the true shape of the Earth and is used for larger areas (> 250 sq km)","Geodetic surveying takes into account the true shape of the Earth and is used for smaller areas (< 250 sq km)","Geodetic surveying takes into account the true shape of the Earth and is used for larger areas (> 250 sq km)"], a:3},
+      {q: "A sampling procedure such that each possible combination of sampling units out of the population has the same chance of being selected is referred to as", opts:["Simple random sampling","Systematic sampling","Stratified sampling","Multistage sampling"], a:0},
+      {q: "The frequency of flyovers is an indicator of", opts:["spatial resolution","temporal resolution","spectral resolution","radiometric resolution"], a:1},
+      {q: "___ is how close the measured values are to each other.", opts:["Accuracy","Precision","Bias","Variance"], a:1},
+      {q: "Bathymetric LiDAR uses", opts:["far infrared light","near infrared light","orange light","green light"], a:3},
+
+      // Week 6
+      {q: "Invasive climbers increase the probability of which of these fire types?", opts:["ground fire","surface fire","ladder fire","firestorm"], a:2},
+      {q: "Which of these forms the fire triangle?", opts:["fire, air, heat","fire, oxygen, wood","fuel, air, wood","fuel, oxygen, heat"], a:3},
+      {q: "A scientist uses a trap to capture a monkey. In the context of Wildlife Protection Act 1972,", opts:["the trap is a weapon and capturing is hunting.","the trap is not a weapon and capturing is hunting.","the trap is a weapon and capturing is not hunting.","the trap is not a weapon and capturing is not hunting."], a:0},
+      {q: "In the formula I = PXAXT, P refers to", opts:["professional pressure","pollution pressure","population pressure","none of the above"], a:2},
+      {q: "In the formula I = PXAXT, T refers to", opts:["transference","time","technology","none of the above"], a:2},
+      {q: "Which of these is a stochastic factor?", opts:["birth rate","death rate","population structure","forest fire"], a:3},
+      {q: "The acronym HIPPO does not include", opts:["habitat loss","habitat enhancement","over-harvesting","human over-population"], a:1},
+      {q: "A veterinarian uses an immobilising gun to capture a deer. In the context of Wildlife Protection Act 1972,", opts:["the immobilising gun is a weapon and capturing is hunting.","the immobilising gun is not a weapon and capturing is hunting.","the immobilising gun is a weapon and capturing is not hunting.","the immobilising gun is not a weapon and capturing is not hunting."], a:0},
+      {q: "Which of these is a deterministic factor?", opts:["environmental variation","forest fire","death rate","diseases"], a:2},
+      {q: "The acronym HIPPO does not include", opts:["habitat loss","invasive species","pollination","pollution"], a:2},
+
+      // Week 7
+      {q: "Taungya regeneration is", opts:["natural regeneration","artificial regeneration with villagers","artificial regeneration with nomadic tribes","artificial regeneration with hunters and gatherers"], a:1},
+      {q: "Which of these is not advantage of clear felling system", opts:["Simple system, easy and efficient operations","Allows for establishment of a more uniform crop","Increases soil erosion and landslides in hilly areas","Mimics natural processes of fire and large-scale insect attacks"], a:2},
+      {q: "Which of these is the correct sequence of a silvicultural system?", opts:["Stand tending -> Regeneration -> Harvesting","Harvesting -> Stand tending -> Regeneration","Harvesting -> Regeneration -> Stand tending","Regeneration -> Harvesting -> Stand tending"], a:2},
+      {q: "Ring weeding is primarily a feature of", opts:["natural regeneration","assisted natural regeneration","artificial regeneration by direct sowing","artificial regeneration by planting seedlings"], a:1},
+      {q: "Tending is done during", opts:["early stage of life","middle stage of life","late stage of life","any stage of life"], a:3},
+      {q: "The movement of seeds away from their place of seed production into a new area is called", opts:["translocation","migration","dispersal","drifting"], a:2},
+      {q: "Average age at which a tree is considered mature for felling is called as", opts:["crop age","felling age","rotation age","maturity age"], a:2},
+      {q: "A site was clear-cut. Which of these methods of regeneration cannot be used in a short time-frame?", opts:["natural regeneration","artificial regeneration by direct sowing","artificial regeneration by planting seedlings","artificial regeneration by transplanting trees"], a:0},
+      {q: "Which of these is not a feature of natural regeneration", opts:["low cost","less requirement of heavy machinery and labour","preservation of genetic variability","good control over genetic improvement"], a:3},
+      {q: "Which of these is not a feature of natural regeneration", opts:["seed consumption by insects and seed feeders","little control over spacing and stand density","long time needed to regenerate forest","high requirement of heavy machinery and labour"], a:3},
+
+      // Week 8
+      {q: "Shelterwood system results in", opts:["even aged stand with natural aesthetics","even aged stand with artificial aesthetics","uneven aged stand with natural aesthetics","uneven aged stand with artificial aesthetics"], a:0},
+      {q: "In group shelterwood system, the regeneration area is increased", opts:["centrifugally around gaps","centripetally around gaps","parallel to gaps","perpendicular to gaps"], a:0},
+      {q: "Trees not putting increment are removed during", opts:["preparatory felling","seeding felling","secondary felling","final felling"], a:0},
+      {q: "Clear felling system is not used for", opts:["light demanding species","shade bearer species","plain areas","plateau areas"], a:1},
+      {q: "For a crop with rotation age of 120 years, PB-III would have crop age", opts:["0-30 years","30-60 years","60-90 years","90-120 years"], a:1},
+      {q: "Felling made with the object of opening the canopy to remove shelter and allow more light for the regenerated crop is", opts:["preparatory felling","seeding felling","secondary felling","final felling"], a:2},
+      {q: "Close to nature forestry is a feature of", opts:["clear felling system","selection system","uniform shelterwood system","group shelterwood system"], a:1},
+      {q: "Inverse-J shaped number-diameter curves are seen in", opts:["clear felling system","selection system","uniform shelterwood system","group shelterwood system"], a:1},
+      {q: "Which of these is the correct sequence for shelterwood system?", opts:["Preparatory felling ->Secondary felling -> Seedling felling -> Final felling","Preparatory felling -> Seedling felling -> Secondary felling -> Final felling","Preparatory felling ->Secondary felling -> Seeding felling -> Final felling","Preparatory felling -> Seeding felling -> Secondary felling -> Final felling"], a:3},
+      {q: "Catchment areas are best suited for", opts:["clear felling system","selection system","uniform shelterwood system","group shelterwood system"], a:1},
+
+      // Week 9
+      {q: "Trees to be retained are shown in ___ marking colour", opts:["yellow","blue","red","white"], a:1},
+      {q: "Trees on boundary are shown in ___ marking colour", opts:["yellow","blue","red","white"], a:2},
+      {q: "Cutting of timber into logs is known as", opts:["marking","bucking","skidding","delimbing"], a:1},
+      {q: "Careful selection of trees for harvesting based on a forest management prescription is known as", opts:["surveying","cruising","marking","logging"], a:2},
+      {q: "Net growth in initial volume is given by", opts:["V2-V1","V2-V1+H-I","V2-V1+H-I+M","V2-V1+H-I-M"], a:1},
+      {q: "Research plots are shown in ___ marking colour", opts:["yellow","blue","red","white"], a:3},
+      {q: "Which of these gives the greatest accuracy in constructing face cuts", opts:["conventional face","humboldt face","open face","all of these"], a:0},
+      {q: "Which of these gives the greatest saving of lumber", opts:["conventional face","humboldt face","open face","all of these"], a:1},
+      {q: "Moving of logs from forest to landing area is known as", opts:["marking","bucking","skidding","delimbing"], a:2},
+      {q: "Surveying timberlands to locate and estimate the volumes and grades of standing timber meeting requirements is known as", opts:["surveying","cruising","marking","logging"], a:1},
+
+      // Week 10
+      {q: "Wet and dry treatment of seeds is used for which species", opts:["amla","mango","ber","teak"], a:3},
+      {q: "Which of these is not a laboratory method to determine best days for seed collection?", opts:["maximum dry weight","colour of fruits","moisture content of fruits","chemical analysis of fat and nitrogen content"], a:1},
+      {q: "Which of these characterises a refractory site", opts:["soil depth < 10 cm","soil depth 10-30 cm","soil depth > 30 cm","none of these"], a:0},
+      {q: "Which of these prevents water logging", opts:["sunken bed","raised bed","flat bed","all of these"], a:1},
+      {q: "Number of seeds in sample that germinate upto the peak germination period expressed as % is a definition of", opts:["germination number","germination percentage","germination energy","germination power"], a:2},
+      {q: "Which of these conserves moisture", opts:["sunken bed","raised bed","flat bed","all of these"], a:0},
+      {q: "Agave is used for", opts:["barbed wire fencing","live fencing","chain link fencing","stone wall fencing"], a:1},
+      {q: "Shell cracking of seeds is used for which species", opts:["amla","mango","ber","teak"], a:2},
+      {q: "Choice of spacing is dependent upon", opts:["objective of plantation","site-species matching","growth rate","all of these"], a:3},
+      {q: "Which of these is a good storage condition", opts:["high moisture, high temperature","high moisture, low temperature","low moisture, high temperature","low moisture, low temperature"], a:3},
+
+      // Week 11
+      {q: "Planting along canal banks is a part of", opts:["farm forestry","community forestry","extension forestry","agroforestry"], a:2},
+      {q: "Captive breeding is an example of", opts:["in-situ conservation","ex-situ conservation","in-situ preservation","ex-situ preservation"], a:1},
+      {q: "The tiger has a home range of several square kilometres, regulates the ecosystem through controlling herbivore populations and trophic cascades, and people come to tiger reserves to watch tigers. Thus, the tiger can be called as", opts:["umbrella species","keystone species","flagship species","all of the above"], a:3},
+      {q: "Sustainable harvest of resources falls under the category of:", opts:["conservation","preservation","environmentalism","none of the above"], a:0},
+      {q: "The elephant has a home range of several square kilometres, regulates the ecosystem by its habit of destructive feeding, and people can relate to this animal which is important for conservation. Given this background, the elephant can be called as", opts:["umbrella species","keystone species","flagship species","all of the above"], a:3},
+      {q: "People come to Sessa orchid sanctuary in Arunachal Pradesh to witness orchids, which in this context would be classified as", opts:["umbrella species","keystone species","flagship species","extinct species"], a:2},
+      {q: "We prefer those areas for the creation of a conservation reserve where the level of threat is", opts:["very high","medium","very low","non-existent"], a:1},
+      {q: "Which of these is not a forest classification as per the 1894 Forest Policy:", opts:["protection forest","production forest","minor forest","major forest"], a:3},
+      {q: "“Science of relationships between organisms and their environments” is the definition of:", opts:["conservation","preservation","environmentalism","ecology"], a:3},
+      {q: "In 1931, Van Panchayats were constituted in areas that are now in", opts:["Tamil Nadu","Madhya Pradesh","West Bengal","Uttarakhand"], a:3}
+    ];
+
+    // --- SHUFFLE FUNCTION ---
+    // Fisher-Yates (Knuth) Shuffle
+    function shuffleArray(array) {
+      for (let i = array.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [array[i], array[j]] = [array[j], array[i]];
+      }
+    }
+    
+    // Shuffle the questions array on page load
+    shuffleArray(QUESTIONS);
+    // ------------------------
+
+
+    // Render questions
+    const root = document.getElementById('questionsRoot');
+    const totalCount = document.getElementById('totalCount');
+    const answeredCount = document.getElementById('answeredCount');
+    const scoreEl = document.getElementById('score');
+
+    totalCount.textContent = QUESTIONS.length;
+
+    function createQuestionCard(qObj, idx){
+      const card = document.createElement('div'); card.className='qcard';
+      const title = document.createElement('div'); title.className='qtitle'; title.textContent = (idx+1) + '. ' + qObj.q;
+      card.appendChild(title);
+      const opts = document.createElement('div'); opts.className='opts';
+      qObj.opts.forEach((opt, i)=>{
+        const id = `q${idx}_opt${i}`;
+        const label = document.createElement('label'); label.className='opt'; label.htmlFor=id;
+        const radio = document.createElement('input'); radio.type='radio'; radio.name=`q${idx}`; radio.id=id; radio.dataset.q=idx; radio.dataset.opt=i;
+        const span = document.createElement('span'); span.textContent = opt;
+        label.appendChild(radio); label.appendChild(span);
+        opts.appendChild(label);
+      });
+      card.appendChild(opts);
+      return card;
+    }
+
+    QUESTIONS.forEach((q,i)=>{ root.appendChild(createQuestionCard(q,i)); });
+
+    // update answered count
+    function updateAnswered(){
+      const radios = document.querySelectorAll('input[type=radio]');
+      const answered = new Set();
+      radios.forEach(r=>{ if(r.checked) answered.add(r.name); });
+      answeredCount.textContent = answered.size;
+    }
+
+    document.addEventListener('change', updateAnswered);
+
+    // Check answers
+    document.getElementById('checkBtn').addEventListener('click', ()=>{
+      let score = 0;
+      QUESTIONS.forEach((q, qi)=>{
+        const chosen = document.querySelector(`input[name=q${qi}]:checked`);
+        const labels = document.querySelectorAll(`input[name=q${qi}]`);
+        labels.forEach(inp=>{ inp.parentElement.classList.remove('correct','wrong'); });
+        if(chosen){
+          const chosenIdx = Number(chosen.dataset.opt);
+          if(chosenIdx === q.a){
+            score += 1;
+            chosen.parentElement.classList.add('correct');
+          } else {
+            chosen.parentElement.classList.add('wrong');
+            // highlight correct option
+            const correctInput = document.querySelector(`input[name=q${qi}][data-opt='${q.a}']`);
+            if(correctInput) correctInput.parentElement.classList.add('correct');
+          }
+        } else {
+          // show correct option if unanswered
+          const correctInput = document.querySelector(`input[name=q${qi}][data-opt='${q.a}']`);
+          if(correctInput) correctInput.parentElement.classList.add('correct');
+        }
+      });
+      scoreEl.textContent = score + ' / ' + QUESTIONS.length;
+      // scroll to top of score
+      window.scrollTo({top:0,behavior:'smooth'});
+    });
+
+    // Reset
+    document.getElementById('resetBtn').addEventListener('click', ()=>{
+      document.querySelectorAll('input[type=radio]').forEach(r=>{ r.checked=false; r.parentElement.classList.remove('correct','wrong'); });
+      answeredCount.textContent = '0';
+      scoreEl.textContent = '0';
+    });
+
+    // Theme toggle
+    const themeBtn = document.getElementById('themeToggle');
+    themeBtn.addEventListener('click', ()=>{
+      document.body.classList.toggle('dark');
+      themeBtn.textContent = document.body.classList.contains('dark') ? '☀️ Light' : '🌙 Dark';
+    });
+
+    // small performance: lazy update answered count initially
+    updateAnswered();
+
+  </script>
+</body>
+</html>

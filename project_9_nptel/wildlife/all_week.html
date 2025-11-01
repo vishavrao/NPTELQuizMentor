@@ -1,0 +1,408 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>All weeks</title>
+  <style>
+    /* ---------- Theme Variables ---------- */
+    :root {
+      --bg: #ffffff;
+      --text: #111827;
+      --card: #f3f4f6;
+      --accent: #0ea5e9;
+      --muted: #6b7280;
+      --correct-bg: #d1fae5;
+      --correct-border: #10b981;
+      --wrong-bg: #fee2e2;
+      --wrong-border: #ef4444;
+    }
+    body.dark {
+      --bg: #0b1220;
+      --text: #e6eef6;
+      --card: #071425;
+      --accent: #67e8f9;
+      --muted: #93a6b3;
+      --correct-bg: #064e3b;
+      --correct-border: #34d399;
+      --wrong-bg: #3f0d0d;
+      --wrong-border: #f87171;
+    }
+
+    /* ---------- Base Styles ---------- */
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: "Inter", ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, Arial;
+      background: var(--bg);
+      color: var(--text);
+      transition: background 0.25s, color 0.25s;
+      line-height: 1.5;
+    }
+
+    header {
+      position: sticky;
+      top: 0;
+      background: var(--card);
+      border-bottom: 1px solid rgba(0,0,0,.1);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 12px 16px;
+      z-index: 10;
+      flex-wrap: wrap;
+    }
+
+    header h1 {
+      font-size: 1.1rem;
+      font-weight: 600;
+      margin: 4px 0;
+    }
+
+    .controls { display: flex; gap: 8px; align-items: center; flex-wrap: wrap; }
+
+    .btn, .toggle {
+      border: none;
+      padding: 8px 12px;
+      border-radius: 8px;
+      cursor: pointer;
+      font-weight: 500;
+      transition: all 0.2s;
+    }
+    .btn {
+      background: var(--accent);
+      color: #fff;
+    }
+    .btn:hover { opacity: 0.9; }
+
+    .btn.ghost {
+      background: transparent;
+      border: 1px solid var(--muted);
+      color: var(--text);
+    }
+    .toggle {
+      background: transparent;
+      border: 1px solid var(--muted);
+      color: var(--text);
+    }
+
+    /* ---------- Layout ---------- */
+    .container {
+      max-width: 900px;
+      margin: 20px auto;
+      padding: 10px;
+      display: grid;
+      gap: 16px;
+    }
+
+    .summary {
+      padding: 12px;
+      border-radius: 10px;
+      background: var(--card);
+      box-shadow: 0 4px 16px rgba(0, 0, 0, 0.05);
+      text-align: center;
+    }
+
+    .small { font-size: 0.95rem; color: var(--muted); }
+
+    .qcard {
+      background: var(--card);
+      padding: 14px;
+      border-radius: 12px;
+      box-shadow: 0 4px 16px rgba(0, 0, 0, 0.05);
+      display: grid;
+      gap: 10px;
+      transition: background 0.3s ease, border 0.3s ease;
+    }
+
+    .qtitle { font-weight: 600; font-size: 1rem; }
+
+    .opts { display: flex; flex-direction: column; gap: 8px; }
+
+    label.opt {
+      display: flex;
+      gap: 10px;
+      align-items: center;
+      padding: 10px 12px;
+      border-radius: 8px;
+      border: 1px solid transparent;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+
+    input[type=radio] { width: 18px; height: 18px; cursor: pointer; }
+
+    label.opt:hover {
+      background: rgba(0, 0, 0, 0.05);
+    }
+
+    /* ---------- Answer Feedback ---------- */
+    .correct {
+      background: var(--correct-bg);
+      border: 1.5px solid var(--correct-border);
+      animation: fadeIn 0.5s ease;
+    }
+
+    .wrong {
+      background: var(--wrong-bg);
+      border: 1.5px solid var(--wrong-border);
+      animation: fadeIn 0.5s ease;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: scale(0.97); }
+      to { opacity: 1; transform: scale(1); }
+    }
+
+    footer {
+      padding: 20px;
+      text-align: center;
+      color: var(--muted);
+      font-size: 0.9rem;
+    }
+
+    /* ---------- Responsive Design ---------- */
+    @media (max-width: 720px) {
+      header { flex-direction: column; align-items: flex-start; gap: 10px; }
+      .controls { width: 100%; justify-content: space-between; }
+      .qcard { padding: 12px; }
+      .qtitle { font-size: 0.95rem; }
+      label.opt { font-size: 0.9rem; padding: 8px; }
+      .summary { font-size: 0.9rem; }
+      footer { font-size: 0.8rem; }
+    }
+
+    @media (max-width: 480px) {
+      body { font-size: 15px; }
+      .container { padding: 6px; }
+      header h1 { font-size: 1rem; text-align: center; }
+      .controls { flex-direction: column; align-items: stretch; gap: 6px; }
+      .btn, .toggle { width: 100%; text-align: center; }
+      label.opt { padding: 8px; }
+    }
+  </style>
+</head>
+
+<body>
+  <header>
+    <h1>Ecology & Environment — 110 Question Quiz</h1>
+    <div class="controls">
+      <button class="btn" id="checkBtn">✅ Check Answers</button>
+      <button class="btn ghost" id="resetBtn">🔄 Reset</button>
+      <button class="toggle" id="themeToggle">🌙 Dark</button>
+    </div>
+  </header>
+
+  <main class="container" id="app">
+    <div class="summary" id="scoreBox">
+      <div class="small">
+        Questions: <strong id="totalCount">0</strong> • 
+        Answered: <strong id="answeredCount">0</strong> • 
+        Score: <strong id="score">0</strong>
+      </div>
+    </div>
+    <div id="questionsRoot"></div>
+  </main>
+
+  <footer>Built for smooth, responsive experience — switch to dark mode anytime 🌗</footer>
+
+  <script>
+    // QUESTIONS array - only the provided questions (110 total as requested)
+    const QUESTIONS = [
+      {q: "Which of these is not a characteristic of fitness?", opts:["Fitness is environment-specific.","Fitness is species-specific.","Higher reproductive rate means higher fitness.","Fitness should be measured across several generations."], a:2},
+      {q: "Who amongst these is considered the father of Biogeography?", opts:["Theophrastus","Linnaeus","Malthus","Humboldt"], a:3},
+      {q: "In the Greek word root of Ecology, Oikos refers to", opts:["household","preservation","environment","study"], a:0},
+      {q: "In the Greek word root of Ecology, logos refers to", opts:["household","preservation","environment","study"], a:3},
+      {q: "Which of these is not a step in natural selection?", opts:["variation","underpopulation","struggle for existence","survival of the fittest"], a:1},
+      {q: "Ecology is the scientific study of __________ that determine the distribution and abundance of organisms.", opts:["statics","interactions","dynamics","habitat"], a:1},
+      {q: "Which of these is not a characteristic of fitness?", opts:["Fitness is environment-specific.","Fitness is species-specific.","Fitness works on traits such as size and speed.","Fitness should be measured across several generations."], a:2},
+      {q: "Ecology is the scientific study of interactions among organisms and their _______.", opts:["habitat","niche","environment","population"], a:2},
+      {q: '"Enquiry into plants" is a book written by', opts:["Theophrastus","Linnaeus","Malthus","Humboldt"], a:0},
+      {q: "Which of these is not a kind of selection", opts:["directional","stochastic","disruptive","stabilising"], a:1},
+      {q: "Hierarchy emerges almost inevitably through a wide variety of evolutionary processes, for the simple reason that hierarchical structures are..........", opts:["perfect","imperfect","stable","unstable"], a:2},
+      {q: "The hierarchical system was given by", opts:["Simon","Watson","Hutchinson","Humboldt"], a:0},
+      {q: "The emergent principle can be stated as", opts:["Whole = sum of parts","Whole < sum of parts","Whole > sum of parts","None of these"], a:2},
+      {q: '"the diversity that exists within an ecosystem" is', opts:["alpha (α) biodiversity","beta (β) biodiversity","gamma (γ) biodiversity","delta (δ) biodiversity"], a:0},
+      {q: "The mitochondrion is a / an", opts:["Sub-cellular organelle","Cell","Tissue","Organ"], a:0},
+      {q: "For more biodiversity, the level of disturbance should be", opts:["less","intermediate","more","none of these"], a:1},
+      {q: "There is more biodiversity in areas with", opts:["less competition, less predation","less competition, more predation","more competition, more predation","more competition, less predation"], a:2},
+      {q: '"the diversity that exists among different geographies" is', opts:["alpha (α) biodiversity","beta (β) biodiversity","gamma (γ) biodiversity","delta (δ) biodiversity"], a:2},
+      {q: "The laboratory approach to Ecology uses", opts:["equations","models","observations","experiments"], a:3},
+      {q: '"groups of actually or potentially interbreeding natural populations, which are reproductively isolated from other such groups" is a definition of', opts:["cells","species","ecosystems","biomes"], a:1},
+      {q: "I observe a monkey take a tick out of another monkey's head and eat it. In the social context, this behaviour would be called", opts:["tick hunting","auto grooming","allo grooming","foraging"], a:2},
+      {q: "The scientific study of animal behaviour is called", opts:["behaviourism","ecology","ethology","prey-predator dynamics"], a:2},
+      {q: "Hamilton's rule can be stated as", opts:["rB < C","rB > C","rB = C","rB + C = 0"], a:1},
+      {q: "Harmonious interactions occur where", opts:["at least one participant is benefited","at least one participant is unharmed","both participants are benefitted","both participants are unharmed"], a:3},
+      {q: "The interaction between exotic shrubs and trees through the action of seed predators is an example of", opts:["infraspecific competition","apparent competition","disguised competition","harmonious competition"], a:1},
+      {q: "An inventory of behaviours exhibited by an animal during a behaviour exercise is called", opts:["ecogram","ethogram","behaviourogram","animalogram"], a:1},
+      {q: "Trampling of grass due to the movement of animals is an example of", opts:["mutualism","amensalism","commensalism","protocooperation"], a:1},
+      {q: "I observe a bird take a tick out of another bird's head and eat it. In the social context, this behaviour would be called", opts:["tick hunting","auto grooming","allo grooming","foraging"], a:2},
+      {q: "Birds on giraffe are an example of", opts:["colony","commensalism","protocooperation","allelopathy"], a:2},
+      {q: "Egrets with buffaloes are an example of", opts:["colony","commensalism","protocooperation","allelopathy"], a:1},
+      {q: "If we all became vegetarians, we'll be able to support our large populations. This can be explained through", opts:["10% rule","1% rule","trophic cascade","biodiversity"], a:0},
+      {q: "Net primary productivity is given by", opts:["APAR × LUE","APAR + LUE","APAR - LUE","APAR / LUE"], a:0},
+      {q: "Trees → Birds → Parasites → Hyperparasites represents", opts:["upright pyramid of numbers","inverted pyramid of numbers","spindle pyramid of numbers","dumb-bell pyramid of numbers"], a:1},
+      {q: "Consider the food chain: Grass → Grasshopper → Frog → Snake → Hawk. As we move up the food chain,", opts:["available energy decreases","available energy increases","available energy remains same","available energy is zero everywhere"], a:0},
+      {q: "Consider the food chain: Grass → Grasshopper → Frog → Snake → Hawk. In this food chain, frog is", opts:["producer","consumer and carnivore","consumer and herbivore","decomposer"], a:1},
+      {q: "Consider the food chain: Grass → Grasshopper → Frog → Snake → Hawk. In this food chain,", opts:["more number of hawks than grasshoppers can be supported","more number of grasshoppers than hawks can be supported","equal number of hawks and grasshoppers can be supported","none of these"], a:1},
+      {q: "At the compensation point,", opts:["photosynthesis = respiration","photosynthesis < respiration","photosynthesis > respiration","photosynthesis = 0"], a:0},
+      {q: "Glacial lakes are typical examples of", opts:["eutrophic lakes","hypereutrophic lakes","oligotrophic lakes","mesotrophic lakes"], a:2},
+      {q: "Consider the food chain: Grass → Grasshopper → Frog → Snake → Hawk. In this food chain, hawk is", opts:["producer","consumer and carnivore","consumer and herbivore","decomposer"], a:1},
+      {q: "Tree → Frugivorous birds → Hawk represents", opts:["upright pyramid of numbers","inverted pyramid of numbers","spindle pyramid of numbers","dumb-bell pyramid of numbers"], a:2},
+      {q: "Which of these is true?", opts:["Physiological longevity > Ecological longevity","Physiological longevity = Ecological longevity","Physiological longevity < Ecological longevity","a or b"], a:3},
+      {q: "A sampling procedure such that each possible combination of sampling units out of the population has the same chance of being selected is referred to as", opts:["Simple random sampling","Systematic sampling","Stratified sampling","Multistage sampling"], a:0},
+      {q: "Cover board surveys are typically used for sampling", opts:["herpetofauna","fishes","large mammals","carnivores"], a:0},
+      {q: "_________ is how close the measured values are to the correct value.", opts:["Accuracy","Precision","Bias","Variance"], a:0},
+      {q: "The logistic growth equation, when plotted, appears", opts:["I shaped","J shaped","S shaped","O shaped"], a:2},
+      {q: "The minimum replacement level fertility for a population to grow should be greater than", opts:["1","2","3","4"], a:1},
+      {q: "The juvenile mortality rate is the annual number of deaths of juveniles per", opts:["100 births","1000 births","100 live births","1000 live births"], a:3},
+      {q: "_______ employs a simple rule of selecting every kth unit starting with a number chosen at random from 1 to k as the random start.", opts:["Simple random sampling","Systematic sampling","Stratified sampling","Multistage sampling"], a:1},
+      {q: "Pan traps are used for sampling", opts:["bees","butterflies","non-pollinator insects","pollinator insects"], a:3},
+      {q: "Which of these is not a measure of absolute population density?", opts:["total count","pelt count","capture-recapture method","removal method"], a:1},
+      {q: "Which of these is correct?", opts:["Fundamental niche > Realised niche","Fundamental niche = Realised niche","Fundamental niche < Realised niche","a or b"], a:3},
+      {q: "Which of these is not a characteristic of pioneer species", opts:["ability to grow on bare rocks","ability to tolerate extreme temperatures","large size","short life span"], a:2},
+      {q: "A climax caused by wildfires is an example of", opts:["climatic climax","edaphic climax","disclimax","catastrophic climax"], a:3},
+      {q: "Importance value varies from", opts:["0 to 10","0 to 50","0 to 100","0 to 300"], a:3},
+      {q: "When compared to generalist species, specialist species have", opts:["narrower niches","broader niches","same-size niches","none of these"], a:0},
+      {q: "The climax near Tindni village is being controlled by disturbance by cattle. This is an example of", opts:["climatic climax","edaphic climax","disclimax","catastrophic climax"], a:2},
+      {q: "Lithosere is an example of", opts:["hydrosere","xerosere","psammosere","halosere"], a:1},
+      {q: "A species found most frequently in a particular community, but also present occasionally in others is called", opts:["accidental species","indifferent species","selective species","exclusive species"], a:2},
+      {q: "Which of these depicts correctly the lithosere primary succession?", opts:["Rock → Crustose lichen → Foliose lichen → Moss → Herbaceous stage → Shrub → Woodland → Climax","Rock → Foliose lichen → Crustose lichen → Moss → Herbaceous stage → Shrub → Woodland → Climax","Moss → Crustose lichen → Foliose lichen → Rock → Herbaceous stage → Shrub → Woodland → Climax","Rock → Crustose lichen → Foliose lichen → shrub → Herbaceous stage → Moss → woodland → climax"], a:0},
+      {q: "Importance value can be written as", opts:["Relative density + Relative frequency X Relative dominance","Relative density X Relative frequency + Relative dominance","Relative density + Relative frequency + Relative dominance","Relative density X Relative frequency X Relative dominance"], a:2},
+      {q: "Which of these is not a physical factor of habitat?", opts:["soil","moisture","predators","temperature"], a:2},
+      {q: "The movement of individuals away from their place of birth or hatching or seed production into a new habitat or area to survive and reproduce is called", opts:["translocation","migration","dispersal","drifting"], a:2},
+      {q: "The movement of lions across the Gir landscape is an example of", opts:["diffusion","secular dispersal","jump dispersal","drifting"], a:0},
+      {q: "I tried growing vegetables under my teak plantation, but the vegetable plants died out. I should be concerned about", opts:["autophagy","allelophagy","autopathy","allelopathy"], a:3},
+      {q: "The regular, seasonal movement of animals, often along fixed routes is called", opts:["translocation","migration","dispersal","drifting"], a:1},
+      {q: '"The rate of any biological process is limited by that factor in least amount relative to requirement, so there is a single limiting factor." This is the statement for', opts:["Liebig’s law of the minimum","Liebig’s law of the maximum","Shelford’s law of tolerance","Shelford’s law of intolerance"], a:0},
+      {q: '"Quick movement over large distances, often across unsuitable terrain" is a description of', opts:["diffusion","secular dispersal","jump dispersal","drifting"], a:2},
+      {q: '"The geographical distribution of a species will be controlled by that environmental factor for which the organism has the narrowest range of tolerance." This is the statement for', opts:["Liebig’s law of the minimum","Liebig’s law of the maximum","Shelford’s law of tolerance","Shelford’s law of intolerance"], a:2},
+      {q: "Good climate is a", opts:["chemical factor","demographic factor","push factor","pull factor"], a:3},
+      {q: "Scarcity of food is a", opts:["chemical factor","demographic factor","push factor","pull factor"], a:2},
+      {q: "Zoo is an example of", opts:["in-situ conservation","ex-situ conservation","in-situ preservation","ex-situ preservation"], a:1},
+      {q: 'The "subset of physical and biotic environmental factors that permit an animal (or plant) to survive and reproduce" is the definition of', opts:["habitat","ecosystem","biome","biosphere"], a:0},
+      {q: "Which of these correctly represents the process of habitat fragmentation and loss?", opts:["Original forest → Dissection → Perforation → Fragmentation → Attrition","Original forest → Dissection → Attrition → Fragmentation → Perforation","Original forest → Dissection → Perforation → Attrition → Fragmentation","Original forest → Dissection → Fragmentation → Perforation → Attrition"], a:0},
+      {q: "The acronym HIPPO does not include", opts:["habitat loss","invasive species","pollination","pollution"], a:2},
+      {q: "We prefer those areas for the creation of a conservation reserve where the level of threat is", opts:["very high","medium","very low","non-existent"], a:1},
+      {q: "The acronym HIPPO does not include", opts:["habitat loss","habitat enhancement","invasive species","human over-population"], a:1},
+      {q: "According to Leopold, which of these is not a tool of habitat management?", opts:["fire","gun","cattle","sickle"], a:3},
+      {q: "Captive breeding is an example of", opts:["in-situ conservation","ex-situ conservation","in-situ preservation","ex-situ preservation"], a:1},
+      {q: "Which of these is a stochastic factor?", opts:["birth rate","death rate","population structure","environmental fluctuation"], a:3},
+      {q: "Which of these is a deterministic factor?", opts:["environmental variation","forest fire","death rate","diseases"], a:2},
+      {q: "Which of these is a positive check according to Malthus?", opts:["late marriage","war","celibacy","moral restraint"], a:1},
+      {q: "________ determines which projects or developments require a full or partial impact assessment study.", opts:["screening","scoping","reporting","review"], a:0},
+      {q: "Which of these is a pillar of sustainability", opts:["social sustainability","industrial sustainability","agricultural sustainability","trans-boundary sustainability"], a:0},
+      {q: "Which of these is not a pillar of sustainability?", opts:["environmental sustainability","economic sustainability","trans-boundary sustainability","social sustainability"], a:2},
+      {q: 'The book "An Essay on the Principle of Population" was written by', opts:["Darwin","Malthus","Spencer","Owens"], a:1},
+      {q: "According to Malthusian model,", opts:["Population grows in geometric progression, food supply increases in arithmetic progression","Population grows in geometric progression, food supply increases in geometric progression","Population grows in arithmetic progression, food supply increases in arithmetic progression","Population grows in arithmetic progression, food supply increases in geometric progression"], a:0},
+      {q: "The quantum of human impacts is given by", opts:["I = P × A × T","I = P + A + T","I = P + A - T","I = P - (A + T)"], a:0},
+      {q: "____________is used to identify which potential impacts are relevant to assess.", opts:["screening","scoping","reporting","review"], a:1},
+      {q: "The demographic transition sees a society move from", opts:["high birth rate, low death rate to low birth rate, low death rate","low birth rate, high death rate to low birth rate, low death rate","high birth rate, high death rate to low birth rate, low death rate","high birth rate, high death rate to low birth rate, high death rate"], a:2},
+      {q: "Which of these is a preventive check according to Malthus?", opts:["foresight","vice","misery","flood"], a:0},
+      {q: "Which of these is not a climatic forcing for Earth?", opts:["changes in plate tectonics","changes in Earth's orbit","changes in Sun's orbit","changes in Sun's strength"], a:2},
+      {q: '“The ability of a system to adjust to climate change (including climate variability and extremes) to moderate potential damages, to take advantage of opportunities, or to cope with the consequences” is a definition for', opts:["adaptive response","adaptive capacity","mitigative response","mitigative capacity"], a:1},
+      {q: "Which of these is not a principle of ecological restoration?", opts:["ecological integrity","short-term sustainability","benefits and engages society","informed by past and future"], a:1},
+      {q: "Mesodebris in the context of plastic debris has fragments of size", opts:["> 20 mm","5 - 20 mm","< 5 mm","< 1 mm"], a:1},
+      {q: '“Any changes in natural or human systems that inadvertently increase vulnerability to climatic stimuli; an adaptation that does not succeed in reducing vulnerability but increases it instead” is a definition for', opts:["adaptation","mitigation","maladaptation","malmitigation"], a:2},
+      {q: "Which of these is not a principle of ecological restoration?", opts:["ecological integrity","long-term sustainability","benefits and engages scientists","informed by past and future"], a:2},
+      {q: "Which of these is not a climatic forcing for Earth?", opts:["changes in plate tectonics","changes in Earth's orbit","changes in Moon's orbit","changes in Sun's strength"], a:2},
+      {q: "Because of climate change, Mudumalai Tiger Reserve is suffering from frequent droughts. The management has built several artificial water holes for animals, and fills them up regularly with tankers. In the context of climate change, such an action would be called", opts:["adaptation","mitigation","deceleration","maladaptation"], a:0},
+      {q: "Macrodebris in the context of plastic debris has fragments of size", opts:["> 20 mm","5 - 20 mm","< 5 mm","< 1 mm"], a:0},
+      {q: "The government came up with a regulation that incandescent bulbs be replaced by LED bulbs, so that electricity consumption and release of carbon dioxide from power plants is reduced. In the context of climate change, such an action would be called", opts:["adaptation","mitigation","deceleration","maladaptation"], a:1},
+      {q: "Ludwig's ratchet predicts", opts:["decreasing harvesting rate","constant harvesting rate","increasing harvesting rate","fluctuating harvesting rate"], a:2},
+      {q: "A pest population is called controlled when", opts:["it is not increasing","it is decreasing","it is not causing any economic damage","it is not causing excessive economic damage"], a:3},
+      {q: "Which of these is not an impact of toxic chemicals?", opts:["lethal effects","sub-lethal effects","reduction of existing stressors","reduced fecundity"], a:2},
+      {q: "Which of these is correct?", opts:["The maximum sustainable yield is near the beginning of the sigmoidal curve.","The maximum sustainable yield is near the mid-point of the sigmoidal curve.","The maximum sustainable yield is near the end of the sigmoidal curve.","None of these"], a:1},
+      {q: "A root zone treatment plant is an example of", opts:["phytoremediation","biological control","biomagnification","bioaccumulation"], a:0},
+      {q: "A pest population is called uncontrolled when", opts:["it is increasing","it is not decreasing","it is causing some economic damage","it is causing excessive economic damage"], a:3},
+      {q: "The impact of El Nino on fishery collapse in Peru is explained by", opts:["match hypothesis","mismatch hypothesis","match-mismatch hypothesis","none of these"], a:2},
+      {q: "A deciduous forest in Madhya Pradesh was converted to a mine. After the mining operations were over, the pits were filled up with soil and species of deciduous forest planted again. This is an example of", opts:["recovery","restoration","enhancement"], a:1},
+      {q: "A deciduous forest in Madhya Pradesh was converted to a mine. After the mining operations were over, the pits were filled up with water and a lake was created. It is now visited by several migratory birds. This is an example of", opts:["recovery","restoration","enhancement","replacement"], a:3},
+      {q: "Which of these is correct?", opts:["R + G = M + F","R + M = G + F","R + F = M + G","R + G + M + F = 0"], a:0}
+    ];
+
+    // Render questions
+    const root = document.getElementById('questionsRoot');
+    const totalCount = document.getElementById('totalCount');
+    const answeredCount = document.getElementById('answeredCount');
+    const scoreEl = document.getElementById('score');
+
+    totalCount.textContent = QUESTIONS.length;
+
+    function createQuestionCard(qObj, idx){
+      const card = document.createElement('div'); card.className='qcard';
+      const title = document.createElement('div'); title.className='qtitle'; title.textContent = (idx+1) + '. ' + qObj.q;
+      card.appendChild(title);
+      const opts = document.createElement('div'); opts.className='opts';
+      qObj.opts.forEach((opt, i)=>{
+        const id = `q${idx}_opt${i}`;
+        const label = document.createElement('label'); label.className='opt'; label.htmlFor=id;
+        const radio = document.createElement('input'); radio.type='radio'; radio.name=`q${idx}`; radio.id=id; radio.dataset.q=idx; radio.dataset.opt=i;
+        const span = document.createElement('span'); span.textContent = opt;
+        label.appendChild(radio); label.appendChild(span);
+        opts.appendChild(label);
+      });
+      card.appendChild(opts);
+      return card;
+    }
+
+    QUESTIONS.forEach((q,i)=>{ root.appendChild(createQuestionCard(q,i)); });
+
+    // update answered count
+    function updateAnswered(){
+      const radios = document.querySelectorAll('input[type=radio]');
+      const answered = new Set();
+      radios.forEach(r=>{ if(r.checked) answered.add(r.name); });
+      answeredCount.textContent = answered.size;
+    }
+
+    document.addEventListener('change', updateAnswered);
+
+    // Check answers
+    document.getElementById('checkBtn').addEventListener('click', ()=>{
+      let score = 0;
+      QUESTIONS.forEach((q, qi)=>{
+        const chosen = document.querySelector(`input[name=q${qi}]:checked`);
+        const labels = document.querySelectorAll(`input[name=q${qi}]`);
+        labels.forEach(inp=>{ inp.parentElement.classList.remove('correct','wrong'); });
+        if(chosen){
+          const chosenIdx = Number(chosen.dataset.opt);
+          if(chosenIdx === q.a){
+            score += 1;
+            chosen.parentElement.classList.add('correct');
+          } else {
+            chosen.parentElement.classList.add('wrong');
+            // highlight correct option
+            const correctInput = document.querySelector(`input[name=q${qi}][data-opt='${q.a}']`);
+            if(correctInput) correctInput.parentElement.classList.add('correct');
+          }
+        } else {
+          // show correct option if unanswered
+          const correctInput = document.querySelector(`input[name=q${qi}][data-opt='${q.a}']`);
+          if(correctInput) correctInput.parentElement.classList.add('correct');
+        }
+      });
+      scoreEl.textContent = score + ' / ' + QUESTIONS.length;
+      // scroll to top of score
+      window.scrollTo({top:0,behavior:'smooth'});
+    });
+
+    // Reset
+    document.getElementById('resetBtn').addEventListener('click', ()=>{
+      document.querySelectorAll('input[type=radio]').forEach(r=>{ r.checked=false; r.parentElement.classList.remove('correct','wrong'); });
+      answeredCount.textContent = '0';
+      scoreEl.textContent = '0';
+    });
+
+    // Theme toggle
+    const themeBtn = document.getElementById('themeToggle');
+    themeBtn.addEventListener('click', ()=>{
+      document.body.classList.toggle('dark');
+      themeBtn.textContent = document.body.classList.contains('dark') ? '☀️ Light' : '🌙 Dark';
+    });
+
+    // small performance: lazy update answered count initially
+    updateAnswered();
+
+  </script>
+</body>
+</html>

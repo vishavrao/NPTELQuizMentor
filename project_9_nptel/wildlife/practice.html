@@ -1,0 +1,848 @@
+<!DOCTYPE html>
+<html lang="en" class="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>practice week</title>
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <style>
+        :root {
+            /* Light Theme (Default fallback if JS fails or .dark is removed) */
+            --header-bg: linear-gradient(90deg, #1e3c72, #2a5298);
+            --primary-color: #28a745;
+            --secondary-color: #ffc107;
+            --text-color: #333;
+            --light-bg: #f4f4f4;
+            --card-bg: #ffffff;
+            --border-color: #ddd;
+            --hover-bg: #e6f3ff;
+            --hover-border: #b3d7ff;
+            --correct-bg-light: #d4edda;
+            --correct-border-light: #c3e6cb;
+            --incorrect-bg-light: #f8d7da;
+            --incorrect-border-light: #f5c6cb;
+            --calc-display-bg: #222;
+            --calc-button-bg: #f0f0f0;
+            --calc-button-hover: #ddd;
+            --result-header-bg: #f0f0f0;
+            --result-status-correct-text: var(--primary-color);
+            --result-status-incorrect-text: #dc3545;
+        }
+
+        html.dark {
+             /* Dark Theme Variables */
+            --header-bg: linear-gradient(90deg, #0f172a, #1e293b); /* Darker gradient */
+            --primary-color: #4ade80; /* Brighter Green */
+            --secondary-color: #facc15; /* Brighter Yellow */
+            --text-color: #e2e8f0;    /* Light Gray */
+            --light-bg: #0f172a;      /* Dark Blue-Gray */
+            --card-bg: #1e293b;       /* Slightly Lighter Dark */
+            --border-color: #475569;   /* Gray */
+            --hover-bg: #334155;      /* Darker Hover */
+            --hover-border: #64748b;   /* Lighter Gray Border */
+            --correct-bg-light: #064e3b; /* Dark Green */
+            --correct-border-light: #10b981;
+            --incorrect-bg-light: #7f1d1d; /* Dark Red */
+            --incorrect-border-light: #f87171;
+            --calc-display-bg: #475569; /* Gray display */
+            --calc-button-bg: #334155;
+            --calc-button-hover: #475569;
+            --result-header-bg: #334155;
+            --result-status-correct-text: #6ee7b7; /* Light Mint */
+            --result-status-incorrect-text: #fca5a5; /* Light Red */
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: var(--light-bg);
+            color: var(--text-color);
+            transition: background-color 0.3s, color 0.3s; /* Smooth transition */
+        }
+        .header {
+            background: var(--header-bg);
+            color: white;
+            padding: 10px 25px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        }
+         /* Style for the container holding title and clock */
+         .header-info {
+             text-align: center; /* Center title/clock on small screens */
+             flex-grow: 1; /* Allow it to take space */
+             margin: 0 15px; /* Add margin around it */
+         }
+         .header h1 {
+             font-size: 1.2em; /* Adjust size */
+             margin: 0 0 2px 0; /* Adjust margin */
+         }
+        .clock {
+            font-size: 1.0em; /* Adjust size */
+            font-weight: 500;
+        }
+        .container {
+            max-width: 950px;
+            margin: 25px auto;
+            padding: 25px;
+            background-color: var(--card-bg); /* Use variable */
+            border-radius: 10px;
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+            border: 1px solid var(--border-color); /* Add subtle border */
+        }
+        .section {
+            margin-bottom: 25px;
+            padding: 20px;
+            border: 1px solid var(--border-color); /* Use variable */
+            border-radius: 8px;
+            transition: all 0.3s ease;
+        }
+        .question {
+            border-left: 5px solid var(--primary-color);
+            margin-bottom: 15px;
+            padding-left: 15px; /* Add padding for border */
+        }
+        .question h4 {
+            margin-top: 0;
+            font-weight: 600;
+            color: var(--text-color); /* Use variable */
+        }
+        .options label {
+            display: block;
+            margin-bottom: 8px;
+            padding: 10px;
+            cursor: pointer;
+            border-radius: 4px;
+            border: 1px solid var(--border-color); /* Use variable */
+            transition: background-color 0.2s, border-color 0.2s; /* Add transitions */
+        }
+        .options label:hover {
+            background-color: var(--hover-bg); /* Use variable */
+            border-color: var(--hover-border); /* Use variable */
+        }
+         .options input[type="radio"] {
+             margin-right: 8px;
+             accent-color: var(--primary-color); /* Style the radio button itself */
+             vertical-align: middle;
+         }
+        .submit-btn {
+            display: block;
+            width: 100%;
+            padding: 14px;
+            background-color: var(--primary-color);
+            color: white;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 1.2em;
+            font-weight: bold;
+            margin-top: 30px;
+            transition: background-color 0.3s;
+        }
+        .submit-btn:hover {
+            opacity: 0.9; /* General hover effect */
+        }
+        .calculator-icon {
+            position: fixed;
+            top: 80px;
+            right: 25px;
+            font-size: 1.2em;
+            cursor: pointer;
+            background-color: var(--secondary-color);
+            color: #333; /* Darker text on yellow */
+            border-radius: 8px;
+            padding: 10px 15px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+            z-index: 1000;
+            font-weight: bold;
+            user-select: none;
+             transition: background-color 0.2s;
+        }
+         .calculator-icon:hover {
+             opacity: 0.9;
+         }
+        #calculator {
+            position: fixed;
+            top: 135px;
+            right: 25px;
+            width: 250px;
+            border: 1px solid var(--border-color); /* Use variable */
+            padding: 10px;
+            background-color: var(--card-bg); /* Use variable */
+            box-shadow: 0 4px 12px rgba(0,0,0,0.25);
+            border-radius: 8px;
+            z-index: 999;
+        }
+        #calculator-display {
+            background-color: var(--calc-display-bg); /* Use variable */
+            color: white;
+            padding: 10px;
+            text-align: right;
+            font-size: 1.8em;
+            margin-bottom: 10px;
+            border-radius: 4px;
+            height: 40px; /* Adjusted height */
+             line-height: 40px;
+            overflow: hidden;
+        }
+        #calculator-buttons button {
+            width: 23%;
+            height: 45px;
+            margin: 1px;
+            font-size: 1.1em;
+            border: none;
+            border-radius: 4px;
+            background-color: var(--calc-button-bg); /* Use variable */
+            color: var(--text-color); /* Match body text color */
+            cursor: pointer;
+            transition: background-color 0.1s;
+        }
+        #calculator-buttons button:hover {
+            background-color: var(--calc-button-hover); /* Use variable */
+        }
+        /* Style operators and equals separately if needed, override defaults */
+        #calculator-buttons button.operator { background-color: #e0e0e0; }
+        html.dark #calculator-buttons button.operator { background-color: #475569; }
+        #calculator-buttons button.equals { background-color: #00bcd4; color: white; width: 48%;}
+        html.dark #calculator-buttons button.equals { background-color: #22d3ee; color: #1f2937;}
+        #calculator-buttons button.clear { background-color: #f44336; color: white;}
+        html.dark #calculator-buttons button.clear { background-color: #ef4444;}
+
+
+        /* Use variables for correct/incorrect backgrounds */
+        .correct-bg {
+            background-color: var(--correct-bg-light) !important;
+            border-left-color: var(--correct-border-light) !important; /* Keep border consistent maybe */
+        }
+        .incorrect-bg {
+            background-color: var(--incorrect-bg-light) !important;
+            border-left-color: var(--incorrect-border-light) !important;
+        }
+
+        #quiz-section, #quiz-results, #set-selection, #quiz-instructions { /* Hide instructions too initially */
+            display: none;
+        }
+        #set-selection.active {
+            display: block;
+        }
+        .set-option {
+            padding: 20px;
+            margin-bottom: 15px;
+            border: 2px solid var(--border-color); /* Use variable */
+            border-radius: 8px;
+            cursor: pointer;
+            text-align: center;
+            font-size: 1.1em;
+            font-weight: bold;
+            transition: background-color 0.2s, border-color 0.2s, transform 0.1s;
+        }
+        .set-option:hover {
+            background-color: var(--hover-bg); /* Use variable */
+            border-color: var(--primary-color);
+             transform: translateY(-2px);
+        }
+         /* Keep specific set border colors or use variables if defined */
+        #set-A { border-color: #4CAF50; }
+        html.dark #set-A { border-color: #4ade80; }
+        #set-B { border-color: #00bcd4; }
+        html.dark #set-B { border-color: #22d3ee; }
+
+        /* RESULT TABLE STYLES */
+        .result-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+            font-size: 0.9em;
+        }
+        .result-table th, .result-table td {
+            border: 1px solid var(--border-color); /* Use variable */
+            padding: 8px;
+            text-align: left;
+            vertical-align: top;
+        }
+        .result-table th {
+            background-color: var(--result-header-bg); /* Use variable */
+            font-weight: 600;
+        }
+        .result-status-correct {
+            color: var(--result-status-correct-text); /* Use variable */
+            font-weight: bold;
+        }
+        .result-status-incorrect {
+            color: var(--result-status-incorrect-text); /* Use variable */
+            font-weight: bold;
+        }
+        /* Remove specific row backgrounds, rely on text color */
+        /* .result-table tr.correct-row { background-color: #f2fff2; } */
+        /* .result-table tr.incorrect-row { background-color: #fff2f2; } */
+        .result-table tr:nth-child(even) { background-color: rgba(128, 128, 128, 0.05); } /* Subtle striping */
+         html.dark .result-table tr:nth-child(even) { background-color: rgba(255, 255, 255, 0.03); }
+
+
+        /* Theme Toggle Button Style */
+         #theme-toggle {
+             background: none;
+             border: 1px solid var(--border-color); /* Use border color */
+             color: var(--text-color); /* Match text color */
+             padding: 8px;
+             border-radius: 50%; /* Make it circular */
+             cursor: pointer;
+             transition: background-color 0.2s, border-color 0.2s;
+             display: flex; /* Ensure icon centers */
+             align-items: center;
+             justify-content: center;
+             width: 36px; /* Fixed size */
+             height: 36px;
+         }
+         #theme-toggle:hover {
+             background-color: var(--hover-bg); /* Use hover background */
+             border-color: var(--hover-border);
+         }
+
+
+        /* MOBILE RESPONSIVENESS */
+        @media (max-width: 768px) { /* Adjust breakpoint slightly */
+             .header {
+                 padding: 10px 15px; /* Adjust padding */
+             }
+             .calculator-icon { top: 75px; right: 15px;}
+             #calculator { top: 125px; right: 15px; width: 230px;}
+        }
+
+        @media (max-width: 600px) {
+            .header {
+                flex-direction: row; /* Keep horizontal on mobile */
+                 flex-wrap: nowrap; /* Prevent wrapping */
+                 padding: 8px 10px; /* Reduce padding */
+                 justify-content: space-between; /* Ensure space */
+            }
+             .header-info {
+                 margin: 0;
+                 text-align: left; /* Align left */
+                 flex-grow: 0; /* Don't grow */
+                 order: -1; /* Move title/clock to the left */
+             }
+            .header h1 {
+                 font-size: 1.0em; /* Smaller title */
+                 margin-bottom: 0;
+            }
+             .clock { display: none; } /* Hide clock on very small screens */
+
+             /* Keep Theme Toggle and Calculator Icon on the right */
+             .header-controls {
+                 display: flex;
+                 align-items: center;
+                 gap: 8px; /* Space between icons */
+             }
+
+            .container {
+                margin: 15px;
+                padding: 15px;
+            }
+            .calculator-icon {
+                position: static; /* Remove fixed positioning */
+                font-size: 1em;
+                padding: 8px; /* Smaller padding */
+                border-radius: 5px;
+                box-shadow: none; /* Remove shadow */
+                margin: 0; /* Remove fixed margins */
+                 height: 36px; /* Match theme toggle */
+                 width: 36px;
+                 display: flex; align-items: center; justify-content: center;
+            }
+            #calculator {
+                width: 90%;
+                left: 5%;
+                right: auto;
+                top: 60px; /* Adjust top relative to header */
+                 bottom: auto; /* Remove bottom positioning */
+                 box-shadow: 0 6px 15px rgba(0,0,0,0.3);
+            }
+            .submit-btn {
+                font-size: 1.1em;
+                padding: 12px;
+            }
+
+            /* Results Table Stacking */
+            .result-table thead { display: none; }
+            .result-table, .result-table tbody, .result-table tr, .result-table td {
+                display: block; width: 100%;
+            }
+            .result-table tr {
+                margin-bottom: 10px; border: 1px solid var(--border-color); border-radius: 5px;
+            }
+            .result-table td {
+                text-align: right; padding-left: 50%; position: relative;
+                border: none; border-bottom: 1px solid var(--border-color);
+            }
+            .result-table td:before {
+                content: attr(data-label); position: absolute; left: 6px; width: 45%;
+                padding-right: 10px; white-space: nowrap; font-weight: bold;
+                text-align: left; color: #555;
+            }
+            html.dark .result-table td:before { color: #aaa;} /* Dark mode label color */
+            .result-table td:last-child { border-bottom: none; }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="header">
+         <div class="header-info">
+            <h1>Ecology Practice Quiz</h1>
+            <div class="clock" id="live-clock"></div>
+        </div>
+        <div class="header-controls">
+            <button id="theme-toggle" title="Toggle theme">
+                 <i data-lucide="sun" id="sun-icon" class="w-5 h-5 hidden"></i> <i data-lucide="moon" id="moon-icon" class="w-5 h-5"></i> </button>
+            <div class="calculator-icon" id="calculator-toggle" title="Open Calculator">➗</div>
+        </div>
+    </div>
+
+    <div class="container">
+
+        <div id="calculator" class="section">
+            <h4 style="margin-top:0; text-align: center; color: var(--primary-color);">Basic Calculator</h4>
+            <div id="calculator-display">0</div>
+            <div id="calculator-buttons">
+                 <button onclick="calc_input('C')" class="clear">C</button>
+                 <button onclick="calc_input('/')" class="operator">÷</button>
+                 <button onclick="calc_input('*')" class="operator">×</button>
+                 <button onclick="calc_input('-')" class="operator">−</button>
+                 <button onclick="calc_input('7')">7</button>
+                 <button onclick="calc_input('8')">8</button>
+                 <button onclick="calc_input('9')">9</button>
+                 <button onclick="calc_input('+')" class="operator">+</button>
+                 <button onclick="calc_input('4')">4</button>
+                 <button onclick="calc_input('5')">5</button>
+                 <button onclick="calc_input('6')">6</button>
+                 <button onclick="calc_input('(')" class="operator">(</button>
+                 <button onclick="calc_input('1')">1</button>
+                 <button onclick="calc_input('2')">2</button>
+                 <button onclick="calc_input('3')">3</button>
+                 <button onclick="calc_input(')')" class="operator">)</button>
+                 <button onclick="calc_input('0')">0</button>
+                 <button onclick="calc_input('.')">.</button>
+                 <button onclick="calc_input('=')" class="equals">=</button>
+            </div>
+        </div>
+
+        <div id="set-selection" class="section active">
+            <h2>Select Quiz Set</h2>
+            <p>Your quiz will contain <strong>50 randomized questions</strong>. <strong>Set A</strong> guarantees 38 core questions (Weeks 1-5), and <strong>Set B</strong> guarantees 38 core questions (Weeks 6-11). The remaining 12 questions will be randomly drawn from the other set's pool.</p>
+
+            <div id="set-A" class="set-option" data-set="A">
+                Set A Focus (Weeks 1-5 Core + 12 Random)
+            </div>
+            <div id="set-B" class="set-option" data-set="B">
+                Set B Focus (Weeks 6-11 Core + 12 Random)
+            </div>
+
+            <p style="margin-top: 20px;">After selecting a set, you must accept the instructions to start the quiz.</p>
+        </div>
+
+        <div id="quiz-instructions" class="section">
+            <h2>Quiz Instructions</h2>
+            <p>You have selected focus <strong>Set <span id="selected-set-display"></span></strong>. The quiz is now loaded with 50 unique questions shuffled for your attempt.</p>
+            <ul>
+                <li>Total Questions: <strong>50</strong> | Marks per Question: <strong>2</strong> | <strong>Total Marks: 100</strong></li>
+                <li>The <strong>live clock</strong> shows the current date and time (may be hidden on small screens).</li>
+                <li>Use the <strong>Calculator</strong> icon (➗) for quick math.</li>
+                <li>Select only one option per question.</li>
+                <li>The question order <strong>changes every time</strong> you load the page.</li>
+            </ul>
+            <button id="accept-instructions" class="submit-btn">I Accept - Start Quiz</button>
+        </div>
+
+        <div id="quiz-section">
+            <form id="ecology-quiz-form">
+                <div id="questions-container">
+                    </div>
+                <button type="submit" class="submit-btn">Submit Quiz</button>
+            </form>
+        </div>
+
+        <div id="quiz-results" class="section">
+            <h2>Quiz Results</h2>
+            <p><strong>Your Score:</strong> <span id="final-score"></span> / 100</p>
+            <p><strong>Correct Answers:</strong> <span id="correct-count"></span> / 50</p>
+            <p><strong>Incorrect/Unattempted:</strong> <span id="incorrect-count"></span> / 50</p>
+            <hr style="margin: 15px 0; border-color: var(--border-color);">
+            <h3>Detailed Review:</h3>
+            <table class="result-table" id="answer-review-table">
+                <thead>
+                    <tr>
+                        <th style="width: 5%;">Q. No.</th>
+                        <th style="width: 45%;">Question</th>
+                        <th style="width: 25%;">Your Answer</th>
+                        <th style="width: 20%;">Correct Answer</th>
+                        <th style="width: 5%;">Status</th>
+                    </tr>
+                </thead>
+                <tbody id="answer-review-tbody">
+                    </tbody>
+            </table>
+        </div>
+
+    </div>
+
+    <script>
+        // --- 1. CORE QUIZ DATA (76 questions total, strictly separated) ---
+        const ALL_QUESTIONS_A = [
+            // (Keep your ALL_QUESTIONS_A array here)
+             { q: "Which of these is not a characteristic of fitness?", a: "Higher reproductive rate means higher fitness.", options: ["Fitness is environment-specific.", "Fitness is species-specific.", "Higher reproductive rate means higher fitness.", "Fitness should be measured across several generations."] },
+            { q: "Who amongst these is considered the father of Biogeography?", a: "Humboldt", options: ["Theophrastus", "Linnaeus", "Malthus", "Humboldt"] },
+            { q: "In the Greek word root of Ecology, Oikos refers to", a: "household", options: ["household", "preservation", "environment", "study"] },
+            { q: "In the Greek word root of Ecology, logos refers to", a: "study", options: ["household", "preservation", "environment", "study"] },
+            { q: "Which of these is not a step in natural selection?", a: "underpopulation", options: ["variation", "underpopulation", "struggle for existence", "survival of the fittest"] },
+            { q: "Ecology is the scientific study of ________ that determine the distribution and abundance of organisms. (Fill in the blanks)", a: "interactions", options: ["statics", "interactions", "dynamics", "habitat"] },
+            { q: "Which of these is not a characteristic of fitness? (Size/Speed)", a: "Fitness works on traits such as size and speed.", options: ["Fitness is environment-specific.", "Fitness is species-specific.", "Fitness works on traits such as size and speed.", "Fitness should be measured across several generations."] },
+            { q: "Ecology is the scientific study of interactions among organisms and their ________ . (Fill in the blanks)", a: "environment", options: ["habitat", "niche", "environment", "population"] },
+            { q: "\"Enquiry into plants\" is a book written by", a: "Theophrastus", options: ["Theophrastus", "Linnaeus", "Malthus", "Humboldt"] },
+            { q: "Which of these is not a kind of selection", a: "stochastic", options: ["directional", "stochastic", "disruptive", "stabilising"] },
+            { q: "Hierarchy emerges almost inevitably... because hierarchical structures are..........", a: "stable", options: ["perfect", "imperfect", "stable", "unstable"] },
+            { q: "The hierarchical system was given by", a: "Simon", options: ["Simon", "Watson", "Hutchinson", "Humboldt"] },
+            { q: "The emergent principle can be stated as", a: "Whole > sum of parts", options: ["Whole = sum of parts", "Whole < sum of parts", "Whole > sum of parts", "None of these"] },
+            { q: "\"the diversity that exists within an ecosystem\" is", a: "alpha (α) biodiversity", options: ["alpha (α) biodiversity", "beta (β) biodiversity", "gamma (γ) biodiversity", "delta (δ) biodiversity"] },
+            { q: "The mitochondrion is a / an", a: "Sub-cellular organelle", options: ["Sub-cellular organelle", "Cell", "Tissue", "Organ"] },
+            { q: "For more biodiversity, the level of disturbance should be", a: "intermediate", options: ["less", "intermediate", "more", "none of these"] },
+            { q: "There is more biodiversity in areas with", a: "more competition, more predation", options: ["less competition, less predation", "less competition, more predation", "more competition, more predation", "more competition, less predation"] },
+            { q: "\"the diversity that exists among different geographies\" is", a: "gamma (γ) biodiversity", options: ["alpha (α) biodiversity", "beta (β) biodiversity", "gamma (γ) biodiversity", "delta (δ) biodiversity"] },
+            { q: "The laboratory approach to Ecology uses", a: "experiments", options: ["equations", "models", "observations", "experiments"] },
+            { q: "\"groups of actually or potentially interbreeding natural populations...\" is a definition of", a: "species", options: ["cells", "species", "ecosystems", "biomes"] },
+            { q: "I observe a monkey take a tick out of another monkey's head and eat it. This behaviour is called", a: "allo grooming", options: ["tick hunting", "auto grooming", "allo grooming", "foraging"] },
+            { q: "The scientific study of animal behaviour is called", a: "ethology", options: ["behaviourism", "ecology", "ethology", "prey-predator dynamics"] },
+            { q: "Hamilton's rule can be stated as", a: "rB > C", options: ["rB < C", "rB > C", "rB = C", "rB + C = 0"] },
+            { q: "Harmonious interactions occur where", a: "both participants are unharmed", options: ["at least one participant is benefited", "at least one participant is unharmed", "both participants are benefitted", "both participants are unharmed"] },
+            { q: "Interaction between exotic shrubs and trees through seed predators is an example of", a: "apparent competition", options: ["infraspecific competition", "apparent competition", "disguised competition", "harmonious competition"] },
+            { q: "An inventory of behaviours exhibited by an animal during a behaviour exercise is called", a: "ethogram", options: ["ecogram", "ethogram", "behaviourogram", "animalogram"] },
+            { q: "Trampling of grass due to the movement of animals is an example of", a: "amensalism", options: ["mutualism", "amensalism", "commensalism", "protocooperation"] },
+            { q: "Birds on giraffe are an example of", a: "protocooperation", options: ["colony", "commensalism", "protocooperation", "allelopathy"] },
+            { q: "Egrets with buffaloes are an example of", a: "commensalism", options: ["colony", "commensalism", "protocooperation", "allelopathy"] },
+            { q: "If we all became vegetarians, we'll be able to support our large populations. This can be explained through", a: "10% rule", options: ["10% rule", "1% rule", "trophic cascade", "biodiversity"] },
+            { q: "Net primary productivity is given by", a: "APAR × LUE", options: ["APAR × LUE", "APAR + LUE", "APAR - LUE", "APAR / LUE"] },
+            { q: "Trees → Birds → Parasites → Hyperparasites represents", a: "inverted pyramid of numbers", options: ["upright pyramid of numbers", "inverted pyramid of numbers", "spindle pyramid of numbers", "dumb-bell pyramid of numbers"] },
+            { q: "As we move up the food chain (Grass → Grasshopper → Frog → Snake → Hawk), available energy:", a: "available energy decreases", options: ["available energy decreases", "available energy increases", "available energy remains same", "available energy is zero everywhere"] },
+            { q: "At the compensation point,", a: "photosynthesis = respiration", options: ["photosynthesis = respiration", "photosynthesis < respiration", "photosynthesis > respiration", "photosynthesis = 0"] },
+            { q: "Glacial lakes are typical examples of", a: "oligotrophic lakes", options: ["eutrophic lakes", "hypereutrophic lakes", "oligotrophic lakes", "mesotrophic lakes"] },
+            { q: "Tree → Frugivorous birds → Hawk represents", a: "spindle pyramid of numbers", options: ["upright pyramid of numbers", "inverted pyramid of numbers", "spindle pyramid of numbers", "dumb-bell pyramid of numbers"] },
+            { q: "Consider the food chain: Grass → Grasshopper → Frog → Snake → Hawk. Frog is a:", a: "frog is consumer and carnivore", options: ["frog is producer", "frog is consumer and carnivore", "frog is consumer and herbivore", "frog is decomposer"] },
+            { q: "Consider the food chain: Grass → Grasshopper → Frog → Snake → Hawk. Hawk is a:", a: "hawk is consumer and carnivore", options: ["hawk is producer", "hawk is consumer and carnivore", "hawk is consumer and herbivore", "hawk is decomposer"] }
+        ];
+
+        const ALL_QUESTIONS_B = [
+            // (Keep your ALL_QUESTIONS_B array here)
+             { q: "Which of these is true? (Longevity)", a: "a or b", options: ["Physiological longevity > Ecological longevity", "Physiological longevity = Ecological longevity", "Physiological longevity < Ecological longevity", "a or b"] },
+            { q: "A sampling procedure such that each possible combination of sampling units... is referred to as", a: "Simple random sampling", options: ["Simple random sampling", "Systematic sampling", "Stratified sampling", "Multistage sampling"] },
+            { q: "Cover board surveys are typically used for sampling", a: "herpetofauna", options: ["herpetofauna", "fishes", "large mammals", "carnivores"] },
+            { q: "_________ is how close the measured values are to the correct value.", a: "Accuracy", options: ["Accuracy", "Precision", "Bias", "Variance"] },
+            { q: "The logistic growth equation, when plotted, appears", a: "S shaped", options: ["I shaped", "J shaped", "S shaped", "O shaped"] },
+            { q: "The minimum replacement level fertility for a population to grow should be greater than", a: "2", options: ["1", "2", "3", "4"] },
+            { q: "The juvenile mortality rate is the annual number of deaths of juveniles per", a: "1000 live births", options: ["100 births", "1000 births", "100 live births", "1000 live births"] },
+            { q: "_______ employs a simple rule of selecting every kth unit starting with a number chosen at random...", a: "Systematic sampling", options: ["Simple random sampling", "Systematic sampling", "Stratified sampling", "Multistage sampling"] },
+            { q: "Pan traps are used for sampling", a: "pollinator insects", options: ["bees", "butterflies", "non-pollinator insects", "pollinator insects"] },
+            { q: "Which of these is not a measure of absolute population density?", a: "pelt count", options: ["total count", "pelt count", "capture-recapture method", "removal method"] },
+            { q: "Which of these is correct? (Niche relation)", a: "a or b", options: ["Fundamental niche > Realised niche", "Fundamental niche = Realised niche", "Fundamental niche < Realised niche", "a or b"] },
+            { q: "Which of these is not a characteristic of pioneer species", a: "large size", options: ["ability to grow on bare rocks", "ability to tolerate extreme temperatures", "large size", "short life span"] },
+            { q: "A climax caused by wildfires is an example of", a: "catastrophic climax", options: ["climatic climax", "edaphic climax", "disclimax", "catastrophic climax"] },
+            { q: "Importance value varies from", a: "0 to 300", options: ["0 to 10", "0 to 50", "0 to 100", "0 to 300"] },
+            { q: "When compared to generalist species, specialist species have", a: "narrower niches", options: ["narrower niches", "broader niches", "same-size niches", "none of these"] },
+            { q: "The climax near Tindni village is being controlled by disturbance by cattle. This is an example of", a: "disclimax", options: ["climatic climax", "edaphic climax", "disclimax", "catastrophic climax"] },
+            { q: "Lithosere is an example of", a: "xerosere", options: ["hydrosere", "xerosere", "psammosere", "halosere"] },
+            { q: "A species found most frequently in a particular community... is called", a: "selective species", options: ["accidental species", "indifferent species", "selective species", "exclusive species"] },
+            { q: "Which of these depicts correctly the lithosere primary succession?", a: "Rock → Crustose lichen → Foliose lichen → Moss → Herbaceous stage → Shrub → Woodland → Climax", options: ["Rock → Crustose lichen → Foliose lichen → Moss → Herbaceous stage → Shrub → Woodland → Climax", "Rock → Foliose lichen → Crustose lichen → Moss → Herbaceous stage → Shrub → Woodland → Climax", "Moss → Crustose lichen → Foliose lichen → Rock → Herbaceous stage → Shrub → Woodland → Climax", "Rock → Crustose lichen → Foliose lichen → shrub → Herbaceous stage → Moss → woodland → climax"] },
+            { q: "Importance value can be written as", a: "Relative density + Relative frequency + Relative dominance", options: ["Relative density + Relative frequency X Relative dominance", "Relative density X Relative frequency + Relative dominance", "Relative density + Relative frequency + Relative dominance", "Relative density X Relative frequency X Relative dominance"] },
+            { q: "Which of these is not a physical factor of habitat?", a: "predators", options: ["soil", "moisture", "predators", "temperature"] },
+            { q: "The movement of individuals away from their place of birth... into a new habitat... is called", a: "dispersal", options: ["translocation", "migration", "dispersal", "drifting"] },
+            { q: "The movement of lions across the Gir landscape is an example of", a: "diffusion", options: ["diffusion", "secular dispersal", "jump dispersal", "drifting"] },
+            { q: "I tried growing vegetables under my teak plantation... I should be concerned about", a: "allelopathy", options: ["autophagy", "allelophagy", "autopathy", "allelopathy"] },
+            { q: "The regular, seasonal movement of animals, often along fixed routes is called", a: "migration", options: ["translocation", "migration", "dispersal", "drifting"] },
+            { q: "\"The rate of any biological process is limited by that factor in least amount...\" This is the statement for", a: "Liebig’s law of the minimum", options: ["Liebig’s law of the minimum", "Liebig’s law of the maximum", "Shelford’s law of tolerance", "Shelford’s law of intolerance"] },
+            { q: "\"Quick movement over large distances, often across unsuitable terrain\" is a description of", a: "jump dispersal", options: ["diffusion", "secular dispersal", "jump dispersal", "drifting"] },
+            { q: "\"The geographical distribution of a species will be controlled by that environmental factor for which the organism has the narrowest range of tolerance.\" This is the statement for", a: "Shelford’s law of tolerance", options: ["Liebig’s law of the minimum", "Liebig’s law of the maximum", "Shelford’s law of tolerance", "Shelford’s law of intolerance"] },
+            { q: "Good climate is a", a: "pull factor", options: ["chemical factor", "demographic factor", "push factor", "pull factor"] },
+            { q: "Scarcity of food is a", a: "push factor", options: ["chemical factor", "demographic factor", "push factor", "pull factor"] },
+            { q: "Zoo is an example of", a: "ex-situ conservation", options: ["in-situ conservation", "ex-situ conservation", "in-situ preservation", "ex-situ preservation"] },
+            { q: "The “subset of physical and biotic environmental factors that permit an animal... to survive and reproduce” is the definition of", a: "habitat", options: ["habitat", "ecosystem", "biome", "biosphere"] },
+            { q: "Which of these correctly represents the process of habitat fragmentation and loss?", a: "Original forest → Dissection → Perforation → Fragmentation → Attrition", options: ["Original forest → Dissection → Perforation → Fragmentation → Attrition", "Original forest → Dissection → Attrition → Fragmentation → Perforation", "Original forest → Dissection → Perforation → Attrition → Fragmentation", "Original forest → Dissection → Fragmentation → Perforation → Attrition"] },
+            { q: "The acronym HIPPO does not include", a: "pollination", options: ["habitat loss", "invasive species", "pollination", "pollution"] },
+            { q: "We prefer those areas for the creation of a conservation reserve where the level of threat is", a: "medium", options: ["very high", "medium", "very low", "non-existent"] },
+            { q: "The acronym HIPPO does not include (Habitat Loss/Enhancement)", a: "habitat enhancement", options: ["habitat loss", "habitat enhancement", "invasive species", "human over-population"] },
+            { q: "According to Leopold, which of these is not a tool of habitat management?", a: "sickle", options: ["fire", "gun", "cattle", "sickle"] },
+            { q: "Captive breeding is an example of", a: "ex-situ conservation", options: ["in-situ conservation", "ex-situ conservation", "in-situ preservation", "ex-situ preservation"] },
+            { q: "Which of these is a stochastic factor?", a: "environmental fluctuation", options: ["birth rate", "death rate", "population structure", "environmental fluctuation"] },
+            { q: "Which of these is a deterministic factor?", a: "death rate", options: ["environmental variation", "forest fire", "death rate", "diseases"] },
+            { q: "Ludwig's ratchet predicts", a: "increasing harvesting rate", options: ["decreasing harvesting rate", "constant harvesting rate", "increasing harvesting rate", "fluctuating harvesting rate"] }
+        ];
+
+
+        let SELECTED_QUESTIONS = [];
+        const QUIZ_LENGTH = 50;
+        const MARKS_PER_QUESTION = 2;
+        let selectedQuizSet = null;
+
+        // Function to shuffle an array (Fisher-Yates algorithm)
+        function shuffleArray(array) {
+            for (let i = array.length - 1; i > 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1));
+                [array[i], array[j]] = [array[j], array[i]];
+            }
+        }
+
+        function get50RandomQuestions(dataSet) {
+            let primarySet = dataSet === 'A' ? ALL_QUESTIONS_A.slice() : ALL_QUESTIONS_B.slice();
+            let secondarySet = dataSet === 'A' ? ALL_QUESTIONS_B.slice() : ALL_QUESTIONS_A.slice();
+
+            let finalQuestions = primarySet;
+            const questionsNeeded = QUIZ_LENGTH - primarySet.length;
+
+            if (questionsNeeded > 0) {
+                shuffleArray(secondarySet);
+                const paddingQuestions = secondarySet.slice(0, questionsNeeded);
+                finalQuestions = finalQuestions.concat(paddingQuestions);
+            }
+
+            shuffleArray(finalQuestions);
+            return finalQuestions.slice(0, QUIZ_LENGTH);
+        }
+
+        // --- UI Rendering ---
+        function renderQuiz() {
+            const container = document.getElementById('questions-container');
+            container.innerHTML = '';
+
+            SELECTED_QUESTIONS.forEach((qObj, index) => {
+                const qNum = index + 1;
+                let shuffledOptions = qObj.options.slice();
+                shuffleArray(shuffledOptions);
+
+                const questionHTML = `
+                    <div class="section question" data-question-text="${qObj.q}" data-answer="${qObj.a}" data-q-index="${index}">
+                        <h4>${qNum}. (${MARKS_PER_QUESTION} Marks) ${qObj.q}</h4>
+                        <div class="options">
+                            ${shuffledOptions.map((option) => `
+                                <label>
+                                    <input type="radio" name="q${index}" value="${option}"> ${option}
+                                </label>
+                            `).join('')}
+                        </div>
+                    </div>
+                `;
+                container.innerHTML += questionHTML;
+            });
+        }
+
+        // --- Clock, Flow Control, Theme ---
+
+        function updateClock() {
+            const now = new Date();
+            const options = {
+                hour: '2-digit', minute: '2-digit', second: '2-digit',
+                hour12: true,
+                weekday: 'short', month: 'short', day: 'numeric', year: 'numeric'
+            };
+            let timeString = now.toLocaleString('en-US', options);
+            timeString = timeString.replace(/,([^,]*)$/, '$1'); // Remove last comma
+            document.getElementById('live-clock').textContent = timeString;
+        }
+
+        const setSelection = document.getElementById('set-selection');
+        const instructionsSection = document.getElementById('quiz-instructions');
+        const quizSection = document.getElementById('quiz-section');
+        const resultsSection = document.getElementById('quiz-results');
+        const startButton = document.getElementById('accept-instructions');
+        const quizForm = document.getElementById('ecology-quiz-form');
+        const answerReviewTbody = document.getElementById('answer-review-tbody');
+        const setOptions = document.querySelectorAll('.set-option');
+        const themeToggleButton = document.getElementById('theme-toggle');
+        const sunIcon = document.getElementById('sun-icon');
+        const moonIcon = document.getElementById('moon-icon');
+        const htmlElement = document.documentElement;
+
+        // Theme Functions
+        function setTheme(isDark) {
+             if (isDark) {
+                 htmlElement.classList.add('dark');
+                 sunIcon.classList.add('hidden');
+                 moonIcon.classList.remove('hidden');
+             } else {
+                 htmlElement.classList.remove('dark');
+                 sunIcon.classList.remove('hidden');
+                 moonIcon.classList.add('hidden');
+             }
+        }
+
+        function initializeTheme() {
+            const savedTheme = localStorage.getItem('theme');
+            const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+            // Default to dark if nothing is saved and system doesn't prefer dark
+            const isDarkMode = savedTheme === 'dark' || (!savedTheme && prefersDark) || (!savedTheme && true); // Default dark
+
+            // Save default if nothing was saved
+             if (!savedTheme) {
+                localStorage.setItem('theme', isDarkMode ? 'dark' : 'light');
+             }
+
+            setTheme(isDarkMode);
+        }
+
+        function toggleTheme() {
+            const isCurrentlyDark = htmlElement.classList.contains('dark');
+            setTheme(!isCurrentlyDark);
+            localStorage.setItem('theme', !isCurrentlyDark ? 'dark' : 'light');
+        }
+
+        // Event Listeners
+        setOptions.forEach(option => {
+            option.addEventListener('click', function() {
+                selectedQuizSet = this.dataset.set;
+                document.getElementById('selected-set-display').textContent = selectedQuizSet;
+                SELECTED_QUESTIONS = get50RandomQuestions(selectedQuizSet);
+                renderQuiz();
+                setSelection.style.display = 'none';
+                instructionsSection.style.display = 'block';
+                quizSection.style.display = 'none';
+                resultsSection.style.display = 'none';
+            });
+        });
+
+        startButton.addEventListener('click', () => {
+            instructionsSection.style.display = 'none';
+            quizSection.style.display = 'block';
+             window.scrollTo(0, 0);
+        });
+
+        themeToggleButton.addEventListener('click', toggleTheme);
+
+        quizForm.addEventListener('submit', function(event) {
+            event.preventDefault();
+            let score = 0;
+            let correctCount = 0;
+            answerReviewTbody.innerHTML = '';
+
+            SELECTED_QUESTIONS.forEach((qObj, index) => {
+                 const qNumForDisplay = index + 1;
+                 const qIndex = index;
+                 const qName = 'q' + qIndex; // Use index for name
+                 const questionText = qObj.q;
+                 const correctAnswer = qObj.a;
+                 const selectedInput = document.querySelector(`input[name="${qName}"]:checked`);
+                 const userAnswer = selectedInput ? selectedInput.value : 'Not Answered';
+                 const qDiv = document.querySelector(`[data-q-index="${qIndex}"]`);
+
+                 if(qDiv) qDiv.classList.remove('correct-bg', 'incorrect-bg');
+
+                 let status, statusClass, userDisplay;
+                 let rowClass = 'incorrect-row';
+
+                 if (userAnswer === correctAnswer) {
+                     score += MARKS_PER_QUESTION;
+                     correctCount++;
+                     status = 'CORRECT';
+                     statusClass = 'result-status-correct';
+                     if(qDiv) qDiv.classList.add('correct-bg');
+                     userDisplay = userAnswer;
+                     rowClass = 'correct-row';
+                 } else {
+                     status = 'INCORRECT';
+                     statusClass = 'result-status-incorrect';
+                     if(qDiv) qDiv.classList.add('incorrect-bg');
+                     userDisplay = userAnswer === 'Not Answered' ? '<span style="color: #888;">— Not Answered —</span>' : userAnswer;
+                 }
+
+                 const row = answerReviewTbody.insertRow();
+                 row.className = rowClass;
+                 row.innerHTML = `
+                     <td data-label="Q. No.">${qNumForDisplay}</td>
+                     <td data-label="Question">${questionText}</td>
+                     <td data-label="Your Answer">${userDisplay}</td>
+                     <td data-label="Correct Answer">${correctAnswer}</td>
+                     <td data-label="Status"><span class="${statusClass}">${status}</span></td>
+                 `;
+             });
+
+
+            document.getElementById('final-score').textContent = score;
+            document.getElementById('correct-count').textContent = correctCount;
+            document.getElementById('incorrect-count').textContent = QUIZ_LENGTH - correctCount;
+
+            quizSection.style.display = 'none';
+            resultsSection.style.display = 'block';
+            window.scrollTo(0, 0);
+        });
+
+        // --- Calculator Logic ---
+        const calculatorIcon = document.getElementById('calculator-toggle');
+        const calculatorDiv = document.getElementById('calculator');
+        const calcDisplay = document.getElementById('calculator-display');
+        let currentInput = '';
+        let isResultDisplayed = false; // Flag to handle input after calculation
+
+        calculatorDiv.style.display = 'none'; // Initially hidden
+
+        calculatorIcon.addEventListener('click', () => {
+            calculatorDiv.style.display = calculatorDiv.style.display === 'none' ? 'block' : 'none';
+        });
+
+         window.calc_input = function(value) {
+            if (isResultDisplayed && /[0-9.]/.test(value)) {
+                 currentInput = value; // Start new input
+                 isResultDisplayed = false;
+             } else if (isResultDisplayed && /[\/*+\-(]/.test(value)) { // Allow operators after result
+                 isResultDisplayed = false; // Continue calculation
+                 currentInput += value;
+            } else if (value === 'C') {
+                currentInput = '';
+                isResultDisplayed = false;
+            } else if (value === '=') {
+                try {
+                    let safeInput = currentInput.replace(/[^-()\d/*+.]/g, '');
+                    safeInput = safeInput.replace(/([+\-*/]){2,}/g, '$1');
+                    safeInput = safeInput.replace(/^[*+/]/, '');
+                    safeInput = safeInput.replace(/[+\-*/]$/, '');
+
+                    if (safeInput === '') { currentInput = '0'; }
+                    else {
+                        let result = eval(safeInput);
+                        result = parseFloat(result.toFixed(6));
+                        currentInput = result.toString();
+                    }
+                    isResultDisplayed = true;
+                } catch {
+                    currentInput = 'Error';
+                    isResultDisplayed = true;
+                }
+            } else {
+                 if ((currentInput === '0' || currentInput === 'Error') && value !== '.' && !/[\/*+\-(]/.test(value)) currentInput = ''; // Overwrite 0/Error unless operator/decimal
+                 if (currentInput === 'Error') currentInput = ''; // Clear error on any input
+
+                currentInput += value;
+                 isResultDisplayed = false;
+            }
+
+             // Update display - handle empty input and max length
+            let displayValue = currentInput === '' ? '0' : currentInput;
+            if (displayValue.length > 15) { // Limit display length
+                displayValue = '...' + displayValue.substring(displayValue.length - 15);
+            }
+            calcDisplay.textContent = displayValue;
+        }
+
+
+        // --- Initialize ---
+        document.addEventListener('DOMContentLoaded', () => {
+            initializeTheme(); // Set theme first
+            lucide.createIcons(); // THEN render icons
+            updateClock();
+            setInterval(updateClock, 1000);
+            setSelection.style.display = 'block'; // Show set selection
+        });
+
+    </script>
+</body>
+</html>

@@ -1,0 +1,869 @@
+<!DOCTYPE html>
+<html lang="en" class="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Forest & Management Practice Quiz (Random 50)</title>
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <style>
+        :root {
+            /* Light Theme Variables */
+            --header-bg: linear-gradient(90deg, #047857, #059669); /* Forest Green Gradient */
+            --primary-color: #059669; /* Forest Green */
+            --secondary-color: #f59e0b; /* Amber for Calculator */
+            --text-color: #1f2937; /* Dark Gray */
+            --light-bg: #f9fafb; /* Very Light Gray */
+            --card-bg: #ffffff;
+            --border-color: #e5e7eb;
+            --hover-bg: #f0fdf4; /* Light Green */
+            --hover-border: #a7f3d0; /* Lighter Green */
+            --correct-bg: #d1fae5;
+            --correct-border: #10b981;
+            --incorrect-bg: #fee2e2;
+            --incorrect-border: #fca5a5;
+            --calc-display-bg: #2c3e50;
+            --calc-button-bg: #f0f0f0;
+            --calc-button-hover: #e0e0e0;
+            --result-header-bg: #f8f9fa;
+            --result-status-correct-text: #155724;
+            --result-status-incorrect-text: #721c24;
+        }
+
+        html.dark {
+             /* Dark Theme Variables */
+            --header-bg: linear-gradient(90deg, #064e3b, #065f46); /* Darker Green Gradient */
+            --primary-color: #34d399; /* Brighter Green */
+            --secondary-color: #facc15; /* Brighter Yellow */
+            --text-color: #e5e7eb;    /* Light Gray */
+            --light-bg: #111827;      /* Dark Blue-Gray */
+            --card-bg: #1f2937;       /* Slightly Lighter Dark */
+            --border-color: #4b5563;   /* Gray */
+            --hover-bg: #374151;      /* Darker Hover */
+            --hover-border: #6b7280;   /* Lighter Gray Border */
+            --correct-bg: #064e3b;
+            --correct-border: #34d399;
+            --incorrect-bg: #7f1d1d;
+            --incorrect-border: #f87171;
+            --calc-display-bg: #4b5563; /* Gray display */
+            --calc-button-bg: #374151;
+            --calc-button-hover: #4b5563;
+            --result-header-bg: #374151;
+            --result-status-correct-text: #a7f3d0; /* Light Mint */
+            --result-status-incorrect-text: #fca5a5; /* Light Red */
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: var(--light-bg);
+            color: var(--text-color);
+            line-height: 1.6;
+            transition: background-color 0.3s, color 0.3s;
+        }
+        .header {
+            background: var(--header-bg);
+            color: white;
+            padding: 10px 25px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        }
+        /* Style for the container holding title and clock */
+         .header-info {
+             text-align: center; /* Center title/clock on small screens */
+             flex-grow: 1; /* Allow it to take space */
+             margin: 0 15px; /* Add margin around it */
+         }
+         .header h1 {
+             font-size: 1.2em; /* Adjust size */
+             margin: 0 0 2px 0; /* Adjust margin */
+             font-weight: 600; /* Bolder title */
+         }
+        .clock {
+            font-size: 1.0em;
+            font-weight: 500;
+        }
+        .container {
+            max-width: 950px;
+            margin: 25px auto;
+            padding: 20px;
+            background-color: var(--card-bg);
+            border-radius: 10px;
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.08);
+            border: 1px solid var(--border-color);
+        }
+        .section {
+            margin-bottom: 25px;
+            padding: 20px;
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            transition: all 0.3s ease;
+        }
+        .question {
+            border-left: 5px solid var(--primary-color);
+            margin-bottom: 20px;
+             padding-left: 15px;
+        }
+        .question h4 {
+            margin-top: 0;
+            margin-bottom: 12px;
+            font-weight: 600;
+            color: var(--text-color);
+            font-size: 1.05em;
+        }
+        .options label {
+            display: block;
+            margin-bottom: 8px;
+            padding: 10px 12px;
+            cursor: pointer;
+            border-radius: 6px;
+            border: 1px solid var(--border-color);
+            transition: background-color 0.2s, border-color 0.2s;
+        }
+        .options label:hover {
+            background-color: var(--hover-bg);
+            border-color: var(--hover-border);
+        }
+         .options input[type="radio"] {
+             margin-right: 8px;
+             accent-color: var(--primary-color);
+             vertical-align: middle;
+         }
+        .submit-btn {
+            display: block;
+            width: 100%;
+            padding: 14px;
+            background-color: var(--primary-color);
+            color: white;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 1.2em;
+            font-weight: bold;
+            margin-top: 30px;
+            transition: background-color 0.3s, transform 0.1s;
+        }
+        .submit-btn:hover {
+            opacity: 0.9;
+        }
+        .submit-btn:active {
+            transform: scale(0.99);
+        }
+        .calculator-icon {
+            position: fixed;
+            top: 80px;
+            right: 25px;
+            font-size: 1.1em;
+            cursor: pointer;
+            background-color: var(--secondary-color);
+            color: #333; /* Dark text on amber */
+            border-radius: 6px;
+            padding: 8px 12px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+            z-index: 1000;
+            font-weight: bold;
+            user-select: none;
+            transition: background-color 0.2s;
+        }
+        .calculator-icon:hover {
+             opacity: 0.9;
+        }
+        #calculator {
+            position: fixed;
+            top: 130px;
+            right: 25px;
+            width: 250px;
+            border: 1px solid var(--border-color);
+            padding: 10px;
+            background-color: var(--card-bg);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.25);
+            border-radius: 8px;
+            z-index: 999;
+        }
+        #calculator-display {
+            background-color: var(--calc-display-bg);
+            color: var(--text-color); /* Use text color for contrast */
+            html.dark & { color: white; } /* Ensure white text in dark mode */
+            padding: 8px 10px;
+            text-align: right;
+            font-size: 1.7em;
+            margin-bottom: 10px;
+            border-radius: 4px;
+            height: 40px;
+            line-height: 40px;
+            overflow: hidden;
+            box-shadow: inset 0 2px 4px rgba(0,0,0,0.2);
+        }
+        #calculator-buttons button {
+            width: 23%;
+            height: 45px;
+            margin: 1.5px;
+            font-size: 1.1em;
+            border: none;
+            border-radius: 4px;
+            background-color: var(--calc-button-bg);
+            color: var(--text-color);
+            cursor: pointer;
+            transition: background-color 0.1s, box-shadow 0.1s;
+            box-shadow: 0 2px 2px rgba(0,0,0,0.1);
+        }
+        #calculator-buttons button:hover {
+            background-color: var(--calc-button-hover);
+        }
+         #calculator-buttons button:active {
+             box-shadow: inset 0 1px 3px rgba(0,0,0,0.2);
+             transform: translateY(1px);
+         }
+        #calculator-buttons button.operator { background-color: #e0e0e0; color: #333;}
+        html.dark #calculator-buttons button.operator { background-color: #4b5563; color: var(--text-color);}
+        #calculator-buttons button.clear { background-color: #e74c3c; color: white;}
+        html.dark #calculator-buttons button.clear { background-color: #ef4444; }
+        #calculator-buttons button.equals { background-color: #3498db; color: white; width: 48%;}
+        html.dark #calculator-buttons button.equals { background-color: #38bdf8; color: #1f2937; }
+
+
+        .correct-bg {
+            background-color: var(--correct-bg) !important;
+            border-left-color: var(--correct-border) !important;
+        }
+        .incorrect-bg {
+            background-color: var(--incorrect-bg) !important;
+            border-left-color: var(--incorrect-border) !important;
+        }
+        #quiz-instructions, #quiz-section, #quiz-results, #set-selection {
+            display: none;
+        }
+        #set-selection.active {
+            display: block;
+        }
+        .set-option {
+            padding: 20px;
+            margin-bottom: 15px;
+            border: 2px solid var(--border-color);
+            border-radius: 8px;
+            cursor: pointer;
+            text-align: center;
+            font-size: 1.1em;
+            font-weight: bold;
+            transition: background-color 0.2s, border-color 0.2s, transform 0.1s;
+        }
+        .set-option:hover {
+            background-color: var(--hover-bg);
+            border-color: var(--primary-color);
+            transform: translateY(-2px);
+        }
+        #set-A { border-color: #4CAF50; }
+        html.dark #set-A { border-color: #4ade80; }
+        #set-B { border-color: #2196F3; }
+        html.dark #set-B { border-color: #38bdf8; }
+
+        /* RESULT TABLE STYLES */
+        .result-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+            font-size: 0.9em;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+            border-radius: 8px;
+            overflow: hidden;
+        }
+        .result-table th, .result-table td {
+            border: 1px solid var(--border-color);
+            padding: 10px 12px;
+            text-align: left;
+            vertical-align: top;
+        }
+        .result-table th {
+            background-color: var(--result-header-bg);
+            font-weight: 600;
+            color: var(--text-color); /* Adjust header text color */
+        }
+        .result-status-correct {
+            color: var(--result-status-correct-text);
+            font-weight: bold;
+            background-color: var(--correct-bg); /* Use correct background for status cell */
+            padding: 3px 6px;
+            border-radius: 4px;
+            display: inline-block;
+        }
+        .result-status-incorrect {
+            color: var(--result-status-incorrect-text);
+            font-weight: bold;
+            background-color: var(--incorrect-bg); /* Use incorrect background for status cell */
+            padding: 3px 6px;
+            border-radius: 4px;
+            display: inline-block;
+        }
+        .result-table tr:nth-child(even) { background-color: rgba(128, 128, 128, 0.05); }
+        html.dark .result-table tr:nth-child(even) { background-color: rgba(255, 255, 255, 0.03); }
+        .result-table tr:hover { background-color: rgba(128, 128, 128, 0.1); }
+        html.dark .result-table tr:hover { background-color: rgba(255, 255, 255, 0.05); }
+
+        .result-table tr.correct-row {
+             border-left: 4px solid var(--correct-border);
+        }
+        .result-table tr.incorrect-row {
+             border-left: 4px solid var(--incorrect-border);
+        }
+
+         /* Theme Toggle Button Style */
+         #theme-toggle {
+             background: none;
+             border: 1px solid rgba(255,255,255,0.3); /* Lighter border for header */
+             color: white; /* White icon */
+             padding: 8px;
+             border-radius: 50%;
+             cursor: pointer;
+             transition: background-color 0.2s, border-color 0.2s;
+             display: flex;
+             align-items: center;
+             justify-content: center;
+             width: 36px;
+             height: 36px;
+         }
+         #theme-toggle:hover {
+             background-color: rgba(255, 255, 255, 0.1); /* Subtle hover */
+             border-color: rgba(255,255,255,0.5);
+         }
+         html.dark #theme-toggle {
+              border: 1px solid var(--border-color);
+              color: var(--text-color);
+         }
+          html.dark #theme-toggle:hover {
+              background-color: var(--hover-bg);
+              border-color: var(--hover-border);
+          }
+
+
+        /* Responsive Styles */
+        @media (max-width: 768px) {
+             .header h1 { font-size: 1.1em; }
+             .clock { font-size: 0.9em; }
+             .container { margin: 15px; padding: 15px; }
+             .calculator-icon { top: 75px; right: 15px;} /* Adjust position */
+             #calculator { top: 125px; right: 15px; width: 230px;} /* Smaller calculator */
+        }
+
+        @media (max-width: 600px) {
+            .header {
+                flex-direction: row;
+                 flex-wrap: nowrap;
+                 padding: 8px 10px;
+                 justify-content: space-between;
+            }
+             .header-info {
+                 margin: 0;
+                 text-align: left;
+                 flex-grow: 0;
+                 order: -1;
+             }
+            .header h1 {
+                 font-size: 1.0em;
+                 margin-bottom: 0;
+            }
+             .clock { display: none; }
+
+             .header-controls {
+                 display: flex;
+                 align-items: center;
+                 gap: 8px;
+             }
+
+            .calculator-icon {
+                position: static;
+                font-size: 1em;
+                padding: 8px;
+                border-radius: 5px;
+                box-shadow: none;
+                margin: 0;
+                 height: 36px;
+                 width: 36px;
+                 display: flex; align-items: center; justify-content: center;
+                 color: #333; /* Ensure text visible */
+                 order: 1; /* Place calc icon after theme toggle if needed */
+            }
+             #theme-toggle { order: 0; } /* Place theme toggle first */
+
+            #calculator {
+                width: 90%;
+                left: 5%;
+                right: auto;
+                top: 60px;
+                 bottom: auto;
+                 box-shadow: 0 6px 15px rgba(0,0,0,0.3);
+            }
+            .submit-btn {
+                font-size: 1.1em;
+                padding: 12px;
+            }
+
+            /* Results Table Stacking */
+            .result-table thead { display: none; }
+            .result-table, .result-table tbody, .result-table tr, .result-table td {
+                display: block; width: 100%;
+            }
+            .result-table tr {
+                margin-bottom: 15px; border: 1px solid var(--border-color); border-radius: 8px; padding: 5px;
+                 border-left: none;
+            }
+             .result-table tr.correct-row { background-color: var(--correct-bg); } /* Apply bg on mobile */
+             .result-table tr.incorrect-row { background-color: var(--incorrect-bg); }
+            .result-table td {
+                text-align: right; padding-left: 50%; position: relative;
+                border: none; border-bottom: 1px dashed var(--border-color); /* Use dashed border */
+                padding-top: 8px; padding-bottom: 8px;
+            }
+             html.dark .result-table td { border-bottom-color: var(--border-color); }
+            .result-table td:before {
+                content: attr(data-label); position: absolute; left: 10px; width: 45%;
+                padding-right: 10px; white-space: nowrap; font-weight: bold;
+                text-align: left; color: #555;
+            }
+            html.dark .result-table td:before { color: #a0aec0;} /* Dark mode label color */
+            .result-table td:last-child {
+                 border-bottom: none; padding-bottom: 10px;
+             }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="header">
+         <div class="header-info">
+            <h1>Forest & Management Practice Quiz</h1>
+            <div class="clock" id="live-clock"></div>
+        </div>
+        <div class="header-controls">
+             <button id="theme-toggle" title="Toggle theme">
+                 <i data-lucide="sun" id="sun-icon" class="w-5 h-5 hidden"></i> <i data-lucide="moon" id="moon-icon" class="w-5 h-5"></i> </button>
+            <div class="calculator-icon" id="calculator-toggle" title="Open Calculator">➗</div>
+        </div>
+    </div>
+
+    <div class="container">
+
+        <div id="calculator" class="section">
+            <h4 style="margin-top:0; text-align: center; color: var(--primary-color);">Basic Calculator</h4>
+            <div id="calculator-display">0</div>
+            <div id="calculator-buttons">
+                 <button onclick="calc_input('C')" class="clear">C</button>
+                 <button onclick="calc_input('/')" class="operator">÷</button>
+                 <button onclick="calc_input('*')" class="operator">×</button>
+                 <button onclick="calc_input('-')" class="operator">−</button>
+                 <button onclick="calc_input('7')">7</button>
+                 <button onclick="calc_input('8')">8</button>
+                 <button onclick="calc_input('9')">9</button>
+                 <button onclick="calc_input('+')" class="operator">+</button>
+                 <button onclick="calc_input('4')">4</button>
+                 <button onclick="calc_input('5')">5</button>
+                 <button onclick="calc_input('6')">6</button>
+                 <button onclick="calc_input('(')" class="operator">(</button>
+                 <button onclick="calc_input('1')">1</button>
+                 <button onclick="calc_input('2')">2</button>
+                 <button onclick="calc_input('3')">3</button>
+                 <button onclick="calc_input(')')" class="operator">)</button>
+                 <button onclick="calc_input('0')">0</button>
+                 <button onclick="calc_input('.')">.</button>
+                 <button onclick="calc_input('=')" class="equals">=</button>
+            </div>
+        </div>
+
+        <div id="set-selection" class="section active">
+            <h2>Select Quiz Set Focus</h2>
+             <p>Your quiz will contain <strong>50 randomized questions</strong> drawn from the entire course (110 questions total). Selecting a set <strong>guarantees 38 core questions</strong> from that focus area, plus <strong>12 random questions</strong> from the remaining pool.</p>
+
+            <div id="set-A" class="set-option" data-set="A">
+                Focus Set A (Weeks 1-5 Core + 12 Random)
+            </div>
+            <div id="set-B" class="set-option" data-set="B">
+                Focus Set B (Weeks 6-11 Core + 12 Random)
+            </div>
+
+            <p style="margin-top: 20px;">After selecting a focus set, you must accept the instructions to start the quiz.</p>
+        </div>
+
+        <div id="quiz-instructions" class="section">
+            <h2>Quiz Instructions</h2>
+            <p>You have selected focus <strong>Set <span id="selected-set-display"></span></strong>. The quiz is now loaded with 50 unique questions shuffled for your attempt.</p>
+            <ul>
+                <li>Total Questions: <strong>50</strong> | Marks per Question: <strong>2</strong> | <strong>Total Marks: 100</strong></li>
+                <li>The <strong>live clock</strong> shows the current date and time (may be hidden on small screens).</li>
+                <li>Use the <strong>Calculator</strong> icon (➗) for quick math.</li>
+                <li>Select only one option per question.</li>
+                <li>The question order <strong>changes every time</strong> you load the page.</li>
+            </ul>
+            <button id="accept-instructions" class="submit-btn">I Accept - Start Quiz</button>
+        </div>
+
+        <div id="quiz-section">
+            <form id="ecology-quiz-form">
+                <div id="questions-container">
+                    </div>
+                <button type="submit" class="submit-btn">Submit Quiz</button>
+            </form>
+        </div>
+
+        <div id="quiz-results" class="section">
+            <h2>Quiz Results</h2>
+            <p><strong>Your Score:</strong> <span id="final-score"></span> / 100</p>
+            <p><strong>Correct Answers:</strong> <span id="correct-count"></span> / 50</p>
+            <p><strong>Incorrect/Unattempted:</strong> <span id="incorrect-count"></span> / 50</p>
+            <hr style="margin: 15px 0; border-color: var(--border-color);">
+            <h3>Detailed Review:</h3>
+            <table class="result-table" id="answer-review-table">
+                <thead>
+                    <tr>
+                        <th style="width: 5%;">Q. No.</th>
+                        <th style="width: 45%;">Question</th>
+                        <th style="width: 25%;">Your Answer</th>
+                        <th style="width: 20%;">Correct Answer</th>
+                        <th style="width: 5%;">Status</th>
+                    </tr>
+                </thead>
+                <tbody id="answer-review-tbody">
+                    </tbody>
+            </table>
+        </div>
+
+    </div>
+
+    <script>
+        // --- 1. CORE QUIZ DATA (110 questions total) ---
+         const ALL_QUESTIONS = [
+            // (Keep your ALL_QUESTIONS array here - same as previous version)
+             // Week 1 (10 Qs)
+            { w: 1, q: "Which of these is not a consumptive value?", a: "education", options: ["timber","firewood","non-timber forest products","education"] },
+            { w: 1, q: "Which of these is not a forest type found in India?", a: "Mediterranean dry", options: ["Mediterranean dry","Tropical dry","Montane temperate","Alpine"] },
+            { w: 1, q: "“Plant community, predominantly comprised of trees and other woody vegetation, usually with a closed canopy\" is", a: "ecological definition of forests", options: ["silvicultural definition of forests","FAO definition of forests","legal definition of forests","ecological definition of forests"] },
+            { w: 1, q: "According to the Supreme Court, the word forest must be understood according to its", a: "dictionary meaning", options: ["biological meaning","ecological meaning","silvicultural meaning","dictionary meaning"] },
+            { w: 1, q: "Which of these is not a use value?", a: "existence value", options: ["direct value","indirect value","option value","existence value"] },
+            { w: 1, q: "According to the Supreme Court, the term forest land includes", a: "any area recorded as forest in the Government record irrespective of ownership", options: ["some area recorded as forest in the Government record according to ownership","any area recorded as forest in the Government record according to ownership","some area recorded as forest in the Government record irrespective of ownership","any area recorded as forest in the Government record irrespective of ownership"] },
+            { w: 1, q: "Tropical moist forests do not include", a: "broadleaved forests", options: ["broadleaved forests","wet evergreen forests","semi-evergreen forests","moist deciduous forests"] },
+            { w: 1, q: "The value of leaving use and non-use values for offspring’s or future generations is called", a: "bequest value", options: ["altruistic value","bequest value","existence value","option value"] },
+            { w: 1, q: "The term 'forest' originates from", a: "Latin foris meaning outside", options: ["Latin foris meaning outside","Greek foris meaning outside","Latin foris meaning trees","Greek foris meaning trees"] },
+            { w: 1, q: "The value derived from the knowledge of use of resources by others in the current generation is called", a: "altruistic value", options: ["altruistic value","bequest value","existence value","option value"] },
+            // Week 2 (10 Qs)
+            { w: 2, q: "Lithosere is an example of", a: "xerosere", options: ["hydrosere","xerosere","psammosere","halosere"] },
+            { w: 2, q: "Which of these depicts correctly the lithosere primary succession?", a: "Rock → Crustose lichen → Foliose lichen → Moss → Herbaceous stage → Shrub → Woodland → Climax", options: ["Rock → Crustose lichen → Foliose lichen → Moss → Herbaceous stage → Shrub → Woodland → Climax","Rock → Foliose lichen → Crustose lichen → Moss → Herbaceous stage → Shrub → Woodland → Climax","Moss → Crustose lichen → Foliose lichen → Rock → Herbaceous stage → Shrub → Woodland → Climax","Rock → Crustose lichen → Foliose lichen → Shrub → Herbaceous stage → Moss → Woodland → Climax"] },
+            { w: 2, q: "At compensation point,", a: "photosynthesis = respiration", options: ["photosynthesis = respiration","photosynthesis > respiration","photosynthesis < respiration","none of these"] },
+            { w: 2, q: "The study of life history / general features of forest crops with respect to environmental factors is called", a: "silvics", options: ["foresticulture","monoculture","silviculture","silvics"] },
+            { w: 2, q: "A climax caused by wildfires is an example of", a: "catastrophic climax", options: ["climatic climax","edaphic climax","disclimax","catastrophic climax"] },
+            { w: 2, q: "Net primary productivity is given by", a: "APAR X LUE", options: ["APAR + LUE","APAR X LUE","APAR - LUE","APAR ÷ LUE"] },
+            { w: 2, q: "Practical application of scientific, technical and economic principles of forestry comes under which branch of forestry ?", a: "forest management", options: ["forest management","forest economics","forest mensuration","forest protection"] },
+            { w: 2, q: "In the context of plant nutrition, boron is", a: "micronutrient", options: ["macronutrient","micronutrient","primary nutrient","secondary nutrient"] },
+            { w: 2, q: "Which of these is not a characteristic of pioneer species", a: "large size", options: ["ability to grow on bare rocks","ability to tolerate extreme temperatures","large size","short life span"] },
+            { w: 2, q: "The climax near Tindni village is being controlled by disturbance by cattle. This is an example of", a: "disclimax", options: ["climatic climax","edaphic climax","disclimax","catastrophic climax"] },
+            // Week 3 (10 Qs)
+            { w: 3, q: "Mechanical action of ocean waves is an example of", a: "physical weathering", options: ["chemical weathering","physical weathering","biological weathering","none of the above"] },
+            { w: 3, q: "Khadar is a type of", a: "alluvial soil", options: ["black cotton soil","alluvial soil","saline soil","red and yellow soil"] },
+            { w: 3, q: "In soil profile, C refers to", a: "substratum layer", options: ["organic surface layer","topsoil layer","subsoil layer","substratum layer"] },
+            { w: 3, q: "Regur is a term for", a: "black cotton soil", options: ["black cotton soil","alluvial soil","saline soil","red and yellow soil"] },
+            { w: 3, q: "Bangar is a type of", a: "alluvial soil", options: ["black cotton soil","alluvial soil","saline soil","red and yellow soil"] },
+            { w: 3, q: "Soil formation is dependent upon", a: "all of the above", options: ["vegetation","time","climate","all of the above"] },
+            { w: 3, q: "Thermal stresses lead to", a: "physical weathering", options: ["chemical weathering","physical weathering","biological weathering","none of the above"] },
+            { w: 3, q: "Carbonation is an example of", a: "chemical weathering", options: ["chemical weathering","physical weathering","biological weathering","none of the above"] },
+            { w: 3, q: "Cryofracturing is an example of", a: "physical weathering", options: ["chemical weathering","physical weathering","biological weathering","none of the above"] },
+            { w: 3, q: "Hydrolysis is an example of", a: "chemical weathering", options: ["chemical weathering","physical weathering","biological weathering","none of the above"] },
+            // Week 4 (10 Qs)
+            { w: 4, q: "For absolute form factor, the reference for the base of the cylinder is", a: "base of the tree", options: ["base of the tree","breast height","10% of tree height","20% of tree height"] },
+            { w: 4, q: "For normal form factor, the reference for the base of the cylinder is", a: "10% of tree height", options: ["a.base of the tree","breast height","10% of tree height","20% of tree height"] },
+            { w: 4, q: "In India, the breast height is considered to be", a: "1.37 m", options: ["1.37 m","1.47 m","1.57 m","2.47 m"] },
+            { w: 4, q: "Measurement of height based on similar triangles comes under:", a: "indirect measurement", options: ["similar measurement","dissimilar measurement","direct measurement","indirect measurement"] },
+            { w: 4, q: "For a tree with dbh = 45.6 cm, height = 27 m and total stem volume of 1.78 cum, the artificial form factor for the tree is:", a: "0.4", options: ["0.1","0.2","0.3","0.4"] },
+            { w: 4, q: "Consider a stand of eucalyptus trees that are on average 30 cm in diameter and spaced on a regular 3 m grid. Find the spacing factor.", a: "10", options: ["5","10","15","data insufficient"] },
+            { w: 4, q: "Diameter over bark (dob), diameter under bark (dub) and bark thickness (tb) are related as:", a: "dob = dub + 2 × tb", options: ["dob = dub + tb","dob = dub - tb","dob = dub + 2 × tb","dob = dub - 2 × tb"] },
+            { w: 4, q: "For false form factor, the reference for the base of the cylinder is", a: "breast height", options: ["base of the tree","breast height","10% of tree height","20% of tree height"] },
+            { w: 4, q: "Choose the correct statement:", a: "For a non-circular cross-section, girth tape over-estimates the sectional area.", options: ["For a non-circular cross-section, girth tape over-estimates the sectional area.","For a non-circular cross-section, girth tape under-estimates the sectional area.","For a non-circular cross-section, girth tape correctly estimates the sectional area.","None of these is a correct statement."] },
+            { w: 4, q: "A tree has dbh of 25 cm. Find its basal area in sq m.", a: ".049", options: [".049",".096",".149",".195"] },
+            // Week 5 (10 Qs)
+            { w: 5, q: "“This sampling employs a simple rule of selecting every kth unit starting with a number chosen at random from 1 to k as the random start.” We're talking about", a: "Systematic sampling", options: ["Simple random sampling","Systematic sampling","Stratified sampling","Multistage sampling"] },
+            { w: 5, q: "IMU stands for", a: "Inertial measurement unit", options: ["Imperial metering unit","Inertial metering unit","Imperial measurement unit","Inertial measurement unit"] },
+            { w: 5, q: "___ is how close the measured values are to the correct value.", a: "Accuracy", options: ["Accuracy","Precision","Bias","Variance"] },
+            { w: 5, q: "A list of sampling units is called a", a: "frame", options: ["frame","window","sample","population"] },
+            { w: 5, q: "The time of flight for LiDAR is 0.00001 sec. Find the distance of the object from the instrument.", a: "1500 m", options: ["500 m","1000 m","1500 m","2000 m"] },
+            { w: 5, q: "Which of these is correct?", a: "Geodetic surveying takes into account the true shape of the Earth and is used for larger areas (> 250 sq km)", options: ["Plane surveying takes into account the true shape of the Earth and is used for smaller areas (< 250 sq km)","Plane surveying takes into account the true shape of the Earth and is used for larger areas (> 250 sq km)","Geodetic surveying takes into account the true shape of the Earth and is used for smaller areas (< 250 sq km)","Geodetic surveying takes into account the true shape of the Earth and is used for larger areas (> 250 sq km)"] },
+            { w: 5, q: "A sampling procedure such that each possible combination of sampling units out of the population has the same chance of being selected is referred to as", a: "Simple random sampling", options: ["Simple random sampling","Systematic sampling","Stratified sampling","Multistage sampling"] },
+            { w: 5, q: "The frequency of flyovers is an indicator of", a: "temporal resolution", options: ["spatial resolution","temporal resolution","spectral resolution","radiometric resolution"] },
+            { w: 5, q: "___ is how close the measured values are to each other.", a: "Precision", options: ["Accuracy","Precision","Bias","Variance"] },
+            { w: 5, q: "Bathymetric LiDAR uses", a: "green light", options: ["far infrared light","near infrared light","orange light","green light"] },
+            // Week 6 (10 Qs)
+            { w: 6, q: "Invasive climbers increase the probability of which of these fire types?", a: "ladder fire", options: ["ground fire","surface fire","ladder fire","firestorm"] },
+            { w: 6, q: "Which of these forms the fire triangle?", a: "fuel, oxygen, heat", options: ["fire, air, heat","fire, oxygen, wood","fuel, air, wood","fuel, oxygen, heat"] },
+            { w: 6, q: "A scientist uses a trap to capture a monkey. In the context of Wildlife Protection Act 1972,", a: "the trap is a weapon and capturing is hunting.", options: ["the trap is a weapon and capturing is hunting.","the trap is not a weapon and capturing is hunting.","the trap is a weapon and capturing is not hunting.","the trap is not a weapon and capturing is not hunting."] },
+            { w: 6, q: "In the formula I = PXAXT, P refers to", a: "population pressure", options: ["professional pressure","pollution pressure","population pressure","none of the above"] },
+            { w: 6, q: "In the formula I = PXAXT, T refers to", a: "technology", options: ["transference","time","technology","none of the above"] },
+            { w: 6, q: "Which of these is a stochastic factor?", a: "forest fire", options: ["birth rate","death rate","population structure","forest fire"] },
+            { w: 6, q: "The acronym HIPPO does not include", a: "habitat enhancement", options: ["habitat loss","habitat enhancement","over-harvesting","human over-population"] },
+            { w: 6, q: "A veterinarian uses an immobilising gun to capture a deer. In the context of Wildlife Protection Act 1972,", a: "the immobilising gun is a weapon and capturing is hunting.", options: ["the immobilising gun is a weapon and capturing is hunting.","the immobilising gun is not a weapon and capturing is hunting.","the immobilising gun is a weapon and capturing is not hunting.","the immobilising gun is not a weapon and capturing is not hunting."] },
+            { w: 6, q: "Which of these is a deterministic factor?", a: "death rate", options: ["environmental variation","forest fire","death rate","diseases"] },
+            { w: 6, q: "The acronym HIPPO does not include (Pollination)", a: "pollination", options: ["habitat loss","invasive species","pollination","pollution"] },
+             // Week 7 (10 Qs)
+            { w: 7, q: "Taungya regeneration is", a: "artificial regeneration with villagers", options: ["natural regeneration","artificial regeneration with villagers","artificial regeneration with nomadic tribes","artificial regeneration with hunters and gatherers"] },
+            { w: 7, q: "Which of these is not advantage of clear felling system", a: "Increases soil erosion and landslides in hilly areas", options: ["Simple system, easy and efficient operations","Allows for establishment of a more uniform crop","Increases soil erosion and landslides in hilly areas","Mimics natural processes of fire and large-scale insect attacks"] },
+            { w: 7, q: "Which of these is the correct sequence of a silvicultural system?", a: "Harvesting -> Regeneration -> Stand tending", options: ["Stand tending -> Regeneration -> Harvesting","Harvesting -> Stand tending -> Regeneration","Harvesting -> Regeneration -> Stand tending","Regeneration -> Harvesting -> Stand tending"] },
+            { w: 7, q: "Ring weeding is primarily a feature of", a: "assisted natural regeneration", options: ["natural regeneration","assisted natural regeneration","artificial regeneration by direct sowing","artificial regeneration by planting seedlings"] },
+            { w: 7, q: "Tending is done during", a: "any stage of life", options: ["early stage of life","middle stage of life","late stage of life","any stage of life"] },
+            { w: 7, q: "The movement of seeds away from their place of seed production into a new area is called", a: "dispersal", options: ["translocation","migration","dispersal","drifting"] },
+            { w: 7, q: "Average age at which a tree is considered mature for felling is called as", a: "rotation age", options: ["crop age","felling age","rotation age","maturity age"] },
+            { w: 7, q: "A site was clear-cut. Which of these methods of regeneration cannot be used in a short time-frame?", a: "natural regeneration", options: ["natural regeneration","artificial regeneration by direct sowing","artificial regeneration by planting seedlings","artificial regeneration by transplanting trees"] },
+            { w: 7, q: "Which of these is not a feature of natural regeneration (Control)", a: "good control over genetic improvement", options: ["low cost","less requirement of heavy machinery and labour","preservation of genetic variability","good control over genetic improvement"] },
+            { w: 7, q: "Which of these is not a feature of natural regeneration (Machinery)", a: "high requirement of heavy machinery and labour", options: ["seed consumption by insects and seed feeders","little control over spacing and stand density","long time needed to regenerate forest","high requirement of heavy machinery and labour"] },
+            // Week 8 (10 Qs)
+            { w: 8, q: "Shelterwood system results in", a: "even aged stand with natural aesthetics", options: ["even aged stand with natural aesthetics","even aged stand with artificial aesthetics","uneven aged stand with natural aesthetics","uneven aged stand with artificial aesthetics"] },
+            { w: 8, q: "In group shelterwood system, the regeneration area is increased", a: "centrifugally around gaps", options: ["centrifugally around gaps","centripetally around gaps","parallel to gaps","perpendicular to gaps"] },
+            { w: 8, q: "Trees not putting increment are removed during", a: "preparatory felling", options: ["preparatory felling","seeding felling","secondary felling","final felling"] },
+            { w: 8, q: "Clear felling system is not used for", a: "shade bearer species", options: ["light demanding species","shade bearer species","plain areas","plateau areas"] },
+            { w: 8, q: "For a crop with rotation age of 120 years, PB-III would have crop age", a: "30-60 years", options: ["0-30 years","30-60 years","60-90 years","90-120 years"] },
+            { w: 8, q: "Felling made with the object of opening the canopy to remove shelter and allow more light for the regenerated crop is", a: "secondary felling", options: ["preparatory felling","seeding felling","secondary felling","final felling"] },
+            { w: 8, q: "Close to nature forestry is a feature of", a: "selection system", options: ["clear felling system","selection system","uniform shelterwood system","group shelterwood system"] },
+            { w: 8, q: "Inverse-J shaped number-diameter curves are seen in", a: "selection system", options: ["clear felling system","selection system","uniform shelterwood system","group shelterwood system"] },
+            { w: 8, q: "Which of these is the correct sequence for shelterwood system?", a: "Preparatory felling -> Seeding felling -> Secondary felling -> Final felling", options: ["Preparatory felling ->Secondary felling -> Seedling felling -> Final felling","Preparatory felling -> Seedling felling -> Secondary felling -> Final felling","Preparatory felling ->Secondary felling -> Seeding felling -> Final felling","Preparatory felling -> Seeding felling -> Secondary felling -> Final felling"] },
+            { w: 8, q: "Catchment areas are best suited for", a: "selection system", options: ["clear felling system","selection system","uniform shelterwood system","group shelterwood system"] },
+            // Week 9 (10 Qs)
+            { w: 9, q: "Trees to be retained are shown in ___ marking colour", a: "blue", options: ["yellow","blue","red","white"] },
+            { w: 9, q: "Trees on boundary are shown in ___ marking colour", a: "red", options: ["yellow","blue","red","white"] },
+            { w: 9, q: "Cutting of timber into logs is known as", a: "bucking", options: ["marking","bucking","skidding","delimbing"] },
+            { w: 9, q: "Careful selection of trees for harvesting based on a forest management prescription is known as", a: "marking", options: ["surveying","cruising","marking","logging"] },
+            { w: 9, q: "Net growth in initial volume is given by", a: "V2-V1+H-I", options: ["V2-V1","V2-V1+H-I","V2-V1+H-I+M","V2-V1+H-I-M"] },
+            { w: 9, q: "Research plots are shown in ___ marking colour", a: "white", options: ["yellow","blue","red","white"] },
+            { w: 9, q: "Which of these gives the greatest accuracy in constructing face cuts", a: "conventional face", options: ["conventional face","humboldt face","open face","all of these"] },
+            { w: 9, q: "Which of these gives the greatest saving of lumber", a: "humboldt face", options: ["conventional face","humboldt face","open face","all of these"] },
+            { w: 9, q: "Moving of logs from forest to landing area is known as", a: "skidding", options: ["marking","bucking","skidding","delimbing"] },
+            { w: 9, q: "Surveying timberlands to locate and estimate the volumes and grades of standing timber meeting requirements is known as", a: "cruising", options: ["surveying","cruising","marking","logging"] },
+            // Week 10 (10 Qs)
+            { w: 10, q: "Wet and dry treatment of seeds is used for which species", a: "teak", options: ["amla","mango","ber","teak"] },
+            { w: 10, q: "Which of these is not a laboratory method to determine best days for seed collection?", a: "colour of fruits", options: ["maximum dry weight","colour of fruits","moisture content of fruits","chemical analysis of fat and nitrogen content"] },
+            { w: 10, q: "Which of these characterises a refractory site", a: "soil depth < 10 cm", options: ["soil depth < 10 cm","soil depth 10-30 cm","soil depth > 30 cm","none of these"] },
+            { w: 10, q: "Which of these prevents water logging", a: "raised bed", options: ["sunken bed","raised bed","flat bed","all of these"] },
+            { w: 10, q: "Number of seeds in sample that germinate upto the peak germination period expressed as % is a definition of", a: "germination energy", options: ["germination number","germination percentage","germination energy","germination power"] },
+            { w: 10, q: "Which of these conserves moisture", a: "sunken bed", options: ["sunken bed","raised bed","flat bed","all of these"] },
+            { w: 10, q: "Agave is used for", a: "live fencing", options: ["barbed wire fencing","live fencing","chain link fencing","stone wall fencing"] },
+            { w: 10, q: "Shell cracking of seeds is used for which species", a: "ber", options: ["amla","mango","ber","teak"] },
+            { w: 10, q: "Choice of spacing is dependent upon", a: "all of these", options: ["objective of plantation","site-species matching","growth rate","all of these"] },
+            { w: 10, q: "Which of these is a good storage condition", a: "low moisture, low temperature", options: ["high moisture, high temperature","high moisture, low temperature","low moisture, high temperature","low moisture, low temperature"] },
+            // Week 11 (10 Qs)
+            { w: 11, q: "Planting along canal banks is a part of", a: "extension forestry", options: ["farm forestry","community forestry","extension forestry","agroforestry"] },
+            { w: 11, q: "Captive breeding is an example of", a: "ex-situ conservation", options: ["in-situ conservation","ex-situ conservation","in-situ preservation","ex-situ preservation"] },
+            { w: 11, q: "The tiger has a home range..., regulates the ecosystem..., and people come to watch tigers. Thus, the tiger can be called as", a: "all of the above", options: ["umbrella species","keystone species","flagship species","all of the above"] },
+            { w: 11, q: "Sustainable harvest of resources falls under the category of:", a: "conservation", options: ["conservation","preservation","environmentalism","none of the above"] },
+            { w: 11, q: "The elephant has a home range..., regulates the ecosystem..., and people can relate to this animal... Given this background, the elephant can be called as", a: "all of the above", options: ["umbrella species","keystone species","flagship species","all of the above"] },
+            { w: 11, q: "People come to Sessa orchid sanctuary... to witness orchids, which in this context would be classified as", a: "flagship species", options: ["umbrella species","keystone species","flagship species","extinct species"] },
+            { w: 11, q: "We prefer those areas for the creation of a conservation reserve where the level of threat is", a: "medium", options: ["very high","medium","very low","non-existent"] },
+            { w: 11, q: "Which of these is not a forest classification as per the 1894 Forest Policy:", a: "major forest", options: ["protection forest","production forest","minor forest","major forest"] },
+            { w: 11, q: "“Science of relationships between organisms and their environments” is the definition of:", a: "ecology", options: ["conservation","preservation","environmentalism","ecology"] },
+            { w: 11, q: "In 1931, Van Panchayats were constituted in areas that are now in", a: "Uttarakhand", options: ["Tamil Nadu","Madhya Pradesh","West Bengal","Uttarakhand"] }
+        ];
+
+        let SELECTED_QUESTIONS = [];
+        const QUIZ_LENGTH = 50;
+        const MARKS_PER_QUESTION = 2;
+        let selectedQuizSet = null;
+        const CORE_SET_SIZE = 38; // Number of guaranteed questions per set
+
+        // --- Question Set Definitions ---
+        const SET_A_WEEKS = [1, 2, 3, 4, 5];
+        const SET_B_WEEKS = [6, 7, 8, 9, 10, 11];
+
+        // --- Utility Functions ---
+        function shuffleArray(array) {
+            for (let i = array.length - 1; i > 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1));
+                [array[i], array[j]] = [array[j], array[i]];
+            }
+        }
+
+        // --- Generate Quiz Questions ---
+        function generateQuizQuestions(dataSet) {
+            let coreWeeks = dataSet === 'A' ? SET_A_WEEKS : SET_B_WEEKS;
+            let corePool = ALL_QUESTIONS.filter(q => coreWeeks.includes(q.w));
+            shuffleArray(corePool);
+            let coreQuestions = corePool.slice(0, CORE_SET_SIZE);
+
+            let remainingPool = ALL_QUESTIONS.filter(q => !coreQuestions.some(cq => cq.q === q.q));
+            shuffleArray(remainingPool);
+
+            const fillerNeeded = QUIZ_LENGTH - coreQuestions.length;
+            let fillerQuestions = remainingPool.slice(0, fillerNeeded);
+
+            let finalQuestions = coreQuestions.concat(fillerQuestions);
+            shuffleArray(finalQuestions);
+            return finalQuestions.slice(0, QUIZ_LENGTH);
+        }
+
+        // --- UI Rendering ---
+        function renderQuiz() {
+            const container = document.getElementById('questions-container');
+            container.innerHTML = '';
+            SELECTED_QUESTIONS.forEach((qObj, index) => {
+                const qNum = index + 1;
+                let shuffledOptions = qObj.options.slice();
+                shuffleArray(shuffledOptions);
+                const questionHTML = `
+                    <div class="section question" data-question-text="${qObj.q}" data-answer="${qObj.a}" data-q-index="${index}">
+                        <h4>${qNum}. (${MARKS_PER_QUESTION} Marks) ${qObj.q}</h4>
+                        <div class="options">
+                            ${shuffledOptions.map((option) => `
+                                <label>
+                                    <input type="radio" name="q${index}" value="${option}"> ${option}
+                                </label>
+                            `).join('')}
+                        </div>
+                    </div>`;
+                container.innerHTML += questionHTML;
+            });
+        }
+
+        // --- Clock, Flow Control, Theme ---
+        function updateClock() {
+            const now = new Date();
+            const options = { hour: '2-digit', minute: '2-digit', second: '2-digit', hour12: true, weekday: 'short', month: 'short', day: 'numeric', year: 'numeric' };
+            let timeString = now.toLocaleString('en-US', options).replace(/,([^,]*)$/, '$1');
+            document.getElementById('live-clock').textContent = timeString;
+        }
+
+        const setSelection = document.getElementById('set-selection');
+        const instructionsSection = document.getElementById('quiz-instructions');
+        const quizSection = document.getElementById('quiz-section');
+        const resultsSection = document.getElementById('quiz-results');
+        const startButton = document.getElementById('accept-instructions');
+        const quizForm = document.getElementById('ecology-quiz-form');
+        const answerReviewTbody = document.getElementById('answer-review-tbody');
+        const setOptions = document.querySelectorAll('.set-option');
+        const themeToggleButton = document.getElementById('theme-toggle');
+        const sunIcon = document.getElementById('sun-icon');
+        const moonIcon = document.getElementById('moon-icon');
+        const htmlElement = document.documentElement;
+
+        // Theme Functions
+        function setTheme(isDark) {
+            htmlElement.classList.toggle('dark', isDark);
+            sunIcon.classList.toggle('hidden', isDark);
+            moonIcon.classList.toggle('hidden', !isDark);
+        }
+
+        function initializeTheme() {
+            const savedTheme = localStorage.getItem('theme');
+            const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+            const isDarkMode = savedTheme === 'dark' || (!savedTheme && prefersDark) || (!savedTheme && true); // Default dark
+            if (!savedTheme) { localStorage.setItem('theme', isDarkMode ? 'dark' : 'light'); }
+            setTheme(isDarkMode);
+        }
+
+        function toggleTheme() {
+            const isCurrentlyDark = htmlElement.classList.contains('dark');
+            setTheme(!isCurrentlyDark);
+            localStorage.setItem('theme', !isCurrentlyDark ? 'dark' : 'light');
+        }
+
+        // Event Listeners
+        setOptions.forEach(option => {
+            option.addEventListener('click', function() {
+                selectedQuizSet = this.dataset.set;
+                document.getElementById('selected-set-display').textContent = selectedQuizSet;
+                SELECTED_QUESTIONS = generateQuizQuestions(selectedQuizSet);
+                renderQuiz();
+                setSelection.style.display = 'none';
+                instructionsSection.style.display = 'block';
+                quizSection.style.display = 'none';
+                resultsSection.style.display = 'none';
+            });
+        });
+
+        startButton.addEventListener('click', () => {
+            instructionsSection.style.display = 'none';
+            quizSection.style.display = 'block';
+            window.scrollTo(0, 0);
+        });
+
+        themeToggleButton.addEventListener('click', toggleTheme);
+
+        quizForm.addEventListener('submit', function(event) {
+            event.preventDefault();
+            let score = 0;
+            let correctCount = 0;
+            answerReviewTbody.innerHTML = '';
+
+            SELECTED_QUESTIONS.forEach((qObj, index) => {
+                 const qNumForDisplay = index + 1;
+                 const qIndex = index;
+                 const qName = 'q' + qIndex;
+                 const questionText = qObj.q;
+                 const correctAnswer = qObj.a;
+                 const selectedInput = document.querySelector(`input[name="${qName}"]:checked`);
+                 const userAnswer = selectedInput ? selectedInput.value : 'Not Answered';
+                 const qDiv = document.querySelector(`[data-q-index="${qIndex}"]`);
+                 if(qDiv) qDiv.classList.remove('correct-bg', 'incorrect-bg');
+
+                 let status, statusClass, userDisplay, rowClass = 'incorrect-row';
+
+                 if (userAnswer === correctAnswer) {
+                     score += MARKS_PER_QUESTION; correctCount++; status = 'CORRECT'; statusClass = 'result-status-correct';
+                     if(qDiv) qDiv.classList.add('correct-bg'); userDisplay = userAnswer; rowClass = 'correct-row';
+                 } else {
+                     status = 'INCORRECT'; statusClass = 'result-status-incorrect';
+                     if(qDiv) qDiv.classList.add('incorrect-bg'); userDisplay = userAnswer === 'Not Answered' ? '<span style="color: #888;">— Not Answered —</span>' : userAnswer;
+                 }
+
+                 const row = answerReviewTbody.insertRow(); row.className = rowClass;
+                 row.innerHTML = `<td data-label="Q. No.">${qNumForDisplay}</td> <td data-label="Question">${questionText}</td> <td data-label="Your Answer">${userDisplay}</td> <td data-label="Correct Answer">${correctAnswer}</td> <td data-label="Status"><span class="${statusClass}">${status}</span></td>`;
+             });
+
+            document.getElementById('final-score').textContent = score;
+            document.getElementById('correct-count').textContent = correctCount;
+            document.getElementById('incorrect-count').textContent = QUIZ_LENGTH - correctCount;
+
+            quizSection.style.display = 'none';
+            resultsSection.style.display = 'block';
+            window.scrollTo(0, 0);
+        });
+
+        // --- Calculator Logic ---
+        const calculatorIcon = document.getElementById('calculator-toggle');
+        const calculatorDiv = document.getElementById('calculator');
+        const calcDisplay = document.getElementById('calculator-display');
+        let currentInput = '';
+        let isResultDisplayed = false;
+
+        calculatorDiv.style.display = 'none';
+
+        calculatorIcon.addEventListener('click', () => {
+            calculatorDiv.style.display = calculatorDiv.style.display === 'none' ? 'block' : 'none';
+        });
+
+         window.calc_input = function(value) {
+            if (isResultDisplayed && /[0-9.]/.test(value)) { currentInput = value; isResultDisplayed = false; }
+            else if (isResultDisplayed && /[\/*+\-(]/.test(value)) { isResultDisplayed = false; currentInput += value; }
+            else if (value === 'C') { currentInput = ''; isResultDisplayed = false; }
+            else if (value === '=') {
+                try {
+                    let safeInput = currentInput.replace(/[^-()\d/*+.]/g, '').replace(/([+\-*/]){2,}/g, '$1').replace(/^[*+/]/, '').replace(/[+\-*/]$/, '');
+                    if (safeInput === '') { currentInput = '0'; }
+                    else { let result = eval(safeInput); result = parseFloat(result.toFixed(6)); currentInput = result.toString(); }
+                    isResultDisplayed = true;
+                } catch { currentInput = 'Error'; isResultDisplayed = true; }
+            } else {
+                 if ((currentInput === '0' || currentInput === 'Error') && value !== '.' && !/[\/*+\-(]/.test(value)) currentInput = '';
+                 if (currentInput === 'Error') currentInput = '';
+                currentInput += value; isResultDisplayed = false;
+            }
+            let displayValue = currentInput === '' ? '0' : currentInput;
+            if (displayValue.length > 15) { displayValue = '...' + displayValue.substring(displayValue.length - 15); }
+            calcDisplay.textContent = displayValue;
+        }
+
+        // --- Initialize ---
+        document.addEventListener('DOMContentLoaded', () => {
+            initializeTheme(); // Set theme first
+            lucide.createIcons(); // THEN render icons
+            updateClock();
+            setInterval(updateClock, 1000);
+            setSelection.style.display = 'block'; // Show set selection
+        });
+    </script>
+</body>
+</html>

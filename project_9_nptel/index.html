@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NPTEL E-Learning Hub - Quiz Zone</title>
+    <meta name="description" content="NPTEL E-Learning Hub: Access practice quizzes and assessments designed to help you prepare effectively for your NPTEL certification exams.">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@100..900&display=swap');
+        html { scroll-behavior: smooth; }
+        body {
+            font-family: 'Inter', sans-serif;
+        }
+        :focus-visible {
+            outline: 2px solid var(--primary-color, #f97316);
+            outline-offset: 2px;
+            border-radius: 4px;
+        }
+    </style>
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    colors: {
+                        'primary': '#f97316',
+                        'accent-1': '#7c3aed',
+                    },
+                }
+            }
+        }
+    </script>
+</head>
+<body class="min-h-screen antialiased bg-gray-50 dark:bg-gray-900 text-gray-900 dark:text-gray-100 transition-colors duration-500">
+
+    <header class="bg-white dark:bg-gray-800 shadow-md dark:shadow-lg sticky top-0 z-50 transition-colors duration-500 border-b border-gray-200 dark:border-gray-700">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-3 flex justify-between items-center">
+            <a href="#" class="flex items-center space-x-2 text-xl font-bold text-gray-800 dark:text-white tracking-tight hover:opacity-80 transition duration-300">
+                 <i data-lucide="book-open" class="w-6 h-6 text-primary"></i> <span>NPTEL E-Learning Hub</span> </a>
+
+            <div class="flex items-center space-x-4">
+                 <a href="teams.html" target="_blank" rel="noopener noreferrer" class="px-3 py-1.5 text-sm font-medium rounded-md bg-primary text-white hover:bg-opacity-90 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary transition duration-300 shadow-sm">
+                    Teams
+                 </a>
+                <button id="theme-toggle" class="p-2 rounded-full text-gray-500 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-700 focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 dark:focus-visible:ring-offset-gray-800 transition duration-300" aria-label="Toggle theme">
+                    <i data-lucide="sun" id="sun-icon" class="w-5 h-5"></i>
+                    <i data-lucide="moon" id="moon-icon" class="w-5 h-5 hidden"></i>
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 lg:py-20">
+        <section class="text-center mb-16 lg:pt-12">
+            <h1 class="text-4xl sm:text-5xl lg:text-6xl font-extrabold mb-4 text-gray-900 dark:text-white tracking-tight">
+                NPTEL Quiz Zone
+            </h1>
+            <p class="text-lg sm:text-xl font-normal text-gray-600 dark:text-gray-400 max-w-3xl mx-auto">
+                Sharpen your knowledge for NPTEL courses in Wildlife Ecology and Forest Management. Select a category below to begin your quiz journey.
+            </p>
+        </section>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-8 lg:gap-12 max-w-4xl mx-auto">
+            <div class="bg-white dark:bg-gray-800 rounded-lg shadow-lg hover:shadow-xl dark:hover:shadow-[0_10px_25px_-5px_rgba(255,255,255,0.1),_0_8px_10px_-6px_rgba(255,255,255,0.1)] p-6 border border-gray-200 dark:border-gray-700 hover:border-primary dark:hover:border-primary transition duration-300 relative group transform hover:-translate-y-1.5 focus-within:ring-2 focus-within:ring-primary focus-within:ring-offset-2 dark:focus-within:ring-offset-gray-900">
+                <div class="mb-4">
+                     <i data-lucide="bug" class="w-8 h-8 text-primary transition duration-300"></i>
+                </div>
+                <h3 class="text-xl font-semibold text-gray-900 dark:text-white mb-2">Wildlife Ecology</h3>
+                <p class="text-base text-gray-600 dark:text-gray-400 mb-4">Explore ecosystems, biodiversity hotspots, and crucial conservation principles.</p>
+                <a href="wildlife/wildlife.html" class="absolute inset-0 z-10 rounded-lg" aria-label="Start Wildlife Ecology Quiz">
+                    <span class="sr-only">Start Wildlife Ecology Quiz</span>
+                </a>
+                 <span class="text-sm font-medium text-primary group-hover:underline dark:text-orange-400">Go to Quiz →</span>
+            </div>
+
+            <div class="bg-white dark:bg-gray-800 rounded-lg shadow-lg hover:shadow-xl dark:hover:shadow-[0_10px_25px_-5px_rgba(255,255,255,0.1),_0_8px_10px_-6px_rgba(255,255,255,0.1)] p-6 border border-gray-200 dark:border-gray-700 hover:border-accent-1 dark:hover:border-accent-1 transition duration-300 relative group transform hover:-translate-y-1.5 focus-within:ring-2 focus-within:ring-accent-1 focus-within:ring-offset-2 dark:focus-within:ring-offset-gray-900">
+                <div class="mb-4">
+                     <i data-lucide="trees" class="w-8 h-8 text-accent-1 transition duration-300"></i>
+                </div>
+                <h3 class="text-xl font-semibold text-gray-900 dark:text-white mb-2">Forest Management</h3>
+                <p class="text-base text-gray-600 dark:text-gray-400 mb-4">Learn about sustainable forestry practices and effective ecosystem management.</p>
+                <a href="forest/forest.html" class="absolute inset-0 z-10 rounded-lg" aria-label="Start Forest Management Quiz">
+                     <span class="sr-only">Start Forest Management Quiz</span>
+                </a>
+                 <span class="text-sm font-medium text-accent-1 group-hover:underline dark:text-violet-400">Go to Quiz →</span>
+            </div>
+        </div>
+    </main>
+
+    <footer class="bg-gray-100 dark:bg-gray-800 text-gray-600 dark:text-gray-300 mt-16 py-6 border-t border-gray-200 dark:border-gray-700 transition-colors duration-500">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 grid grid-cols-1 md:grid-cols-3 gap-y-4 md:gap-x-8 items-center text-center md:text-left">
+
+            <div class="flex justify-center md:justify-start space-x-5">
+                 <a href="#" class="text-sm hover:text-primary dark:hover:text-white transition duration-300">Home</a>
+                 <a href="teams.html" target="_blank" rel="noopener noreferrer" class="text-sm hover:text-primary dark:hover:text-white transition duration-300">Contact Us</a>
+            </div>
+
+            <div class="text-xs text-gray-500 dark:text-gray-400 order-last md:order-none md:text-center">
+                 &copy; 2025 NPTEL E-Learning Hub. All rights reserved.
+            </div>
+
+            <div class="text-sm text-gray-700 dark:text-gray-200 md:text-right flex flex-col items-center md:items-end">
+                <h4 class="font-semibold mb-1 text-sm uppercase tracking-wider text-gray-500 dark:text-gray-400">About This Hub</h4>
+                <p class="text-xs text-gray-500 dark:text-gray-400">Quiz Practice</p>
+                <p class="text-xs text-gray-500 dark:text-gray-400">NPTEL Course Aid</p>
+                <p class="text-xs text-gray-500 dark:text-gray-400">Environmental Science</p>
+            </div>
+
+        </div>
+    </footer>
+
+    <script>
+        const htmlElement = document.documentElement;
+        const toggleButton = document.getElementById('theme-toggle');
+        const sunIcon = document.getElementById('sun-icon');
+        const moonIcon = document.getElementById('moon-icon');
+
+        function setTheme(isDark) {
+             if (isDark) {
+                 htmlElement.classList.add('dark');
+                 sunIcon.classList.add('hidden');
+                 moonIcon.classList.remove('hidden');
+             } else {
+                 htmlElement.classList.remove('dark');
+                 sunIcon.classList.remove('hidden');
+                 moonIcon.classList.add('hidden');
+             }
+        }
+
+        function initializeTheme() {
+            const savedTheme = localStorage.getItem('theme');
+            const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+            const isDarkMode = savedTheme === 'dark' || (!savedTheme && prefersDark);
+            setTheme(isDarkMode);
+        }
+
+        function toggleTheme() {
+            const isCurrentlyDark = htmlElement.classList.contains('dark');
+            setTheme(!isCurrentlyDark);
+            localStorage.setItem('theme', !isCurrentlyDark ? 'dark' : 'light');
+        }
+
+        toggleButton.addEventListener('click', toggleTheme);
+        initializeTheme();
+        lucide.createIcons(); // Initialize icons after theme setup
+    </script>
+</body>
+</html>
