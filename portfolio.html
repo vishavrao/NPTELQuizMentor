@@ -1,0 +1,1837 @@
+<!-- <!DOCTYPE html>
+<html lang="en"> <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vishav Yadav - ECE Student | Web Developer Portfolio</title>
+    <meta name="description" content="Portfolio of Vishav Yadav, VIT Vellore ECE student passionate about web development. Showcasing skills in Python, JS, React, Node.js, and projects.">
+
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+
+    <style>
+        html { scroll-behavior: smooth; scroll-padding-top: 4.5rem; /* Header height offset */ }
+        body { font-family: 'Inter', sans-serif; -webkit-font-smoothing: antialiased; -moz-osx-font-smoothing: grayscale; }
+        /* Custom scrollbar */
+        ::-webkit-scrollbar { width: 8px; height: 8px; }
+        ::-webkit-scrollbar-track { background: var(--scrollbar-track); }
+        ::-webkit-scrollbar-thumb { background: var(--scrollbar-thumb); border-radius: 4px; }
+        ::-webkit-scrollbar-thumb:hover { background: var(--scrollbar-thumb-hover); }
+
+        :root { /* Light mode */
+            --bg-primary: #ffffff;
+            --bg-secondary: #f3f4f6; /* gray-100 */
+            --text-primary: #1f2937; /* gray-800 */
+            --text-secondary: #4b5563; /* gray-600 */
+            --text-muted: #6b7280; /* gray-500 */
+            --border-color: #e5e7eb; /* gray-200 */
+            --accent: #3b82f6; /* blue-500 */
+            --accent-hover: #2563eb; /* blue-600 */
+            --scrollbar-track: #e5e7eb;
+            --scrollbar-thumb: #9ca3af;
+            --scrollbar-thumb-hover: #6b7280;
+        }
+        html.dark { /* Dark mode */
+            --bg-primary: #111827; /* gray-900 */
+            --bg-secondary: #1f2937; /* gray-800 */
+            --text-primary: #f3f4f6; /* gray-100 */
+            --text-secondary: #d1d5db; /* gray-300 */
+            --text-muted: #9ca3af; /* gray-400 */
+            --border-color: #4b5563; /* gray-600 */
+            --accent: #60a5fa; /* blue-400 */
+            --accent-hover: #3b82f6; /* blue-500 */
+            --scrollbar-track: #374151;
+            --scrollbar-thumb: #6b7280;
+            --scrollbar-thumb-hover: #9ca3af;
+        }
+        /* Style adjustments using variables */
+        body { background-color: var(--bg-primary); color: var(--text-secondary); }
+        h1, h2, h3, h4, strong { color: var(--text-primary); }
+        .bg-primary { background-color: var(--bg-primary); }
+        .bg-secondary { background-color: var(--bg-secondary); }
+        .border-default { border-color: var(--border-color); }
+        .text-accent { color: var(--accent); }
+        .bg-accent { background-color: var(--accent); }
+        .hover\:bg-accent-hover:hover { background-color: var(--accent-hover); }
+        .hover\:text-accent:hover { color: var(--accent); }
+        .ring-accent focus\:ring-2 { --tw-ring-color: var(--accent); } /* For focus rings */
+
+        /* Focus visible */
+        :focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; border-radius: 4px; }
+
+        /* Simple fade-in animation */
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+        .animate-fade-in { opacity: 0; animation: fadeIn 0.5s ease-out forwards; }
+        /* Staggered animation utility */
+        .stagger-delay > * { opacity: 0; }
+
+        /* Section Padding */
+        section { padding-top: 5rem; padding-bottom: 5rem; }
+        @media (min-width: 1024px) { section { padding-top: 7rem; padding-bottom: 7rem; } }
+
+    </style>
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    colors: {
+                        'accent': {
+                           light: '#60a5fa', // blue-400 (dark mode)
+                           DEFAULT: '#3b82f6', // blue-500 (light mode)
+                           dark: '#2563eb'  // blue-600 (hover)
+                        },
+                        // Backgrounds/Text mainly handled by CSS vars
+                    },
+                    animation: {
+                        'fade-in': 'fadeIn 0.5s ease-out forwards',
+                    },
+                    keyframes: {
+                        fadeIn: {
+                            'from': { opacity: '0', transform: 'translateY(10px)' },
+                            'to': { opacity: '1', transform: 'translateY(0)' },
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+</head>
+<body class="bg-primary text-secondary">
+
+    <header class="bg-primary/90 dark:bg-primary/90 backdrop-blur-sm shadow-sm sticky top-0 z-40 border-b border-default transition-colors duration-300">
+        <nav class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-[4.5rem] flex justify-between items-center">
+            <a href="#home" class="text-lg font-semibold text-accent transition">
+                Vishav Yadav
+            </a>
+            <div class="hidden md:flex items-center space-x-6">
+                <a href="#about" class="text-sm font-medium hover:text-accent transition">About</a>
+                <a href="#skills" class="text-sm font-medium hover:text-accent transition">Skills</a>
+                <a href="#projects" class="text-sm font-medium hover:text-accent transition">Projects</a>
+                <a href="#contact" class="text-sm font-medium hover:text-accent transition">Contact</a>
+                <button id="theme-toggle" class="p-2 rounded-full hover:bg-secondary transition" aria-label="Toggle theme">
+                    <i data-lucide="sun" id="sun-icon"></i>
+                    <i data-lucide="moon" id="moon-icon" class="hidden"></i>
+                </button>
+            </div>
+            <div class="md:hidden flex items-center">
+                <button id="theme-toggle-mobile" class="p-2 mr-2 rounded-full hover:bg-secondary transition" aria-label="Toggle theme mobile">
+                     <i data-lucide="sun" id="sun-icon-mobile"></i>
+                     <i data-lucide="moon" id="moon-icon-mobile" class="hidden"></i>
+                </button>
+                <button id="mobile-menu-button" class="p-2 rounded-md hover:bg-secondary" aria-label="Open menu">
+                    <i data-lucide="menu" class="w-6 h-6"></i>
+                </button>
+            </div>
+        </nav>
+        <div id="mobile-menu" class="md:hidden hidden bg-primary absolute w-full shadow-lg border-t border-default">
+            <div class="px-4 pt-2 pb-4 space-y-2">
+                <a href="#about" class="block py-2 text-base font-medium hover:text-accent transition mobile-link">About</a>
+                <a href="#skills" class="block py-2 text-base font-medium hover:text-accent transition mobile-link">Skills</a>
+                <a href="#projects" class="block py-2 text-base font-medium hover:text-accent transition mobile-link">Projects</a>
+                <a href="#contact" class="block py-2 text-base font-medium hover:text-accent transition mobile-link">Contact</a>
+            </div>
+        </div>
+    </header>
+
+    <main>
+        <section id="home" class="min-h-[calc(100vh-4.5rem)] flex items-center bg-secondary pt-10 pb-20 md:pt-0 md:pb-0">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center animate-fade-in">
+                <span class="inline-block px-3 py-1 text-xs font-semibold text-accent bg-accent/10 rounded-full mb-3 uppercase tracking-wider">ECE Student & Aspiring Web Developer</span>
+                <h1 class="text-4xl sm:text-6xl lg:text-7xl font-extrabold tracking-tighter mt-1 mb-6 leading-tight">
+                    Vishav Yadav
+                </h1>
+                <p class="text-lg sm:text-xl text-text-muted mb-10 max-w-2xl mx-auto">
+                   Exploring the intersection of Electronics and Communication Engineering with a growing passion for building innovative solutions for the web. Based in VIT Vellore.
+                </p>
+                <div class="flex flex-col sm:flex-row justify-center items-center space-y-4 sm:space-y-0 sm:space-x-4">
+                    <a href="#projects" class="w-full sm:w-auto inline-flex items-center justify-center px-7 py-3 border border-transparent text-base font-medium rounded-md shadow-sm text-white bg-accent hover:bg-accent-hover transition duration-300">
+                        View Projects
+                    </a>
+                    <a href="[Link to Resume PDF]" target="_blank" class="w-full sm:w-auto inline-flex items-center justify-center px-7 py-3 border border-default text-base font-medium rounded-md hover:bg-secondary transition duration-300">
+                         Resume <i data-lucide="arrow-down-to-line" class="w-4 h-4 ml-2"></i>
+                    </a>
+                </div>
+            </div>
+        </section>
+
+        <section id="about" class="bg-primary">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 grid grid-cols-1 md:grid-cols-2 gap-12 lg:gap-20 items-center">
+                 <div class="animate-fade-in" style="animation-delay: 0.2s;">
+                     <img src="vishav.jpeg" alt="Vishav Yadav" class="rounded-lg shadow-xl aspect-square object-cover w-full max-w-md mx-auto md:max-w-none border-4 border-default">
+                 </div>
+                <div class="animate-fade-in" style="animation-delay: 0.4s;">
+                    <h2 class="text-3xl lg:text-4xl font-bold tracking-tight mb-6">
+                       About <span class="text-accent">Me</span>
+                    </h2>
+                    <div class="space-y-4 text-base lg:text-lg text-text-secondary leading-relaxed">
+                        <p>
+                            I'm Vishav Yadav, currently pursuing a B.Tech in <strong class="text-text-primary">Electronics and Communication Engineering</strong> at <strong class="text-text-primary">VIT Vellore</strong>. My academic journey in ECE has equipped me with strong analytical and problem-solving skills.
+                        </p>
+                        <p>
+                            Alongside my core studies, I've developed a significant interest in the <strong class="text-text-primary">technology domain</strong>, specifically focusing on <strong class="text-text-primary">web development</strong>. I'm fascinated by the power of code to create functional, user-centric applications and websites.
+                        </p>
+                        <p>
+                            I enjoy learning new technologies and applying my engineering mindset to build efficient and scalable web solutions. I'm currently focusing on expanding my expertise in both frontend and backend development.
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="skills" class="bg-secondary">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 animate-fade-in">
+                <h2 class="text-3xl lg:text-4xl font-bold tracking-tight text-center mb-16">
+                    Technical <span class="text-accent">Skills</span>
+                </h2>
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-8 lg:gap-12">
+                    <div class="bg-primary p-6 rounded-lg shadow-md border border-default stagger-delay" style="--delay: 0.1s;">
+                        <h3 class="text-xl font-semibold mb-4 flex items-center"><i data-lucide="terminal" class="w-5 h-5 mr-2 text-accent"></i>Languages</h3>
+                        <div class="flex flex-wrap gap-2">
+                             <span class="skill-tag">Python</span> <span class="skill-tag">C++</span> <span class="skill-tag">C</span> <span class="skill-tag">Java</span> <span class="skill-tag">JavaScript</span>
+                        </div>
+                    </div>
+                    <div class="bg-primary p-6 rounded-lg shadow-md border border-default stagger-delay" style="--delay: 0.2s;">
+                         <h3 class="text-xl font-semibold mb-4 flex items-center"><i data-lucide="monitor-smartphone" class="w-5 h-5 mr-2 text-accent"></i>Frontend</h3>
+                         <div class="flex flex-wrap gap-2">
+                             <span class="skill-tag">HTML</span> <span class="skill-tag">CSS</span> <span class="skill-tag">JavaScript</span> <span class="skill-tag">React.js</span> <span class="skill-tag">Tailwind CSS</span>
+                         </div>
+                    </div>
+                     <div class="bg-primary p-6 rounded-lg shadow-md border border-default stagger-delay" style="--delay: 0.3s;">
+                         <h3 class="text-xl font-semibold mb-4 flex items-center"><i data-lucide="server" class="w-5 h-5 mr-2 text-accent"></i>Backend & Databases</h3>
+                         <div class="flex flex-wrap gap-2">
+                              <span class="skill-tag">Node.js</span> <span class="skill-tag">MongoDB</span> <span class="skill-tag">MySQL</span>
+                              </div>
+                    </div>
+                </div>
+            </div>
+            <style>
+                .skill-tag { background-color: var(--bg-secondary); color: var(--text-secondary); padding: 0.3rem 0.8rem; border-radius: 9999px; font-size: 0.875rem; font-weight: 500; border: 1px solid var(--border-color); white-space: nowrap; }
+                html.dark .skill-tag { border-color: transparent; }
+            </style>
+        </section>
+
+        <section id="projects" class="bg-primary">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 animate-fade-in">
+                <h2 class="text-3xl lg:text-4xl font-bold tracking-tight text-center mb-16">
+                    My <span class="text-accent">Projects</span>
+                </h2>
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 lg:gap-10">
+                    <div class="bg-secondary rounded-lg shadow-lg overflow-hidden flex flex-col group transition duration-300 hover:shadow-xl transform hover:-translate-y-1 stagger-delay" style="--delay: 0.2s;">
+                        <img src="https://via.placeholder.com/600x400/93c5fd/1e3a8a?text=Project+1" alt="Project 1" class="w-full h-48 object-cover">
+                        <div class="p-6 flex flex-col flex-grow">
+                            <h3 class="text-xl font-semibold mb-2">[Project Title 1]</h3>
+                            <p class="text-text-muted text-sm mb-4 flex-grow">
+                                [Brief description - what it does, key features.]
+                            </p>
+                            <p class="text-xs font-medium text-text-muted mb-5 uppercase tracking-wider">Tech: [HTML, CSS, JS]</p>
+                            <div class="mt-auto flex space-x-3">
+                                <a href="#" target="_blank" rel="noopener noreferrer" class="project-btn bg-accent hover:bg-accent-hover text-white">
+                                    <i data-lucide="external-link" class="w-4 h-4 mr-1.5"></i> Demo
+                                </a>
+                                <a href="#" target="_blank" rel="noopener noreferrer" class="project-btn border border-default hover:bg-primary">
+                                    <i data-lucide="github" class="w-4 h-4 mr-1.5"></i> Code
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="bg-secondary rounded-lg shadow-lg overflow-hidden flex flex-col group transition duration-300 hover:shadow-xl transform hover:-translate-y-1 stagger-delay" style="--delay: 0.4s;">
+                        <img src="https://via.placeholder.com/600x400/a5b4fc/312e81?text=Project+2" alt="Project 2" class="w-full h-48 object-cover">
+                        <div class="p-6 flex flex-col flex-grow">
+                            <h3 class="text-xl font-semibold mb-2">[Project Title 2]</h3>
+                            <p class="text-text-muted text-sm mb-4 flex-grow">
+                                [Brief description - what it does, key features.]
+                            </p>
+                            <p class="text-xs font-medium text-text-muted mb-5 uppercase tracking-wider">Tech: [React, Tailwind]</p>
+                            <div class="mt-auto flex space-x-3">
+                                <a href="#" target="_blank" rel="noopener noreferrer" class="project-btn bg-accent hover:bg-accent-hover text-white">
+                                    <i data-lucide="external-link" class="w-4 h-4 mr-1.5"></i> Demo
+                                </a>
+                                <a href="#" target="_blank" rel="noopener noreferrer" class="project-btn border border-default hover:bg-primary">
+                                    <i data-lucide="github" class="w-4 h-4 mr-1.5"></i> Code
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="bg-secondary rounded-lg shadow-lg overflow-hidden flex flex-col group transition duration-300 hover:shadow-xl transform hover:-translate-y-1 stagger-delay" style="--delay: 0.6s;">
+                        <img src="https://via.placeholder.com/600x400/fecaca/991b1b?text=Project+3" alt="Project 3" class="w-full h-48 object-cover">
+                        <div class="p-6 flex flex-col flex-grow">
+                            <h3 class="text-xl font-semibold mb-2">[Project Title 3]</h3>
+                            <p class="text-text-muted text-sm mb-4 flex-grow">
+                                [Brief description - what it does, key features.]
+                            </p>
+                            <p class="text-xs font-medium text-text-muted mb-5 uppercase tracking-wider">Tech: [Node.js, MySQL]</p>
+                            <div class="mt-auto flex space-x-3">
+                                <a href="#" target="_blank" rel="noopener noreferrer" class="project-btn bg-accent hover:bg-accent-hover text-white">
+                                    <i data-lucide="external-link" class="w-4 h-4 mr-1.5"></i> Demo
+                                </a>
+                                <a href="#" target="_blank" rel="noopener noreferrer" class="project-btn border border-default hover:bg-primary">
+                                    <i data-lucide="github" class="w-4 h-4 mr-1.5"></i> Code
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+             <style>
+                 .project-btn { display: inline-flex; align-items: center; padding: 0.5rem 1rem; border-radius: 0.375rem; font-size: 0.875rem; font-weight: 500; transition: all 0.2s ease-in-out; }
+             </style>
+        </section>
+
+        <section id="contact" class="bg-secondary">
+            <div class="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 text-center animate-fade-in">
+                <h2 class="text-3xl lg:text-4xl font-bold tracking-tight mb-4">
+                    Contact <span class="text-accent">Me</span>
+                </h2>
+                <p class="text-lg text-text-muted mb-10 max-w-xl mx-auto">
+                    Open to collaboration, opportunities, or just a chat about tech. Reach out through email or connect on LinkedIn/GitHub.
+                </p>
+                <div class="flex justify-center items-center space-x-6">
+                    <a href="mailto:[Your Email Address]" class="contact-circle group" aria-label="Email Me">
+                        <i data-lucide="mail" class="w-6 h-6 transition duration-300 group-hover:scale-110 group-hover:text-accent"></i>
+                    </a>
+                    <a href="[Link to your LinkedIn]" target="_blank" rel="noopener noreferrer" class="contact-circle group" aria-label="LinkedIn Profile">
+                        <i data-lucide="linkedin" class="w-6 h-6 transition duration-300 group-hover:scale-110 group-hover:text-accent"></i>
+                    </a>
+                    <a href="[Link to your GitHub]" target="_blank" rel="noopener noreferrer" class="contact-circle group" aria-label="GitHub Profile">
+                        <i data-lucide="github" class="w-6 h-6 transition duration-300 group-hover:scale-110 group-hover:text-accent"></i>
+                    </a>
+                </div>
+            </div>
+             <style>
+                .contact-circle { display: inline-flex; align-items: center; justify-content: center; width: 3.5rem; height: 3.5rem; border-radius: 9999px; background-color: var(--bg-primary); color: var(--text-muted); border: 1px solid var(--border-color); box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px -1px rgba(0, 0, 0, 0.1); transition: all 0.3s ease; }
+                .contact-circle:hover { background-color: var(--bg-secondary); border-color: var(--accent); }
+                 html.dark .contact-circle { box-shadow: none; }
+            </style>
+        </section>
+    </main>
+
+    <footer class="bg-primary py-6 border-t border-default">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col sm:flex-row justify-between items-center text-center sm:text-left gap-y-2">
+             <p class="text-sm text-text-muted">
+                &copy; <span id="current-year"></span> Vishav Yadav. All rights reserved.
+            </p>
+             <div class="flex justify-center sm:justify-end space-x-5">
+                 <a href="mailto:[Your Email]" class="text-text-muted hover:text-accent transition"><span class="sr-only">Email</span><i data-lucide="mail" class="w-5 h-5"></i></a>
+                 <a href="[LinkedIn Link]" target="_blank" rel="noopener noreferrer" class="text-text-muted hover:text-accent transition"><span class="sr-only">LinkedIn</span><i data-lucide="linkedin" class="w-5 h-5"></i></a>
+                 <a href="[GitHub Link]" target="_blank" rel="noopener noreferrer" class="text-text-muted hover:text-accent transition"><span class="sr-only">GitHub</span><i data-lucide="github" class="w-5 h-5"></i></a>
+             </div>
+        </div>
+    </footer>
+
+    <script>
+        const htmlElement = document.documentElement;
+        const toggleButton = document.getElementById('theme-toggle');
+        const toggleButtonMobile = document.getElementById('theme-toggle-mobile');
+        const sunIcon = document.getElementById('sun-icon');
+        const moonIcon = document.getElementById('moon-icon');
+        const sunIconMobile = document.getElementById('sun-icon-mobile');
+        const moonIconMobile = document.getElementById('moon-icon-mobile');
+        const mobileMenuButton = document.getElementById('mobile-menu-button');
+        const mobileMenu = document.getElementById('mobile-menu');
+        const mobileLinks = document.querySelectorAll('.mobile-link');
+
+        function setTheme(isDark) {
+            htmlElement.classList.toggle('dark', isDark);
+            sunIcon.classList.toggle('hidden', isDark);
+            moonIcon.classList.toggle('hidden', !isDark);
+            sunIconMobile.classList.toggle('hidden', isDark);
+            moonIconMobile.classList.toggle('hidden', !isDark);
+        }
+
+        function initializeTheme() {
+            const savedTheme = localStorage.getItem('theme');
+            const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+             // Default LIGHT this time
+            const isDarkMode = savedTheme === 'dark' || (!savedTheme && prefersDark);
+            if (!savedTheme) { localStorage.setItem('theme', isDarkMode ? 'dark' : 'light'); }
+            setTheme(isDarkMode);
+        }
+
+        function toggleTheme() {
+            const isCurrentlyDark = htmlElement.classList.contains('dark');
+            setTheme(!isCurrentlyDark);
+            localStorage.setItem('theme', !isCurrentlyDark ? 'dark' : 'light');
+        }
+
+        toggleButton.addEventListener('click', toggleTheme);
+        toggleButtonMobile.addEventListener('click', toggleTheme);
+
+        mobileMenuButton.addEventListener('click', () => {
+             mobileMenu.classList.toggle('hidden');
+             const menuIcon = mobileMenuButton.querySelector('i');
+             menuIcon.setAttribute('data-lucide', mobileMenu.classList.contains('hidden') ? 'menu' : 'x');
+             lucide.createIcons();
+        });
+
+        mobileLinks.forEach(link => {
+             link.addEventListener('click', () => {
+                 mobileMenu.classList.add('hidden');
+                 const menuIcon = mobileMenuButton.querySelector('i');
+                 menuIcon.setAttribute('data-lucide', 'menu');
+                 lucide.createIcons();
+             });
+        });
+
+        document.getElementById('current-year').textContent = new Date().getFullYear();
+
+        document.addEventListener('DOMContentLoaded', () => {
+             initializeTheme();
+             lucide.createIcons();
+
+             // Staggered animation observer
+             const animatedElements = document.querySelectorAll('.stagger-delay');
+             const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                         const delay = entry.target.style.getPropertyValue('--delay') || '0s';
+                         entry.target.style.animation = `fadeIn 0.6s ${delay} ease-out forwards`;
+                         observer.unobserve(entry.target); // Animate only once
+                    }
+                });
+             }, { threshold: 0.1 });
+
+             animatedElements.forEach(el => { observer.observe(el); });
+        });
+    </script>
+</body>
+</html> -->
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!DOCTYPE html>
+<html lang="en" class="dark"> <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vishav Yadav | ECE Student & Web Developer</title> <meta name="description" content="Portfolio of Vishav Yadav, VIT Vellore ECE student exploring web development with skills in JS, React, Node.js, Python, C++, and more. View my projects.">
+
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+
+    <style>
+        html { scroll-behavior: smooth; scroll-padding-top: 5rem; }
+        body { font-family: 'Inter', sans-serif; -webkit-font-smoothing: antialiased; -moz-osx-font-smoothing: grayscale; }
+
+        /* Custom scrollbar (Optional but nice) */
+        ::-webkit-scrollbar { width: 8px; height: 8px; }
+        ::-webkit-scrollbar-track { background: #1e293b; } /* slate-800 */
+        ::-webkit-scrollbar-thumb { background: #475569; border-radius: 4px; } /* slate-600 */
+        ::-webkit-scrollbar-thumb:hover { background: #64748b; } /* slate-500 */
+        html.light ::-webkit-scrollbar-track { background: #e2e8f0; } /* slate-200 */
+        html.light ::-webkit-scrollbar-thumb { background: #94a3b8; } /* slate-400 */
+        html.light ::-webkit-scrollbar-thumb:hover { background: #64748b; } /* slate-500 */
+
+        /* Focus visible styling */
+        :focus-visible {
+            outline: 2px solid #22d3ee; /* cyan-400 */
+            outline-offset: 3px;
+            border-radius: 6px;
+        }
+        html.light :focus-visible {
+             outline-color: #0ea5e9; /* sky-500 */
+        }
+
+        /* Simple fade-in animation */
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(15px); } to { opacity: 1; transform: translateY(0); } }
+        .animate-fade-in { opacity: 0; animation: fadeIn 0.7s ease-out forwards; }
+        .stagger-delay > * { opacity: 0; } /* Initial state for stagger */
+
+        /* Gradient Text Helper */
+        .text-gradient {
+            background-clip: text;
+            -webkit-background-clip: text;
+            color: transparent;
+        }
+
+        /* Background shapes (subtle) */
+        .bg-shape-1 {
+            position: absolute;
+            top: 10%;
+            left: 5%;
+            width: 300px;
+            height: 300px;
+            background: radial-gradient(circle, rgba(168, 85, 247, 0.1), transparent 70%); /* Purple */
+            border-radius: 50%;
+            filter: blur(50px);
+            z-index: -1;
+            opacity: 0.7;
+        }
+         html.light .bg-shape-1 { background: radial-gradient(circle, rgba(168, 85, 247, 0.05), transparent 70%); }
+
+        .bg-shape-2 {
+            position: absolute;
+            bottom: 15%;
+            right: 10%;
+            width: 250px;
+            height: 250px;
+            background: radial-gradient(circle, rgba(34, 211, 238, 0.1), transparent 70%); /* Cyan */
+            border-radius: 50%;
+            filter: blur(60px);
+            z-index: -1;
+            opacity: 0.6;
+        }
+         html.light .bg-shape-2 { background: radial-gradient(circle, rgba(34, 211, 238, 0.05), transparent 70%); }
+
+         /* Section Padding */
+         section { padding-top: 6rem; padding-bottom: 6rem; position: relative; overflow: hidden; }
+         @media (min-width: 1024px) { section { padding-top: 8rem; padding-bottom: 8rem; } }
+
+    </style>
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    colors: {
+                        // Dark Theme Base
+                        'dark-bg': '#0f172a',    // slate-900
+                        'dark-card': 'rgba(30, 41, 59, 0.6)', // slate-800 with transparency
+                        'dark-border': 'rgba(71, 85, 105, 0.4)', // slate-600 with transparency
+                        'dark-text-primary': '#f8fafc', // slate-50
+                        'dark-text-secondary': '#cbd5e1',// slate-300
+                        'dark-text-muted': '#94a3b8', // slate-400
+
+                        // Light Theme Base
+                        'light-bg': '#f8fafc',    // slate-50
+                        'light-card': 'rgba(255, 255, 255, 0.6)', // white with transparency
+                        'light-border': 'rgba(226, 232, 240, 0.6)', // slate-200 with transparency
+                        'light-text-primary': '#1e293b', // slate-800
+                        'light-text-secondary': '#475569',// slate-600
+                        'light-text-muted': '#64748b', // slate-500
+
+                        // Accents (used for gradients primarily)
+                        'accent-cyan': '#22d3ee',
+                        'accent-purple': '#a855f7',
+                        'accent-lime': '#a3e635',
+                    },
+                     backgroundImage: {
+                         'gradient-accent': 'linear-gradient(to right, #22d3ee, #a855f7)', // cyan to purple
+                         'gradient-accent-light': 'linear-gradient(to right, #0ea5e9, #8b5cf6)', // sky to violet (for light mode text)
+                     },
+                     boxShadow: {
+                        'glass': '0 4px 30px rgba(0, 0, 0, 0.1)',
+                        'glass-dark': '0 4px 30px rgba(0, 0, 0, 0.2)',
+                     }
+                }
+            }
+        }
+    </script>
+</head>
+<body class="bg-light-bg dark:bg-dark-bg text-light-text-secondary dark:text-dark-text-secondary transition-colors duration-300">
+    <div class="bg-shape-1"></div>
+    <div class="bg-shape-2"></div>
+
+    <header class="bg-light-card/80 dark:bg-dark-card/80 backdrop-blur-lg shadow-glass dark:shadow-glass-dark sticky top-0 z-40 border-b border-light-border dark:border-dark-border transition-colors duration-300">
+        <nav class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-20 flex justify-between items-center">
+            <a href="#home" class="text-lg font-semibold text-gradient bg-gradient-accent-light dark:bg-gradient-accent transition">
+                Vishav Yadav
+            </a>
+            <div class="hidden md:flex items-center space-x-8">
+                <a href="#about" class="nav-link">About</a>
+                <a href="#skills" class="nav-link">Skills</a>
+                <a href="#projects" class="nav-link">Projects</a>
+                <a href="#contact" class="nav-link">Contact</a>
+                <button id="theme-toggle" class="p-2 rounded-full text-light-text-muted dark:text-dark-text-muted hover:bg-black/5 dark:hover:bg-white/5 transition" aria-label="Toggle theme">
+                    <i data-lucide="sun" id="sun-icon" class="w-5 h-5"></i>
+                    <i data-lucide="moon" id="moon-icon" class="w-5 h-5 hidden"></i>
+                </button>
+            </div>
+            <div class="md:hidden flex items-center">
+                 <button id="theme-toggle-mobile" class="p-2 mr-2 rounded-full text-light-text-muted dark:text-dark-text-muted hover:bg-black/5 dark:hover:bg-white/5 transition" aria-label="Toggle theme mobile">
+                     <i data-lucide="sun" id="sun-icon-mobile" class="w-5 h-5"></i>
+                     <i data-lucide="moon" id="moon-icon-mobile" class="w-5 h-5 hidden"></i>
+                </button>
+                <button id="mobile-menu-button" class="p-2 rounded-md text-light-text-muted dark:text-dark-text-muted hover:bg-black/5 dark:hover:bg-white/5" aria-label="Open menu">
+                    <i data-lucide="menu" class="w-6 h-6"></i>
+                </button>
+            </div>
+        </nav>
+        <div id="mobile-menu" class="md:hidden hidden bg-light-card dark:bg-dark-card absolute w-full shadow-lg border-t border-light-border dark:border-dark-border backdrop-blur-lg">
+             <div class="px-4 pt-2 pb-4 space-y-2">
+                <a href="#about" class="block py-2 text-base font-medium text-light-text-secondary dark:text-dark-text-secondary hover:text-accent-cyan transition mobile-link">About</a>
+                <a href="#skills" class="block py-2 text-base font-medium text-light-text-secondary dark:text-dark-text-secondary hover:text-accent-cyan transition mobile-link">Skills</a>
+                <a href="#projects" class="block py-2 text-base font-medium text-light-text-secondary dark:text-dark-text-secondary hover:text-accent-cyan transition mobile-link">Projects</a>
+                <a href="#contact" class="block py-2 text-base font-medium text-light-text-secondary dark:text-dark-text-secondary hover:text-accent-cyan transition mobile-link">Contact</a>
+            </div>
+        </div>
+        <style> .nav-link { font-size: 0.875rem; font-weight: 500; color: var(--text-secondary); transition: color 0.2s ease-in-out; } .nav-link:hover { color: var(--accent); } </style>
+    </header>
+
+    <main>
+        <section id="home" class="min-h-screen flex items-center pt-20 relative">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 grid grid-cols-1 md:grid-cols-5 gap-12 items-center">
+                <div class="md:col-span-3 animate-fade-in text-center md:text-left">
+                     <span class="inline-block px-3 py-1 text-xs font-semibold bg-gradient-accent text-white rounded-full mb-4 uppercase tracking-wider shadow-md">ECE @ VIT Vellore</span>
+                    <h1 class="text-5xl sm:text-6xl lg:text-7xl font-black tracking-tighter mb-5 leading-tight text-light-text-primary dark:text-dark-text-primary">
+                        Vishav Yadav
+                    </h1>
+                     <h2 class="text-2xl sm:text-3xl lg:text-4xl font-semibold mb-8 text-gradient bg-gradient-accent">
+                         Aspiring Web Developer
+                     </h2>
+                    <p class="text-lg text-light-text-muted dark:text-dark-text-muted mb-10 max-w-xl mx-auto md:mx-0">
+                        Passionate about merging electronics knowledge with modern web technologies to build innovative and efficient digital solutions.
+                    </p>
+                    <div class="flex flex-col sm:flex-row justify-center md:justify-start items-center space-y-4 sm:space-y-0 sm:space-x-5">
+                        <a href="#contact" class="hero-button bg-gradient-accent text-white shadow-lg">
+                            Get In Touch <i data-lucide="send" class="w-4 h-4 ml-2"></i>
+                        </a>
+                        <a href="[Link to Resume PDF]" target="_blank" class="hero-button bg-light-card dark:bg-dark-card border border-light-border dark:border-dark-border text-light-text-secondary dark:text-dark-text-secondary hover:bg-gray-100 dark:hover:bg-slate-700">
+                             View Resume <i data-lucide="file-text" class="w-4 h-4 ml-2"></i>
+                        </a>
+                    </div>
+                </div>
+                 <div class="md:col-span-2 flex justify-center animate-fade-in" style="animation-delay: 0.2s;">
+                      <div class="relative w-64 h-64 sm:w-80 sm:h-80 lg:w-96 lg:h-96">
+                          <div class="absolute inset-0 rounded-full bg-gradient-accent opacity-30 blur-2xl"></div>
+                          <img src="vishav.jpeg" alt="Vishav Yadav" class="relative w-full h-full rounded-full object-cover shadow-2xl border-4 border-white/10">
+                      </div>
+                 </div>
+            </div>
+             <style> .hero-button { display: inline-flex; align-items: center; justify-content: center; padding: 0.75rem 1.75rem; border-radius: 9999px; font-weight: 600; text-align: center; transition: all 0.3s ease; transform: perspective(1px) translateZ(0); } .hero-button:hover { transform: scale(1.05); box-shadow: 0 10px 20px -10px rgba(0,0,0,0.2); } </style>
+        </section>
+
+        <section id="about" class="bg-light-bg dark:bg-dark-bg">
+             <div class="absolute inset-0 opacity-20 dark:opacity-10" style="background-image: url('data:image/svg+xml,%3Csvg xmlns=\'http://www.w3.org/2000/svg\' width=\'40\' height=\'40\' viewBox=\'0 0 40 40\'%3E%3Cg fill-rule=\'evenodd\'%3E%3Cg fill=\'%239C92AC\' fill-opacity=\'0.1\'%3E%3Cpath d=\'M0 38.59l2.83-2.83 1.41 1.41L1.41 40H0v-1.41zM0 1.4l2.83 2.83 1.41-1.41L1.41 0H0v1.41zM38.59 40l-2.83-2.83 1.41-1.41L40 38.59V40h-1.41zM40 1.41l-2.83 2.83-1.41-1.41L38.59 0H40v1.41zM20 18.6l2.83-2.83 1.41 1.41L21.41 20l2.83 2.83-1.41 1.41L20 21.41l-2.83 2.83-1.41-1.41L18.59 20l-2.83-2.83 1.41-1.41L20 18.59z\'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E');"></div>
+             <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 relative animate-fade-in">
+                 <h2 class="text-3xl lg:text-4xl font-bold tracking-tight text-center mb-12 text-gradient bg-gradient-accent">
+                     Who I Am
+                 </h2>
+                 <div class="bg-light-card dark:bg-dark-card backdrop-blur-md p-8 md:p-10 rounded-xl shadow-glass dark:shadow-glass-dark border border-light-border dark:border-dark-border">
+                    <div class="space-y-5 text-base lg:text-lg text-light-text-secondary dark:text-dark-text-secondary leading-relaxed text-center">
+                        <p>
+                            I'm Vishav Yadav, an <strong class="font-semibold text-light-text-primary dark:text-dark-text-primary">Electronics and Communication Engineering</strong> student at <strong class="font-semibold text-light-text-primary dark:text-dark-text-primary">VIT Vellore</strong>. My journey into ECE has provided me with a robust foundation in logical reasoning and system design.
+                        </p>
+                        <p>
+                            Driven by curiosity, I've ventured into <strong class="font-semibold text-light-text-primary dark:text-dark-text-primary">web development</strong>, finding immense satisfaction in building seamless digital interfaces and powerful backend systems. I strive to write clean, maintainable code and am constantly seeking to learn and implement modern web practices.
+                        </p>
+                         <p>I believe my engineering background gives me a unique perspective on creating structured and efficient web solutions.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="skills" class="bg-light-bg dark:bg-dark-bg">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 animate-fade-in">
+                <h2 class="text-3xl lg:text-4xl font-bold tracking-tight text-center mb-16 text-gradient bg-gradient-accent">
+                    Technologies I Use
+                </h2>
+                 <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-6 lg:gap-8">
+                     <div class="skill-item"><i data-lucide="python"></i><span>Python</span></div>
+                     <div class="skill-item"><i data-lucide="code"></i><span>C++</span></div>
+                     <div class="skill-item"><i data-lucide="code-2"></i><span>C</span></div>
+                     <div class="skill-item"><i data-lucide="coffee"></i><span>Java</span></div>
+                     <div class="skill-item"><i data-lucide="javascript"></i><span>JavaScript</span></div>
+                     <div class="skill-item"><i data-lucide="react"></i><span>React.js</span></div>
+                     <div class="skill-item"><i data-lucide="html5"></i><span>HTML</span></div>
+                     <div class="skill-item"><i data-lucide="css3"></i><span>CSS</span></div>
+                     <div class="skill-item"><svg class="w-6 h-6 mr-2" fill="currentColor" viewBox="0 0 256 150"><path d="M128.001.001H0L128.001 128l128-128H128.001zm0 149.997H0l64-64 64.001 64zm128-.001H128.001l64-64 64 64z"/></svg><span>Tailwind CSS</span></div>
+                     <div class="skill-item"><i data-lucide="nodejs"></i><span>Node.js</span></div>
+                     <div class="skill-item"><i data-lucide="leaf"></i><span>MongoDB</span></div>
+                     <div class="skill-item"><i data-lucide="database"></i><span>MySQL</span></div>
+                     <div class="skill-item"><i data-lucide="git-branch"></i><span>Git</span></div>
+                     <div class="skill-item"><i data-lucide="github"></i><span>GitHub</span></div>
+                </div>
+            </div>
+             <style>
+                 .skill-item {
+                     display: flex;
+                     align-items: center;
+                     padding: 0.75rem 1rem;
+                     background-color: var(--bg-secondary);
+                     border: 1px solid var(--border-color);
+                     border-radius: 0.5rem; /* rounded-lg */
+                     font-weight: 500;
+                     color: var(--text-secondary);
+                     transition: all 0.2s ease-in-out;
+                     box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.05);
+                 }
+                  .skill-item:hover {
+                      transform: translateY(-3px);
+                      box-shadow: 0 4px 10px -1px rgba(0, 0, 0, 0.1), 0 2px 6px -2px rgba(0, 0, 0, 0.1);
+                      color: var(--accent);
+                      border-color: var(--accent);
+                  }
+                 .skill-item i, .skill-item svg {
+                     width: 1.25rem; /* w-5 */
+                     height: 1.25rem; /* h-5 */
+                     margin-right: 0.5rem; /* mr-2 */
+                     flex-shrink: 0;
+                 }
+                 html.dark .skill-item { box-shadow: none; }
+             </style>
+        </section>
+
+        <section id="projects" class="bg-secondary dark:bg-secondary">
+             <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 animate-fade-in">
+                <h2 class="text-3xl lg:text-4xl font-bold tracking-tight text-center mb-16 text-gradient bg-gradient-accent">
+                    Projects Showcase
+                </h2>
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 lg:gap-10">
+                    <div class="project-card stagger-delay" style="--delay: 0.2s;">
+                         <img src="https://via.placeholder.com/600x400/cbd5e1/475569?text=Project+1+Visual" alt="Project 1" class="project-image">
+                        <div class="p-6">
+                            <h3 class="text-xl font-semibold mb-2 text-light-text-primary dark:text-dark-text-primary">[Project Title 1]</h3>
+                            <p class="text-light-text-muted dark:text-dark-text-muted text-sm mb-4">
+                                [Brief description - highlight key functionality/tech.]
+                            </p>
+                            <p class="project-tech">Tech: [HTML, CSS, JS]</p>
+                            <div class="mt-5 flex space-x-3">
+                                <a href="#" target="_blank" rel="noopener noreferrer" class="project-link bg-gradient-accent text-white hover:opacity-90">
+                                    <i data-lucide="external-link" class="w-4 h-4 mr-1.5"></i> Demo
+                                </a>
+                                <a href="#" target="_blank" rel="noopener noreferrer" class="project-link border border-light-border dark:border-dark-border hover:bg-white/10 dark:hover:bg-black/10">
+                                    <i data-lucide="github" class="w-4 h-4 mr-1.5"></i> Code
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="project-card stagger-delay" style="--delay: 0.4s;">
+                         <img src="https://via.placeholder.com/600x400/bbf7d0/166534?text=Project+2+Visual" alt="Project 2" class="project-image">
+                         <div class="p-6">
+                            <h3 class="text-xl font-semibold mb-2 text-light-text-primary dark:text-dark-text-primary">[Project Title 2]</h3>
+                            <p class="text-light-text-muted dark:text-dark-text-muted text-sm mb-4">
+                                [Brief description - highlight key functionality/tech.]
+                            </p>
+                            <p class="project-tech">Tech: [React, Tailwind]</p>
+                            <div class="mt-5 flex space-x-3">
+                                <a href="#" target="_blank" rel="noopener noreferrer" class="project-link bg-gradient-accent text-white hover:opacity-90">
+                                    <i data-lucide="external-link" class="w-4 h-4 mr-1.5"></i> Demo
+                                </a>
+                                <a href="#" target="_blank" rel="noopener noreferrer" class="project-link border border-light-border dark:border-dark-border hover:bg-white/10 dark:hover:bg-black/10">
+                                    <i data-lucide="github" class="w-4 h-4 mr-1.5"></i> Code
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="project-card stagger-delay" style="--delay: 0.6s;">
+                          <img src="https://via.placeholder.com/600x400/fbcfe8/831843?text=Project+3+Visual" alt="Project 3" class="project-image">
+                         <div class="p-6">
+                             <h3 class="text-xl font-semibold mb-2 text-light-text-primary dark:text-dark-text-primary">[Project Title 3]</h3>
+                             <p class="text-light-text-muted dark:text-dark-text-muted text-sm mb-4">
+                                 [Brief description - highlight key functionality/tech.]
+                             </p>
+                              <p class="project-tech">Tech: [Node.js, MySQL]</p>
+                             <div class="mt-5 flex space-x-3">
+                                 <a href="#" target="_blank" rel="noopener noreferrer" class="project-link bg-gradient-accent text-white hover:opacity-90">
+                                     <i data-lucide="external-link" class="w-4 h-4 mr-1.5"></i> Demo
+                                 </a>
+                                 <a href="#" target="_blank" rel="noopener noreferrer" class="project-link border border-light-border dark:border-dark-border hover:bg-white/10 dark:hover:bg-black/10">
+                                     <i data-lucide="github" class="w-4 h-4 mr-1.5"></i> Code
+                                 </a>
+                             </div>
+                         </div>
+                    </div>
+                </div>
+            </div>
+            <style>
+                 .project-card { background-color: var(--bg-primary); border-radius: 0.75rem; /* rounded-xl */ box-shadow: 0 4px 6px -1px rgba(0,0,0,.1), 0 2px 4px -2px rgba(0,0,0,.1); overflow: hidden; display: flex; flex-direction: column; border: 1px solid var(--border-color); }
+                 html.dark .project-card { box-shadow: 0 1px 2px 0 rgba(255,255,255,.05); }
+                 .project-image { aspect-ratio: 16 / 10; object-fit: cover; border-bottom: 1px solid var(--border-color); }
+                 .project-tech { font-size: 0.75rem; font-weight: 500; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.05em; }
+                 .project-link { display: inline-flex; align-items: center; padding: 0.5rem 1rem; border-radius: 9999px; /* rounded-full */ font-size: 0.75rem; font-weight: 600; transition: all 0.2s ease-in-out; }
+             </style>
+        </section>
+
+
+        <section id="contact" class="bg-light-bg dark:bg-dark-bg">
+            <div class="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 text-center animate-fade-in">
+                <h2 class="text-3xl lg:text-4xl font-bold tracking-tight mb-4 text-gradient bg-gradient-accent">
+                    Connect With Me
+                </h2>
+                <p class="text-lg text-light-text-muted dark:text-dark-text-muted mb-10 max-w-xl mx-auto">
+                    Ready to build something amazing? Let's talk about collaboration, projects, or anything tech!
+                </p>
+                <div class="flex justify-center items-center space-x-6">
+                    <a href="mailto:[Your Email Address]" class="contact-button group" aria-label="Email Me">
+                        <i data-lucide="mail"></i>
+                    </a>
+                    <a href="[Link to your LinkedIn]" target="_blank" rel="noopener noreferrer" class="contact-button group" aria-label="LinkedIn Profile">
+                        <i data-lucide="linkedin"></i>
+                    </a>
+                    <a href="[Link to your GitHub]" target="_blank" rel="noopener noreferrer" class="contact-button group" aria-label="GitHub Profile">
+                        <i data-lucide="github"></i>
+                    </a>
+                </div>
+            </div>
+             <style>
+                .contact-button { display: inline-flex; align-items: center; justify-content: center; width: 4rem; height: 4rem; border-radius: 9999px; background-color: var(--bg-secondary); color: var(--text-secondary); border: 1px solid var(--border-color); box-shadow: 0 4px 15px -3px rgba(0,0,0,.07), 0 2px 6px -4px rgba(0,0,0,.07); transition: all 0.3s ease; }
+                .contact-button i { width: 1.75rem; height: 1.75rem; transition: transform 0.3s ease;}
+                .contact-button:hover { background: var(--bg-primary); border-color: var(--accent); color: var(--accent); transform: translateY(-5px); box-shadow: 0 10px 20px -5px rgba(0,0,0,.1); }
+                .contact-button:hover i { transform: scale(1.1); }
+                 html.dark .contact-button { box-shadow: none; }
+            </style>
+        </section>
+    </main>
+
+    <footer class="bg-secondary dark:bg-secondary py-6 border-t border-default">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col sm:flex-row justify-between items-center text-center sm:text-left gap-y-3">
+             <p class="text-sm text-text-muted">
+                &copy; <span id="current-year"></span> Vishav Yadav. Inspired by code, driven by innovation.
+            </p>
+             <div class="flex justify-center sm:justify-end space-x-5">
+                 <a href="mailto:[Your Email]" class="text-text-muted hover:text-accent transition"><span class="sr-only">Email</span><i data-lucide="mail" class="w-5 h-5"></i></a>
+                 <a href="[LinkedIn Link]" target="_blank" rel="noopener noreferrer" class="text-text-muted hover:text-accent transition"><span class="sr-only">LinkedIn</span><i data-lucide="linkedin" class="w-5 h-5"></i></a>
+                 <a href="[GitHub Link]" target="_blank" rel="noopener noreferrer" class="text-text-muted hover:text-accent transition"><span class="sr-only">GitHub</span><i data-lucide="github" class="w-5 h-5"></i></a>
+             </div>
+        </div>
+    </footer>
+
+    <script>
+        const htmlElement = document.documentElement;
+        const toggleButton = document.getElementById('theme-toggle');
+        const toggleButtonMobile = document.getElementById('theme-toggle-mobile');
+        const sunIcon = document.getElementById('sun-icon');
+        const moonIcon = document.getElementById('moon-icon');
+        const sunIconMobile = document.getElementById('sun-icon-mobile');
+        const moonIconMobile = document.getElementById('moon-icon-mobile');
+        const mobileMenuButton = document.getElementById('mobile-menu-button');
+        const mobileMenu = document.getElementById('mobile-menu');
+        const mobileLinks = document.querySelectorAll('.mobile-link');
+
+        function setTheme(isDark) {
+            htmlElement.classList.toggle('dark', isDark);
+            sunIcon.classList.toggle('hidden', isDark);
+            moonIcon.classList.toggle('hidden', !isDark);
+            sunIconMobile.classList.toggle('hidden', isDark);
+            moonIconMobile.classList.toggle('hidden', !isDark);
+        }
+
+        function initializeTheme() {
+            const savedTheme = localStorage.getItem('theme');
+            const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+            const isDarkMode = savedTheme === 'dark' || (!savedTheme && prefersDark) || (!savedTheme && true); // Default dark
+            if (!savedTheme) { localStorage.setItem('theme', isDarkMode ? 'dark' : 'light'); }
+            setTheme(isDarkMode);
+        }
+
+        function toggleTheme() {
+            const isCurrentlyDark = htmlElement.classList.contains('dark');
+            setTheme(!isCurrentlyDark);
+            localStorage.setItem('theme', !isCurrentlyDark ? 'dark' : 'light');
+        }
+
+        toggleButton.addEventListener('click', toggleTheme);
+        toggleButtonMobile.addEventListener('click', toggleTheme);
+
+        mobileMenuButton.addEventListener('click', () => {
+             mobileMenu.classList.toggle('hidden');
+             const menuIcon = mobileMenuButton.querySelector('i');
+             menuIcon.setAttribute('data-lucide', mobileMenu.classList.contains('hidden') ? 'menu' : 'x');
+             lucide.createIcons();
+        });
+
+        mobileLinks.forEach(link => {
+             link.addEventListener('click', () => {
+                 mobileMenu.classList.add('hidden');
+                 const menuIcon = mobileMenuButton.querySelector('i');
+                 menuIcon.setAttribute('data-lucide', 'menu');
+                 lucide.createIcons();
+             });
+        });
+
+        document.getElementById('current-year').textContent = new Date().getFullYear();
+
+        document.addEventListener('DOMContentLoaded', () => {
+             initializeTheme();
+             lucide.createIcons();
+
+             // Staggered animation observer
+             const animatedElements = document.querySelectorAll('.stagger-delay');
+             const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                         const delay = entry.target.style.getPropertyValue('--delay') || '0s';
+                         // Apply fade-in animation directly here
+                         entry.target.style.animation = `fadeIn 0.6s ${delay} ease-out forwards`;
+                         observer.unobserve(entry.target);
+                    }
+                });
+             }, { threshold: 0.1 }); // Adjust threshold as needed
+
+             animatedElements.forEach(el => { observer.observe(el); });
+
+             // Also animate non-staggered elements
+             const fadeInElements = document.querySelectorAll('.animate-fade-in');
+              fadeInElements.forEach(el => {
+                 const delay = el.style.animationDelay || '0s'; // Use existing delay if set
+                 el.style.animation = `fadeIn 0.7s ${delay} ease-out forwards`;
+             });
+        });
+    </script>
+</body>
+</html> -->
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- 
+
+
+<!DOCTYPE html>
+<html lang="en"> <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vishav Yadav | ECE Student & Web Developer Portfolio</title>
+    <meta name="description" content="Portfolio of Vishav Yadav, VIT Vellore ECE student passionate about web development. Showcasing skills in Python, JS, React, Node.js, and projects.">
+
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Poppins:wght@600;700;800&display=swap" rel="stylesheet">
+
+    <style>
+        html { scroll-behavior: smooth; scroll-padding-top: 5rem; /* Header height offset */ }
+        body { font-family: 'Inter', sans-serif; -webkit-font-smoothing: antialiased; -moz-osx-font-smoothing: grayscale; }
+        h1, h2, h3, h4, h5, h6 { font-family: 'Poppins', sans-serif; }
+
+        /* Custom scrollbar */
+        ::-webkit-scrollbar { width: 8px; height: 8px; }
+        ::-webkit-scrollbar-track { background: var(--scrollbar-track); }
+        ::-webkit-scrollbar-thumb { background: var(--scrollbar-thumb); border-radius: 4px; }
+        ::-webkit-scrollbar-thumb:hover { background: var(--scrollbar-thumb-hover); }
+
+        :root { /* Light mode */
+            --bg-primary: #ffffff;
+            --bg-secondary: #f9fafb; /* gray-50 */
+            --bg-alt: #f3f4f6;    /* gray-100 */
+            --text-primary: #111827; /* gray-900 */
+            --text-secondary: #374151; /* gray-700 */
+            --text-muted: #6b7280; /* gray-500 */
+            --border-color: #e5e7eb; /* gray-200 */
+            --accent-primary: #4338ca; /* indigo-700 */
+            --accent-primary-hover: #3730a3; /* indigo-800 */
+            --accent-secondary: #f59e0b; /* amber-500 */
+            --scrollbar-track: #e5e7eb;
+            --scrollbar-thumb: #9ca3af;
+            --scrollbar-thumb-hover: #6b7280;
+        }
+        html.dark { /* Dark mode */
+            --bg-primary: #111827; /* gray-900 */
+            --bg-secondary: #1f2937; /* gray-800 */
+            --bg-alt: #030712;    /* gray-950 */
+            --text-primary: #f9fafb; /* gray-50 */
+            --text-secondary: #d1d5db; /* gray-300 */
+            --text-muted: #9ca3af; /* gray-400 */
+            --border-color: #374151; /* gray-700 */
+            --accent-primary: #818cf8; /* indigo-400 */
+            --accent-primary-hover: #6366f1; /* indigo-500 */
+            --accent-secondary: #fbbf24; /* amber-400 */
+            --scrollbar-track: #374151;
+            --scrollbar-thumb: #6b7280;
+            --scrollbar-thumb-hover: #9ca3af;
+        }
+        /* Style adjustments */
+        body { background-color: var(--bg-primary); color: var(--text-secondary); }
+        h1, h2, h3, h4, strong { color: var(--text-primary); }
+        .bg-primary { background-color: var(--bg-primary); }
+        .bg-secondary { background-color: var(--bg-secondary); }
+        .bg-alt { background-color: var(--bg-alt); }
+        .border-default { border-color: var(--border-color); }
+        .text-accent-primary { color: var(--accent-primary); }
+        .text-accent-secondary { color: var(--accent-secondary); }
+        .bg-accent-primary { background-color: var(--accent-primary); }
+        .hover\:bg-accent-primary-hover:hover { background-color: var(--accent-primary-hover); }
+        .hover\:text-accent-primary:hover { color: var(--accent-primary); }
+        .ring-accent-primary focus\:ring-2 { --tw-ring-color: var(--accent-primary); }
+
+        /* Focus visible */
+        :focus-visible { outline: 2px solid var(--accent-primary); outline-offset: 2px; border-radius: 4px; }
+
+        /* Fade-in animation */
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+        .animate-fade-in { opacity: 0; animation: fadeIn 0.6s ease-out forwards; }
+        .stagger-delay > * { opacity: 0; }
+
+        /* Section Padding */
+        section { padding-top: 6rem; padding-bottom: 6rem; }
+        @media (min-width: 1024px) { section { padding-top: 8rem; padding-bottom: 8rem; } }
+
+    </style>
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                        heading: ['Poppins', 'sans-serif'],
+                    },
+                    colors: {
+                        // Define accents for Tailwind class usage
+                        'accent-p': {
+                           light: '#818cf8', // indigo-400 (dark mode)
+                           DEFAULT: '#4338ca', // indigo-700 (light mode)
+                           dark: '#3730a3'  // indigo-800 (hover)
+                        },
+                        'accent-s': {
+                           light: '#fbbf24', // amber-400 (dark mode)
+                           DEFAULT: '#f59e0b', // amber-500 (light mode)
+                           dark: '#d97706' // amber-600 (hover)
+                        },
+                        // Backgrounds/Text mainly handled by CSS vars
+                    },
+                    animation: {
+                        'fade-in': 'fadeIn 0.6s ease-out forwards',
+                    },
+                    keyframes: {
+                        fadeIn: {
+                            'from': { opacity: '0', transform: 'translateY(10px)' },
+                            'to': { opacity: '1', transform: 'translateY(0)' },
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+</head>
+<body class="bg-primary text-secondary">
+
+    <header class="bg-primary/80 dark:bg-primary/80 backdrop-blur-md shadow-sm sticky top-0 z-40 border-b border-default transition-colors duration-300">
+        <nav class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-20 flex justify-between items-center">
+            <a href="#home" class="text-xl font-heading font-bold text-accent-p transition hover:opacity-80">
+                Vishav Yadav
+            </a>
+            <div class="hidden md:flex items-center space-x-7">
+                <a href="#about" class="nav-link">About</a>
+                <a href="#skills" class="nav-link">Skills</a>
+                <a href="#projects" class="nav-link">Projects</a>
+                <a href="#contact" class="nav-link">Contact</a>
+                <button id="theme-toggle" class="p-2 rounded-full text-text-muted hover:bg-alt transition" aria-label="Toggle theme">
+                    <i data-lucide="sun" id="sun-icon"></i>
+                    <i data-lucide="moon" id="moon-icon" class="hidden"></i>
+                </button>
+            </div>
+            <div class="md:hidden flex items-center">
+                 <button id="theme-toggle-mobile" class="p-2 mr-2 rounded-full text-text-muted hover:bg-alt transition" aria-label="Toggle theme mobile">
+                     <i data-lucide="sun" id="sun-icon-mobile"></i>
+                     <i data-lucide="moon" id="moon-icon-mobile" class="hidden"></i>
+                </button>
+                <button id="mobile-menu-button" class="p-2 rounded-md text-text-muted hover:bg-alt" aria-label="Open menu">
+                    <i data-lucide="menu" class="w-6 h-6"></i>
+                </button>
+            </div>
+        </nav>
+        <div id="mobile-menu" class="md:hidden hidden bg-primary absolute w-full shadow-lg border-t border-default">
+            <div class="px-4 pt-2 pb-4 space-y-2">
+                <a href="#about" class="block py-2 text-base font-medium hover:text-accent-p transition mobile-link">About</a>
+                <a href="#skills" class="block py-2 text-base font-medium hover:text-accent-p transition mobile-link">Skills</a>
+                <a href="#projects" class="block py-2 text-base font-medium hover:text-accent-p transition mobile-link">Projects</a>
+                <a href="#contact" class="block py-2 text-base font-medium hover:text-accent-p transition mobile-link">Contact</a>
+            </div>
+        </div>
+        <style> .nav-link { font-size: 0.9rem; font-weight: 500; color: var(--text-secondary); transition: color 0.2s ease-in-out; position: relative; padding-bottom: 4px; }
+                .nav-link::after { content: ''; position: absolute; bottom: 0; left: 0; right: 0; height: 2px; background-color: var(--accent-primary); transform: scaleX(0); transition: transform 0.3s ease; transform-origin: left; }
+                .nav-link:hover::after { transform: scaleX(1); }
+                .nav-link:hover { color: var(--text-primary); }
+        </style>
+    </header>
+
+    <main>
+        <section id="home" class="min-h-[calc(100vh-5rem)] flex items-center bg-secondary pt-10 pb-20 md:pt-0 md:pb-0 relative overflow-hidden">
+             <div class="absolute inset-0 opacity-5 dark:opacity-[3%]" style="background-image: radial-gradient(var(--border-color) 1px, transparent 1px); background-size: 16px 16px;"></div>
+
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 grid grid-cols-1 md:grid-cols-2 gap-10 items-center relative z-10">
+                <div class="animate-fade-in text-center md:text-left">
+                     <span class="text-accent-secondary font-bold text-sm uppercase tracking-widest">Vishav Yadav</span>
+                    <h1 class="font-heading text-4xl sm:text-5xl lg:text-6xl font-extrabold tracking-tighter mt-3 mb-6 leading-tight">
+                        ECE Student,<br/> Future Web Innovator.
+                    </h1>
+                    <p class="text-lg text-text-muted mb-10 max-w-lg mx-auto md:mx-0">
+                        Leveraging an engineering mindset from VIT Vellore to build intuitive and robust web applications. Passionate about learning and creating with code.
+                    </p>
+                    <div class="flex flex-col sm:flex-row justify-center md:justify-start items-center space-y-3 sm:space-y-0 sm:space-x-4">
+                        <a href="#contact" class="hero-btn bg-accent-p text-white">
+                            Connect with Me <i data-lucide="arrow-right" class="w-4 h-4 ml-2 group-hover:translate-x-1 transition-transform"></i>
+                        </a>
+                        <a href="#projects" class="hero-btn border border-default hover:bg-alt">
+                             See My Work <i data-lucide="folder-kanban" class="w-4 h-4 ml-2"></i>
+                        </a>
+                    </div>
+                </div>
+                 <div class="flex justify-center md:justify-end animate-fade-in" style="animation-delay: 0.2s;">
+                      <div class="relative w-72 h-72 sm:w-80 sm:h-80 lg:w-[450px] lg:h-[450px] p-2 border-2 border-accent-p/30 rounded-full">
+                         <img src="vishav.jpeg" alt="Vishav Yadav" class="w-full h-full rounded-full object-cover shadow-2xl">
+                         <div class="absolute -bottom-4 -left-4 bg-primary p-3 rounded-full shadow-lg border border-default"> <i data-lucide="code" class="w-6 h-6 text-accent-s"></i> </div>
+                         <div class="absolute -top-4 -right-4 bg-primary p-3 rounded-full shadow-lg border border-default"> <i data-lucide="zap" class="w-6 h-6 text-accent-p"></i> </div>
+                      </div>
+                 </div>
+            </div>
+             <style> .hero-btn { display: inline-flex; align-items: center; justify-content: center; padding: 0.75rem 1.5rem; border-radius: 0.5rem; font-weight: 600; text-align: center; transition: all 0.2s ease; } .hero-btn:hover { transform: translateY(-2px); box-shadow: 0 4px 10px rgba(0,0,0,0.1); } </style>
+        </section>
+
+        <section id="about" class="bg-primary">
+            <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 animate-fade-in">
+                 <div class="text-center mb-16">
+                     <h2 class="text-3xl lg:text-4xl font-heading font-bold tracking-tight">
+                        My Journey So Far
+                     </h2>
+                      <p class="mt-4 text-lg text-text-muted max-w-2xl mx-auto">Blending the worlds of hardware and software.</p>
+                 </div>
+                 <div class="grid grid-cols-1 md:grid-cols-3 gap-8 lg:gap-12">
+                     <div class="about-card" style="animation-delay: 0.1s;">
+                         <i data-lucide="graduation-cap" class="w-10 h-10 mb-4 text-accent-p"></i>
+                         <h3 class="text-xl font-semibold mb-2">Education</h3>
+                         <p class="text-sm text-text-muted">Pursuing B.Tech in Electronics and Communication Engineering at VIT Vellore, Tamil Nadu. Building a strong foundation in core engineering principles.</p>
+                     </div>
+                     <div class="about-card" style="animation-delay: 0.2s;">
+                          <i data-lucide="code-xml" class="w-10 h-10 mb-4 text-accent-p"></i>
+                         <h3 class="text-xl font-semibold mb-2">Web Development Focus</h3>
+                         <p class="text-sm text-text-muted">Passionate about creating dynamic and user-friendly web experiences. Actively learning and applying technologies like React, Node.js, and modern CSS frameworks.</p>
+                     </div>
+                     <div class="about-card" style="animation-delay: 0.3s;">
+                          <i data-lucide="lightbulb" class="w-10 h-10 mb-4 text-accent-p"></i>
+                         <h3 class="text-xl font-semibold mb-2">Problem Solver</h3>
+                         <p class="text-sm text-text-muted">Leveraging my ECE background's analytical approach to tackle challenges in software development, aiming for efficient and logical solutions.</p>
+                     </div>
+                 </div>
+            </div>
+             <style> .about-card { background-color: var(--bg-secondary); padding: 2rem; border-radius: 0.75rem; border: 1px solid var(--border-color); text-align: center; transition: transform 0.3s ease, box-shadow 0.3s ease; } .about-card:hover { transform: translateY(-5px); box-shadow: 0 10px 20px -5px rgba(0,0,0,0.1); } </style>
+        </section>
+
+        <section id="skills" class="bg-secondary">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 animate-fade-in">
+                <h2 class="text-3xl lg:text-4xl font-heading font-bold tracking-tight text-center mb-16">
+                    Technologies & Tools
+                </h2>
+                <div class="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-5 gap-6 lg:gap-8">
+                    <div class="skill-item"><i data-lucide="python"></i> Python</div>
+                    <div class="skill-item"><i data-lucide="code"></i> C++</div>
+                    <div class="skill-item"><i data-lucide="code-2"></i> C</div>
+                    <div class="skill-item"><i data-lucide="coffee"></i> Java</div>
+                    <div class="skill-item"><i data-lucide="javascript"></i> JavaScript</div>
+                    <div class="skill-item"><i data-lucide="react"></i> React.js</div>
+                    <div class="skill-item"><i data-lucide="html5"></i> HTML5</div>
+                    <div class="skill-item"><i data-lucide="css3"></i> CSS3</div>
+                    <div class="skill-item">
+                         <svg class="w-5 h-5 mr-2" fill="currentColor" viewBox="0 0 256 150"><path d="M128.001.001H0L128.001 128l128-128H128.001zm0 149.997H0l64-64 64.001 64zm128-.001H128.001l64-64 64 64z"/></svg>
+                         Tailwind CSS
+                    </div>
+                    <div class="skill-item"><i data-lucide="nodejs"></i> Node.js</div>
+                    <div class="skill-item"><i data-lucide="leaf"></i> MongoDB</div>
+                    <div class="skill-item"><i data-lucide="database"></i> MySQL</div>
+                    <div class="skill-item"><i data-lucide="git-branch"></i> Git</div>
+                    <div class="skill-item"><i data-lucide="github"></i> GitHub</div>
+                    </div>
+            </div>
+             <style>
+                 .skill-item {
+                     display: flex; align-items: center; justify-content: center;
+                     padding: 1rem 1.25rem;
+                     background-color: var(--bg-primary);
+                     border-radius: 0.5rem; /* rounded-lg */
+                     border: 1px solid var(--border-color);
+                     font-weight: 500; color: var(--text-secondary);
+                     transition: all 0.2s ease-out;
+                     box-shadow: 0 1px 2px rgba(0,0,0,0.05);
+                 }
+                  .skill-item:hover {
+                      transform: scale(1.05);
+                      color: var(--accent-primary);
+                      border-color: var(--accent-primary);
+                      box-shadow: 0 4px 10px rgba(0,0,0,0.08);
+                  }
+                 .skill-item i, .skill-item svg { width: 1.25rem; height: 1.25rem; margin-right: 0.6rem; }
+                 html.dark .skill-item { box-shadow: none; }
+             </style>
+        </section>
+
+        <section id="projects" class="bg-primary">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 animate-fade-in">
+                <h2 class="text-3xl lg:text-4xl font-heading font-bold tracking-tight text-center mb-16">
+                    Selected <span class="text-accent-p">Projects</span>
+                </h2>
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 lg:gap-10">
+                    <div class="project-card stagger-delay" style="--delay: 0.1s;">
+                         <img src="https://via.placeholder.com/600x400/e0e7ff/3730a3?text=Project+1+Preview" alt="Project 1" class="project-image">
+                        <div class="p-6">
+                            <h3 class="text-xl font-semibold mb-2">[Project Title 1]</h3>
+                            <p class="project-description">
+                                [Brief description - Focus on the outcome and tech used.]
+                            </p>
+                            <div class="project-tags"><span>HTML</span><span>CSS</span><span>JavaScript</span></div>
+                            <div class="project-links">
+                                <a href="#" target="_blank" rel="noopener noreferrer" class="project-link bg-accent-p text-white"> <i data-lucide="eye" class="w-4 h-4 mr-1"></i> Live </a>
+                                <a href="#" target="_blank" rel="noopener noreferrer" class="project-link border border-default hover:bg-secondary"> <i data-lucide="github" class="w-4 h-4 mr-1"></i> Code </a>
+                            </div>
+                        </div>
+                    </div>
+                     <div class="project-card stagger-delay" style="--delay: 0.2s;">
+                         <img src="https://via.placeholder.com/600x400/fef3c7/b45309?text=Project+2+Preview" alt="Project 2" class="project-image">
+                        <div class="p-6">
+                            <h3 class="text-xl font-semibold mb-2">[Project Title 2]</h3>
+                            <p class="project-description">
+                                [Brief description - Focus on the outcome and tech used.]
+                            </p>
+                             <div class="project-tags"><span>React</span><span>Tailwind CSS</span></div>
+                            <div class="project-links">
+                                <a href="#" target="_blank" rel="noopener noreferrer" class="project-link bg-accent-p text-white"> <i data-lucide="eye" class="w-4 h-4 mr-1"></i> Live </a>
+                                <a href="#" target="_blank" rel="noopener noreferrer" class="project-link border border-default hover:bg-secondary"> <i data-lucide="github" class="w-4 h-4 mr-1"></i> Code </a>
+                            </div>
+                        </div>
+                    </div>
+                     <div class="project-card stagger-delay" style="--delay: 0.3s;">
+                          <img src="https://via.placeholder.com/600x400/dcfce7/166534?text=Project+3+Preview" alt="Project 3" class="project-image">
+                         <div class="p-6">
+                             <h3 class="text-xl font-semibold mb-2">[Project Title 3]</h3>
+                             <p class="project-description">
+                                 [Brief description - Focus on the outcome and tech used.]
+                             </p>
+                              <div class="project-tags"><span>Node.js</span><span>MongoDB</span></div>
+                             <div class="project-links">
+                                 <a href="#" target="_blank" rel="noopener noreferrer" class="project-link bg-accent-p text-white"> <i data-lucide="eye" class="w-4 h-4 mr-1"></i> Live </a>
+                                 <a href="#" target="_blank" rel="noopener noreferrer" class="project-link border border-default hover:bg-secondary"> <i data-lucide="github" class="w-4 h-4 mr-1"></i> Code </a>
+                             </div>
+                         </div>
+                    </div>
+                </div>
+            </div>
+            <style>
+                 .project-card { background-color: var(--bg-secondary); border-radius: 0.75rem; overflow: hidden; display: flex; flex-direction: column; border: 1px solid var(--border-color); transition: transform 0.3s ease, box-shadow 0.3s ease; }
+                 .project-card:hover { transform: translateY(-6px); box-shadow: 0 10px 25px -3px rgba(0,0,0,.1), 0 4px 10px -4px rgba(0,0,0,.1); }
+                 html.dark .project-card:hover { box-shadow: 0 10px 25px -3px rgba(0,0,0,.3), 0 4px 10px -4px rgba(0,0,0,.3); }
+                 .project-image { aspect-ratio: 16 / 10; object-fit: cover; }
+                 .project-description { font-size: 0.9rem; color: var(--text-muted); margin-bottom: 1rem; flex-grow: 1; }
+                 .project-tags { display: flex; flex-wrap: wrap; gap: 0.5rem; margin-bottom: 1.25rem; }
+                 .project-tags span { background-color: var(--bg-alt); color: var(--text-secondary); padding: 0.25rem 0.75rem; border-radius: 9999px; font-size: 0.75rem; font-weight: 500; border: 1px solid var(--border-color); }
+                 html.dark .project-tags span { background-color: var(--bg-primary); }
+                 .project-links { margin-top: auto; display: flex; gap: 0.75rem; }
+                 .project-link { display: inline-flex; align-items: center; padding: 0.5rem 1rem; border-radius: 0.375rem; font-size: 0.8rem; font-weight: 600; transition: all 0.2s ease-in-out; }
+             </style>
+        </section>
+
+
+        <section id="contact" class="bg-secondary">
+            <div class="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 text-center animate-fade-in">
+                <h2 class="text-3xl lg:text-4xl font-heading font-bold tracking-tight mb-4">
+                     Let's <span class="text-accent-p">Connect</span>
+                </h2>
+                <p class="text-lg text-text-muted mb-10 max-w-xl mx-auto">
+                    I'm currently seeking opportunities and collaborations. If you have a project in mind or just want to chat, feel free to reach out!
+                </p>
+                <div class="flex flex-col sm:flex-row justify-center items-center space-y-4 sm:space-y-0 sm:space-x-6">
+                    <a href="mailto:[Your Email Address]" class="contact-btn border border-default hover:border-accent-p hover:text-accent-p">
+                        <i data-lucide="mail" class="w-5 h-5 mr-2"></i> Email Me
+                    </a>
+                    <a href="[Link to your LinkedIn]" target="_blank" rel="noopener noreferrer" class="contact-btn border border-default hover:border-accent-p hover:text-accent-p">
+                        <i data-lucide="linkedin" class="w-5 h-5 mr-2"></i> LinkedIn
+                    </a>
+                    <a href="[Link to your GitHub]" target="_blank" rel="noopener noreferrer" class="contact-btn border border-default hover:border-accent-p hover:text-accent-p">
+                        <i data-lucide="github" class="w-5 h-5 mr-2"></i> GitHub
+                    </a>
+                </div>
+            </div>
+             <style>
+                .contact-btn { display: inline-flex; align-items: center; justify-content: center; padding: 0.75rem 1.5rem; border-radius: 0.5rem; background-color: var(--bg-primary); font-weight: 600; color: var(--text-secondary); box-shadow: 0 1px 2px rgba(0,0,0,0.05); transition: all 0.2s ease; }
+                 .contact-btn:hover { transform: translateY(-2px); box-shadow: 0 4px 10px rgba(0,0,0,0.08); }
+                 html.dark .contact-btn { box-shadow: none; }
+            </style>
+        </section>
+    </main>
+
+    <footer class="bg-primary py-6 border-t border-default">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col sm:flex-row justify-between items-center text-center sm:text-left gap-y-3">
+             <p class="text-sm text-text-muted">
+                &copy; <span id="current-year"></span> Vishav Yadav. Designed with Tailwind CSS.
+            </p>
+             <div class="flex justify-center sm:justify-end space-x-5">
+                 <a href="mailto:[Your Email]" class="text-text-muted hover:text-accent-p transition" aria-label="Email"><i data-lucide="mail" class="w-5 h-5"></i></a>
+                 <a href="[LinkedIn Link]" target="_blank" rel="noopener noreferrer" class="text-text-muted hover:text-accent-p transition" aria-label="LinkedIn"><i data-lucide="linkedin" class="w-5 h-5"></i></a>
+                 <a href="[GitHub Link]" target="_blank" rel="noopener noreferrer" class="text-text-muted hover:text-accent-p transition" aria-label="GitHub"><i data-lucide="github" class="w-5 h-5"></i></a>
+             </div>
+        </div>
+    </footer>
+
+    <script>
+        const htmlElement = document.documentElement;
+        const toggleButton = document.getElementById('theme-toggle');
+        const toggleButtonMobile = document.getElementById('theme-toggle-mobile');
+        const sunIcon = document.getElementById('sun-icon');
+        const moonIcon = document.getElementById('moon-icon');
+        const sunIconMobile = document.getElementById('sun-icon-mobile');
+        const moonIconMobile = document.getElementById('moon-icon-mobile');
+        const mobileMenuButton = document.getElementById('mobile-menu-button');
+        const mobileMenu = document.getElementById('mobile-menu');
+        const mobileLinks = document.querySelectorAll('.mobile-link');
+
+        function setTheme(isDark) {
+            htmlElement.classList.toggle('dark', isDark);
+            sunIcon.classList.toggle('hidden', !isDark); // Sun visible in light
+            moonIcon.classList.toggle('hidden', isDark); // Moon visible in dark
+            sunIconMobile.classList.toggle('hidden', !isDark);
+            moonIconMobile.classList.toggle('hidden', isDark);
+        }
+
+        function initializeTheme() {
+            const savedTheme = localStorage.getItem('theme');
+            const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+            // Default LIGHT this time
+            const isDarkMode = savedTheme === 'dark' || (!savedTheme && prefersDark);
+            if (!savedTheme) { localStorage.setItem('theme', isDarkMode ? 'dark' : 'light'); }
+            setTheme(isDarkMode); // Set initial theme based on check
+        }
+
+
+        function toggleTheme() {
+            const isCurrentlyDark = htmlElement.classList.contains('dark');
+            setTheme(!isCurrentlyDark);
+            localStorage.setItem('theme', !isCurrentlyDark ? 'dark' : 'light');
+        }
+
+        toggleButton.addEventListener('click', toggleTheme);
+        toggleButtonMobile.addEventListener('click', toggleTheme);
+
+        mobileMenuButton.addEventListener('click', () => {
+             mobileMenu.classList.toggle('hidden');
+             const menuIcon = mobileMenuButton.querySelector('i');
+             menuIcon.setAttribute('data-lucide', mobileMenu.classList.contains('hidden') ? 'menu' : 'x');
+             lucide.createIcons();
+        });
+
+        mobileLinks.forEach(link => {
+             link.addEventListener('click', () => {
+                 mobileMenu.classList.add('hidden');
+                 const menuIcon = mobileMenuButton.querySelector('i');
+                 menuIcon.setAttribute('data-lucide', 'menu');
+                 lucide.createIcons();
+             });
+        });
+
+        document.getElementById('current-year').textContent = new Date().getFullYear();
+
+        document.addEventListener('DOMContentLoaded', () => {
+             initializeTheme();
+             lucide.createIcons();
+
+             // Staggered animation observer
+             const animatedElements = document.querySelectorAll('.stagger-delay');
+             const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                         const delay = entry.target.style.getPropertyValue('--delay') || '0s';
+                         entry.target.style.animation = `fadeIn 0.6s ${delay} ease-out forwards`;
+                         observer.unobserve(entry.target);
+                    }
+                });
+             }, { threshold: 0.1 });
+             animatedElements.forEach(el => { observer.observe(el); });
+
+             // General fade-in animation observer
+             const fadeInElements = document.querySelectorAll('.animate-fade-in');
+             const fadeInObserver = new IntersectionObserver((entries) => {
+                 entries.forEach(entry => {
+                     if (entry.isIntersecting) {
+                         entry.target.style.animationDelay = entry.target.style.animationDelay || '0s'; // Use existing delay if set
+                         entry.target.style.animationPlayState = 'running';
+                         fadeInObserver.unobserve(entry.target);
+                     }
+                 });
+             }, { threshold: 0.1 });
+             fadeInElements.forEach(el => {
+                 el.style.animationPlayState = 'paused'; // Start paused
+                 fadeInObserver.observe(el);
+             });
+        });
+    </script>
+</body>
+</html> 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!DOCTYPE html>
+<html lang="en"> <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vishav Yadav | ECE Student & Web Developer Portfolio</title>
+    <meta name="description" content="Portfolio of Vishav Yadav, VIT Vellore ECE student passionate about web development. Showcasing skills in Python, JS, React, Node.js, and projects.">
+
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Lato:wght@300;400;700&family=Merriweather:wght@400;700;900&display=swap" rel="stylesheet">
+
+    <style>
+        html { scroll-behavior: smooth; scroll-padding-top: 5rem; /* Header height offset */ }
+        body { font-family: 'Lato', sans-serif; -webkit-font-smoothing: antialiased; -moz-osx-font-smoothing: grayscale; }
+        h1, h2, h3, h4, h5, h6 { font-family: 'Merriweather', serif; }
+
+        /* Custom scrollbar */
+        ::-webkit-scrollbar { width: 8px; height: 8px; }
+        ::-webkit-scrollbar-track { background: var(--scrollbar-track); }
+        ::-webkit-scrollbar-thumb { background: var(--scrollbar-thumb); border-radius: 4px; }
+        ::-webkit-scrollbar-thumb:hover { background: var(--scrollbar-thumb-hover); }
+
+        :root { /* Light mode */
+            --bg-primary: #ffffff;
+            --bg-secondary: #f8f9fa; /* Very light gray */
+            --text-header: #1a202c; /* Almost black */
+            --text-body: #4a5568; /* Medium gray */
+            --text-muted: #718096; /* Lighter gray */
+            --border-color: #e2e8f0; /* Light gray border */
+            --accent-primary: #2563eb; /* Blue-600 */
+            --accent-primary-hover: #1d4ed8; /* Blue-700 */
+            --accent-secondary: #ca8a04; /* Yellow-600 */
+            --scrollbar-track: #e2e8f0;
+            --scrollbar-thumb: #a0aec0;
+            --scrollbar-thumb-hover: #718096;
+        }
+        html.dark { /* Dark mode */
+            --bg-primary: #1a202c; /* Dark blue-gray */
+            --bg-secondary: #2d3748; /* Slightly lighter dark */
+            --text-header: #f7fafc; /* Almost white */
+            --text-body: #e2e8f0; /* Light gray */
+            --text-muted: #a0aec0; /* Medium gray */
+            --border-color: #4a5568; /* Medium gray border */
+            --accent-primary: #60a5fa; /* Blue-400 */
+            --accent-primary-hover: #3b82f6; /* Blue-500 */
+            --accent-secondary: #facc15; /* Yellow-400 */
+            --scrollbar-track: #2d3748;
+            --scrollbar-thumb: #718096;
+            --scrollbar-thumb-hover: #a0aec0;
+        }
+        /* Style adjustments */
+        body { background-color: var(--bg-primary); color: var(--text-body); }
+        h1, h2, h3, h4, strong { color: var(--text-header); }
+        .bg-primary { background-color: var(--bg-primary); }
+        .bg-secondary { background-color: var(--bg-secondary); }
+        .border-default { border-color: var(--border-color); }
+        .text-accent-primary { color: var(--accent-primary); }
+        .text-accent-secondary { color: var(--accent-secondary); }
+        .bg-accent-primary { background-color: var(--accent-primary); }
+        .hover\:bg-accent-primary-hover:hover { background-color: var(--accent-primary-hover); }
+        .hover\:text-accent-primary:hover { color: var(--accent-primary); }
+        .ring-accent-primary focus\:ring-2 { --tw-ring-color: var(--accent-primary); }
+
+        /* Focus visible */
+        :focus-visible { outline: 2px solid var(--accent-primary); outline-offset: 2px; border-radius: 4px; }
+
+        /* Fade-in animation */
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+        .animate-fade-in { opacity: 0; animation: fadeIn 0.6s ease-out forwards; }
+        .stagger-delay > * { opacity: 0; }
+
+        /* Section Padding */
+        section { padding-top: 6rem; padding-bottom: 6rem; border-bottom: 1px solid var(--border-color);}
+        section:last-of-type { border-bottom: none; }
+         @media (min-width: 1024px) { section { padding-top: 8rem; padding-bottom: 8rem; } }
+
+         /* Custom Button Style */
+        .btn { display: inline-flex; align-items: center; justify-content: center; padding: 0.75rem 1.5rem; border-radius: 0.375rem; font-weight: 600; text-align: center; transition: all 0.2s ease; border: 1px solid transparent; }
+        .btn-primary { background-color: var(--accent-primary); color: white; border-color: var(--accent-primary); }
+        .btn-primary:hover { background-color: var(--accent-primary-hover); border-color: var(--accent-primary-hover); transform: translateY(-1px); box-shadow: 0 4px 10px rgba(0,0,0,0.1); }
+        .btn-secondary { background-color: transparent; color: var(--text-secondary); border-color: var(--border-color); }
+        .btn-secondary:hover { background-color: var(--bg-secondary); border-color: var(--text-muted); color: var(--text-primary); transform: translateY(-1px); box-shadow: 0 4px 10px rgba(0,0,0,0.05); }
+        html.dark .btn-secondary { color: var(--text-body); border-color: var(--border-color); }
+        html.dark .btn-secondary:hover { background-color: var(--bg-secondary); border-color: var(--text-muted); color: var(--text-primary); }
+
+
+    </style>
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Lato', 'sans-serif'],
+                        serif: ['Merriweather', 'serif'],
+                    },
+                    colors: {
+                        'accent-p': { // Primary Accent (Blue)
+                           light: '#60a5fa', // blue-400 (dark mode)
+                           DEFAULT: '#2563eb', // blue-600 (light mode)
+                           dark: '#1d4ed8'  // blue-700 (hover)
+                        },
+                        'accent-s': { // Secondary Accent (Amber/Gold)
+                           light: '#facc15', // yellow-400 (dark mode)
+                           DEFAULT: '#ca8a04', // yellow-600 (light mode)
+                           dark: '#a16207' // yellow-700 (hover)
+                        },
+                        // Backgrounds/Text mainly handled by CSS vars
+                    },
+                    animation: {
+                        'fade-in': 'fadeIn 0.6s ease-out forwards',
+                    },
+                    keyframes: {
+                        fadeIn: {
+                            'from': { opacity: '0', transform: 'translateY(10px)' },
+                            'to': { opacity: '1', transform: 'translateY(0)' },
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+</head>
+<body class="bg-primary text-secondary">
+
+    <header class="bg-primary/95 dark:bg-primary/95 backdrop-blur-sm shadow-sm sticky top-0 z-40 border-b border-default transition-colors duration-300">
+        <nav class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-20 flex justify-between items-center">
+            <a href="#home" class="text-xl font-serif font-bold text-accent-p transition hover:opacity-80">
+                Vishav Yadav
+            </a>
+            <div class="hidden md:flex items-center space-x-7">
+                <a href="#about" class="nav-link">About</a>
+                <a href="#skills" class="nav-link">Skills</a>
+                <a href="#projects" class="nav-link">Projects</a>
+                <a href="#contact" class="nav-link">Contact</a>
+                <button id="theme-toggle" class="p-2 rounded-full text-text-muted hover:bg-secondary transition" aria-label="Toggle theme">
+                    <i data-lucide="sun" id="sun-icon" class="w-5 h-5"></i>
+                    <i data-lucide="moon" id="moon-icon" class="w-5 h-5 hidden"></i>
+                </button>
+            </div>
+            <div class="md:hidden flex items-center">
+                 <button id="theme-toggle-mobile" class="p-2 mr-2 rounded-full text-text-muted hover:bg-secondary transition" aria-label="Toggle theme mobile">
+                     <i data-lucide="sun" id="sun-icon-mobile" class="w-5 h-5"></i>
+                     <i data-lucide="moon" id="moon-icon-mobile" class="w-5 h-5 hidden"></i>
+                </button>
+                <button id="mobile-menu-button" class="p-2 rounded-md text-text-muted hover:bg-secondary" aria-label="Open menu">
+                    <i data-lucide="menu" class="w-6 h-6"></i>
+                </button>
+            </div>
+        </nav>
+        <div id="mobile-menu" class="md:hidden hidden bg-primary absolute w-full shadow-lg border-t border-default">
+            <div class="px-4 pt-2 pb-4 space-y-2">
+                <a href="#about" class="block py-2 text-base font-medium hover:text-accent-p transition mobile-link">About</a>
+                <a href="#skills" class="block py-2 text-base font-medium hover:text-accent-p transition mobile-link">Skills</a>
+                <a href="#projects" class="block py-2 text-base font-medium hover:text-accent-p transition mobile-link">Projects</a>
+                <a href="#contact" class="block py-2 text-base font-medium hover:text-accent-p transition mobile-link">Contact</a>
+            </div>
+        </div>
+        <style> .nav-link { font-size: 0.9rem; font-weight: 500; color: var(--text-secondary); transition: color 0.2s ease-in-out; position: relative; padding-bottom: 4px; }
+                .nav-link::after { content: ''; position: absolute; bottom: 0; left: 0; right: 0; height: 2px; background-color: var(--accent-primary); transform: scaleX(0); transition: transform 0.3s ease; transform-origin: center; } /* Animate from center */
+                .nav-link:hover::after { transform: scaleX(0.6); } /* Don't underline fully */
+                .nav-link:hover { color: var(--text-primary); }
+        </style>
+    </header>
+
+    <main>
+        <section id="home" class="min-h-[calc(100vh-5rem)] flex items-center bg-secondary pt-10 pb-20 md:pt-0 md:pb-0">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 grid grid-cols-1 md:grid-cols-2 gap-10 lg:gap-16 items-center">
+                <div class="animate-fade-in text-center md:text-left order-2 md:order-1">
+                    <h1 class="font-serif text-4xl sm:text-5xl lg:text-6xl font-extrabold tracking-tight mt-1 mb-5 leading-tight">
+                        Vishav Yadav
+                    </h1>
+                     <h2 class="text-xl sm:text-2xl font-semibold mb-6 text-accent-p">
+                         Electronics & Communication Engineer | Web Developer
+                     </h2>
+                    <p class="text-lg text-text-muted mb-10 max-w-lg mx-auto md:mx-0">
+                       VIT Vellore student specializing in ECE, with a keen interest and growing expertise in building dynamic and user-centric web applications.
+                    </p>
+                    <div class="flex flex-col sm:flex-row justify-center md:justify-start items-center space-y-3 sm:space-y-0 sm:space-x-4">
+                        <a href="#contact" class="btn btn-primary w-full sm:w-auto">
+                            Contact Me <i data-lucide="mail" class="w-4 h-4 ml-2"></i>
+                        </a>
+                        <a href="[Link to Resume PDF]" target="_blank" class="btn btn-secondary w-full sm:w-auto">
+                             My Resume <i data-lucide="download" class="w-4 h-4 ml-2"></i>
+                        </a>
+                    </div>
+                </div>
+                 <div class="order-1 md:order-2 flex justify-center animate-fade-in" style="animation-delay: 0.2s;">
+                      <div class="relative w-64 h-64 sm:w-80 sm:h-80 lg:w-96 lg:h-96">
+                         <div class="absolute inset-0 bg-gradient-to-br from-accent-p/20 to-accent-s/20 rounded-full blur-xl opacity-70"></div>
+                         <img src="vishav.jpeg" alt="Vishav Yadav" class="relative w-full h-full rounded-full object-cover shadow-2xl border-4 border-white dark:border-gray-800">
+                      </div>
+                 </div>
+            </div>
+        </section>
+
+        <section id="about" class="bg-primary">
+            <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 animate-fade-in">
+                 <div class="text-center mb-16">
+                     <span class="text-sm font-semibold uppercase tracking-wider text-accent-s mb-2 block">My Background</span>
+                     <h2 class="text-3xl lg:text-4xl font-serif font-bold tracking-tight">
+                        Bridging Engineering and Code
+                     </h2>
+                 </div>
+                 <div class="text-base lg:text-lg text-text-secondary leading-relaxed space-y-5 max-w-3xl mx-auto text-center">
+                     <p>
+                         Currently based in Vellore, Tamil Nadu, I'm immersed in my Electronics and Communication Engineering studies at VIT. This discipline has honed my <strong class="font-semibold text-text-primary">analytical skills</strong> and taught me the importance of <strong class="font-semibold text-text-primary">structured problem-solving</strong>.
+                     </p>
+                     <p>
+                         Driven by a desire to create and innovate, I've actively pursued <strong class="font-semibold text-text-primary">web development</strong>. I find great satisfaction in translating complex requirements into elegant code, focusing on both <strong class="font-semibold text-text-primary">front-end usability</strong> and <strong class="font-semibold text-text-primary">back-end efficiency</strong>.
+                     </p>
+                      <p>My goal is to integrate my ECE knowledge with web technologies to contribute to meaningful projects.</p>
+                 </div>
+            </div>
+        </section>
+
+        <section id="skills" class="bg-secondary">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 animate-fade-in">
+                <h2 class="text-3xl lg:text-4xl font-serif font-bold tracking-tight text-center mb-16">
+                    Technical Proficiencies
+                </h2>
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-8 lg:gap-12">
+                    <div class="skills-category">
+                        <h3 class="category-title"><i data-lucide="terminal-square"></i> Languages</h3>
+                        <ul class="skills-list">
+                             <li>Python</li> <li>JavaScript (ES6+)</li> <li>Java</li> <li>C++</li> <li>C</li> <li>HTML5</li> <li>CSS3</li>
+                        </ul>
+                    </div>
+                    <div class="skills-category">
+                         <h3 class="category-title"><i data-lucide="library"></i> Frameworks & Libraries</h3>
+                         <ul class="skills-list">
+                             <li>React.js</li> <li>Node.js</li> <li>Tailwind CSS</li>
+                             </ul>
+                    </div>
+                     <div class="skills-category">
+                         <h3 class="category-title"><i data-lucide="database-zap"></i> Databases & Tools</h3>
+                         <ul class="skills-list">
+                              <li>MongoDB</li> <li>MySQL</li> <li>Git</li> <li>GitHub</li>
+                              </ul>
+                    </div>
+                </div>
+            </div>
+            <style>
+                 .skills-category { background-color: var(--bg-primary); padding: 1.5rem; border-radius: 0.5rem; border: 1px solid var(--border-color); box-shadow: 0 1px 3px rgba(0,0,0,0.05); }
+                 .category-title { font-size: 1.25rem; font-weight: 600; margin-bottom: 1rem; display: flex; align-items: center; color: var(--text-header); }
+                 .category-title i { width: 1.25rem; height: 1.25rem; margin-right: 0.5rem; color: var(--accent-primary); }
+                 .skills-list { list-style: none; padding: 0; margin: 0; display: flex; flex-wrap: wrap; gap: 0.75rem; }
+                 .skills-list li { background-color: var(--bg-secondary); color: var(--text-secondary); padding: 0.4rem 0.9rem; border-radius: 9999px; font-size: 0.875rem; font-weight: 500; border: 1px solid var(--border-color); white-space: nowrap; }
+                 html.dark .skills-list li { border-color: transparent; }
+            </style>
+        </section>
+
+        <section id="projects" class="bg-primary">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 animate-fade-in">
+                <h2 class="text-3xl lg:text-4xl font-serif font-bold tracking-tight text-center mb-16">
+                    Project Highlights
+                </h2>
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 lg:gap-10">
+                    <div class="project-card stagger-delay" style="--delay: 0.1s;">
+                         <img src="https://via.placeholder.com/600x400/ede9fe/5b21b6?text=Project+1+UI" alt="Project 1" class="project-image">
+                        <div class="p-6">
+                            <h3 class="text-lg font-semibold mb-2">[Project Title 1]</h3>
+                            <p class="project-description">
+                                [Brief, impactful description. Focus on what it is and the value.]
+                            </p>
+                            <p class="project-tech">HTML, CSS, JavaScript</p>
+                            <div class="project-links">
+                                <a href="#" target="_blank" rel="noopener noreferrer" class="project-link text-accent-p hover:underline"> View Demo <i data-lucide="arrow-up-right" class="w-3 h-3 ml-1"></i></a>
+                                <a href="#" target="_blank" rel="noopener noreferrer" class="project-link text-text-muted hover:underline"> Source Code <i data-lucide="github" class="w-3 h-3 ml-1"></i></a>
+                            </div>
+                        </div>
+                    </div>
+                     <div class="project-card stagger-delay" style="--delay: 0.2s;">
+                         <img src="https://via.placeholder.com/600x400/ffedd5/c2410c?text=Project+2+UI" alt="Project 2" class="project-image">
+                        <div class="p-6">
+                            <h3 class="text-lg font-semibold mb-2">[Project Title 2]</h3>
+                            <p class="project-description">
+                               [Brief, impactful description. Focus on what it is and the value.]
+                            </p>
+                            <p class="project-tech">React, Tailwind CSS</p>
+                            <div class="project-links">
+                                <a href="#" target="_blank" rel="noopener noreferrer" class="project-link text-accent-p hover:underline"> View Demo <i data-lucide="arrow-up-right" class="w-3 h-3 ml-1"></i></a>
+                                <a href="#" target="_blank" rel="noopener noreferrer" class="project-link text-text-muted hover:underline"> Source Code <i data-lucide="github" class="w-3 h-3 ml-1"></i></a>
+                            </div>
+                        </div>
+                    </div>
+                     <div class="project-card stagger-delay" style="--delay: 0.3s;">
+                          <img src="https://via.placeholder.com/600x400/dbeafe/1e3a8a?text=Project+3+UI" alt="Project 3" class="project-image">
+                         <div class="p-6">
+                             <h3 class="text-lg font-semibold mb-2">[Project Title 3]</h3>
+                             <p class="project-description">
+                                 [Brief, impactful description. Focus on what it is and the value.]
+                             </p>
+                              <p class="project-tech">Node.js, MongoDB</p>
+                             <div class="project-links">
+                                 <a href="#" target="_blank" rel="noopener noreferrer" class="project-link text-accent-p hover:underline"> View Demo <i data-lucide="arrow-up-right" class="w-3 h-3 ml-1"></i></a>
+                                 <a href="#" target="_blank" rel="noopener noreferrer" class="project-link text-text-muted hover:underline"> Source Code <i data-lucide="github" class="w-3 h-3 ml-1"></i></a>
+                             </div>
+                         </div>
+                    </div>
+                </div>
+            </div>
+            <style>
+                 .project-card { background-color: var(--bg-secondary); border-radius: 0.5rem; overflow: hidden; display: flex; flex-direction: column; border: 1px solid var(--border-color); transition: transform 0.3s ease, box-shadow 0.3s ease; }
+                 .project-card:hover { transform: translateY(-4px); box-shadow: 0 10px 20px -5px rgba(0,0,0,.07); }
+                 html.dark .project-card:hover { box-shadow: 0 10px 20px -5px rgba(0,0,0,.2); }
+                 .project-image { aspect-ratio: 16 / 10; object-fit: cover; border-bottom: 1px solid var(--border-color); }
+                 .project-description { font-size: 0.9rem; color: var(--text-muted); margin-bottom: 1rem; flex-grow: 1; }
+                 .project-tech { font-size: 0.8rem; color: var(--accent-secondary); font-weight: 500; margin-bottom: 1.25rem; }
+                 .project-links { margin-top: auto; display: flex; justify-content: space-between; align-items: center; }
+                 .project-link { display: inline-flex; align-items: center; font-size: 0.875rem; font-weight: 600; transition: color 0.2s; }
+             </style>
+        </section>
+
+        <section id="contact" class="bg-secondary">
+            <div class="max-w-xl mx-auto px-4 sm:px-6 lg:px-8 text-center animate-fade-in">
+                <span class="text-sm font-semibold uppercase tracking-wider text-accent-s mb-2 block">Contact</span>
+                <h2 class="text-3xl lg:text-4xl font-serif font-bold tracking-tight mb-4">
+                    Let's Build Something Together
+                </h2>
+                <p class="text-lg text-text-muted mb-10">
+                    Interested in collaborating or discussing an opportunity? I'd love to hear from you.
+                </p>
+                <div class="inline-block">
+                     <a href="mailto:[Your Email Address]" class="btn btn-primary group">
+                        Send Me an Email <i data-lucide="mail-check" class="w-5 h-5 ml-2 group-hover:animate-pulse"></i>
+                    </a>
+                </div>
+                 <div class="mt-10 flex justify-center space-x-6">
+                     <a href="[Link to your LinkedIn]" target="_blank" rel="noopener noreferrer" class="text-text-muted hover:text-accent-p transition" aria-label="LinkedIn"><i data-lucide="linkedin" class="w-6 h-6"></i></a>
+                     <a href="[Link to your GitHub]" target="_blank" rel="noopener noreferrer" class="text-text-muted hover:text-accent-p transition" aria-label="GitHub"><i data-lucide="github" class="w-6 h-6"></i></a>
+                     </div>
+            </div>
+        </section>
+    </main>
+
+    <footer class="bg-primary py-6 border-t border-default">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+             <p class="text-sm text-text-muted">
+                &copy; <span id="current-year"></span> Vishav Yadav. ECE Student | Web Developer.
+            </p>
+        </div>
+    </footer>
+
+    <script>
+        const htmlElement = document.documentElement;
+        const toggleButton = document.getElementById('theme-toggle');
+        const toggleButtonMobile = document.getElementById('theme-toggle-mobile');
+        const sunIcon = document.getElementById('sun-icon');
+        const moonIcon = document.getElementById('moon-icon');
+        const sunIconMobile = document.getElementById('sun-icon-mobile');
+        const moonIconMobile = document.getElementById('moon-icon-mobile');
+        const mobileMenuButton = document.getElementById('mobile-menu-button');
+        const mobileMenu = document.getElementById('mobile-menu');
+        const mobileLinks = document.querySelectorAll('.mobile-link');
+
+        function setTheme(isDark) {
+            htmlElement.classList.toggle('dark', isDark);
+            sunIcon.classList.toggle('hidden', isDark);
+            moonIcon.classList.toggle('hidden', !isDark);
+            sunIconMobile.classList.toggle('hidden', isDark);
+            moonIconMobile.classList.toggle('hidden', !isDark);
+        }
+
+        function initializeTheme() {
+            const savedTheme = localStorage.getItem('theme');
+            const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+            // Default LIGHT
+            const isDarkMode = savedTheme === 'dark' || (!savedTheme && prefersDark);
+            if (!savedTheme) { localStorage.setItem('theme', isDarkMode ? 'dark' : 'light'); }
+            setTheme(isDarkMode);
+        }
+
+        function toggleTheme() {
+            const isCurrentlyDark = htmlElement.classList.contains('dark');
+            setTheme(!isCurrentlyDark);
+            localStorage.setItem('theme', !isCurrentlyDark ? 'dark' : 'light');
+        }
+
+        toggleButton.addEventListener('click', toggleTheme);
+        toggleButtonMobile.addEventListener('click', toggleTheme);
+
+        mobileMenuButton.addEventListener('click', () => {
+             mobileMenu.classList.toggle('hidden');
+             const menuIcon = mobileMenuButton.querySelector('i');
+             menuIcon.setAttribute('data-lucide', mobileMenu.classList.contains('hidden') ? 'menu' : 'x');
+             lucide.createIcons();
+        });
+
+        mobileLinks.forEach(link => {
+             link.addEventListener('click', () => {
+                 mobileMenu.classList.add('hidden');
+                 const menuIcon = mobileMenuButton.querySelector('i');
+                 menuIcon.setAttribute('data-lucide', 'menu');
+                 lucide.createIcons();
+             });
+        });
+
+        document.getElementById('current-year').textContent = new Date().getFullYear();
+
+        document.addEventListener('DOMContentLoaded', () => {
+             initializeTheme();
+             lucide.createIcons();
+
+             // Intersection Observer for animations
+             const animatedElements = document.querySelectorAll('.animate-fade-in, .stagger-delay > *');
+             const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                         // Use animation delay if defined via style attribute
+                         const delay = entry.target.style.animationDelay || entry.target.style.getPropertyValue('--delay') || '0s';
+                         entry.target.style.animation = `fadeIn 0.6s ${delay} ease-out forwards`;
+                         observer.unobserve(entry.target);
+                    }
+                });
+             }, { threshold: 0.1 }); // Trigger slightly before fully visible
+
+             animatedElements.forEach(el => { observer.observe(el); });
+        });
+    </script>
+</body>
+</html> -->

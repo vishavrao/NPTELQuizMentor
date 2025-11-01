@@ -1,0 +1,388 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Week 11 Quiz: Harvesting and Management</title>
+    <!-- Load Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Load Lucide Icons -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@100..900&display=swap');
+        body { font-family: 'Inter', sans-serif; }
+        
+        /* Custom radio button styling */
+        .option-label {
+            display: flex;
+            align-items: center;
+            padding: 1rem;
+            border-radius: 0.5rem;
+            border: 1px solid #e5e7eb;
+            cursor: pointer;
+            transition: all 0.2s;
+            position: relative;
+        }
+        .dark .option-label {
+            border: 1px solid #374151;
+        }
+
+        /* Hover and Selected Styles */
+        .option-label:hover {
+            border-color: #34d399; /* Lighter Green for subtle hover */
+            background-color: #f0fdf4; 
+        }
+        .dark .option-label:hover {
+            background-color: #1f2937;
+        }
+
+        .option-label.selected {
+            border-color: #059669; /* Primary color when selected */
+            background-color: #d1fae5; /* Lightest green for selected state */
+        }
+        .dark .option-label.selected {
+            background-color: #065f46;
+            border-color: #059669;
+        }
+        
+        /* Visually hide the default radio input */
+        input[type="radio"] {
+            position: absolute;
+            opacity: 0;
+            cursor: pointer;
+            height: 0;
+            width: 0;
+        }
+
+        /* Style for the visual selection indicator (optional, but good UX) */
+        input[type="radio"]:checked + .option-text {
+            font-weight: 600;
+        }
+        
+        /* Feedback Styles (set by JS after submission) */
+        .feedback-correct {
+            border-color: #10b981 !important; /* Green */
+            background-color: #ecfdf5 !important;
+        }
+        .dark .feedback-correct {
+            background-color: #064e3b !important;
+        }
+        
+        .feedback-incorrect {
+            border-color: #ef4444 !important; /* Red */
+            background-color: #fef2f2 !important;
+        }
+        .dark .feedback-incorrect {
+            background-color: #7f1d1d !important;
+        }
+
+        /* Disabled state after submission */
+        .quiz-submitted .option-label {
+            pointer-events: none;
+            cursor: default;
+        }
+    </style>
+    <script>
+        tailwind.config = {
+            darkMode: 'class', 
+            theme: {
+                extend: {
+                    colors: {
+                        'primary': '#059669', /* Emerald Green */
+                        'secondary': '#f59e0b', /* Amber */
+                    },
+                }
+            }
+        }
+    </script>
+</head>
+<body class="min-h-screen bg-gray-50 dark:bg-gray-900 text-gray-900 dark:text-gray-100 transition-colors duration-500">
+
+    <!-- Header & Title -->
+    <header class="bg-white dark:bg-gray-800 shadow-lg py-6 mb-10 border-b border-gray-200 dark:border-gray-700">
+        <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+            <h1 class="text-3xl font-bold text-center">Week 11 Quiz: Harvesting and Management</h1>
+            <p class="text-center text-gray-600 dark:text-gray-400 mt-1">Total Questions: 10 | Max Score: 10 Points</p>
+        </div>
+    </header>
+
+    <main class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 pb-16">
+        
+        <!-- Score Display Area -->
+        <div id="result-box" class="hidden bg-primary/10 border-l-4 border-primary text-primary-900 p-4 mb-8 rounded-lg dark:text-gray-100 dark:bg-primary/20 dark:border-primary">
+            <div class="flex items-center space-x-3">
+                <i data-lucide="award" class="w-6 h-6"></i>
+                <div>
+                    <h2 class="font-bold text-xl text-primary-800 dark:text-white">Quiz Results</h2>
+                    <p id="score-text" class="text-lg text-primary-700 dark:text-primary-200"></p>
+                </div>
+            </div>
+        </div>
+
+        <form id="quiz-form" class="space-y-8">
+            <!-- Data structure to hold questions and correct answers -->
+            <script>
+                // Fisher-Yates (Knuth) Shuffle Algorithm
+                function shuffleArray(array) {
+                    for (let i = array.length - 1; i > 0; i--) {
+                        const j = Math.floor(Math.random() * (i + 1));
+                        [array[i], array[j]] = [array[j], array[i]];
+                    }
+                    return array;
+                }
+                
+                const originalQuizData = [
+                    {
+                        question: "Ludwig's ratchet predicts ______.",
+                        options: [
+                            "decreasing harvesting rate",
+                            "constant harvesting rate",
+                            "increasing harvesting rate",
+                            "fluctuating harvesting rate"
+                        ],
+                        correctAnswer: "increasing harvesting rate"
+                    },
+                    {
+                        question: "A pest population is called controlled when ______.",
+                        options: [
+                            "it is not increasing",
+                            "it is decreasing",
+                            "it is not causing any economic damage",
+                            "it is not causing excessive economic damage"
+                        ],
+                        correctAnswer: "it is not causing excessive economic damage"
+                    },
+                    {
+                        question: "Which of these is not an impact of toxic chemicals?",
+                        options: [
+                            "lethal effects",
+                            "sub-lethal effects",
+                            "reduction of existing stressors",
+                            "reduced fecundity"
+                        ],
+                        correctAnswer: "reduction of existing stressors"
+                    },
+                    {
+                        question: "Which of these is correct? The maximum sustainable yield is near ______.",
+                        options: [
+                            "the beginning of the sigmoidal curve.",
+                            "the mid-point of the sigmoidal curve.",
+                            "the end of the sigmoidal curve.",
+                            "None of these"
+                        ],
+                        correctAnswer: "the mid-point of the sigmoidal curve."
+                    },
+                    {
+                        question: "A root zone treatment plant is an example of ______.",
+                        options: [
+                            "phytoremediation",
+                            "biological control",
+                            "biomagnification",
+                            "bioaccumulation"
+                        ],
+                        correctAnswer: "phytoremediation"
+                    },
+                    {
+                        question: "A pest population is called uncontrolled when ______.",
+                        options: [
+                            "it is increasing",
+                            "it is not decreasing",
+                            "it is causing some economic damage",
+                            "it is causing excessive economic damage"
+                        ],
+                        correctAnswer: "it is causing excessive economic damage"
+                    },
+                    {
+                        question: "The impact of El Nino on fishery collapse in Peru is explained by ______.",
+                        options: [
+                            "match hypothesis",
+                            "mismatch hypothesis",
+                            "match-mismatch hypothesis",
+                            "none of these"
+                        ],
+                        correctAnswer: "match-mismatch hypothesis"
+                    },
+                    {
+                        question: "A deciduous forest in Madhya Pradesh was converted to a mine. After the mining operations were over, the pits were filled up with soil and species of deciduous forest planted again. This is an example of ______.",
+                        options: [
+                            "recovery",
+                            "restoration",
+                            "enhancement",
+                            "replacement"
+                        ],
+                        correctAnswer: "restoration"
+                    },
+                    {
+                        question: "A deciduous forest in Madhya Pradesh was converted to a mine. After the mining operations were over, the pits were filled up with water and a lake was created. It is now visited by several migratory birds. This is an example of ______.",
+                        options: [
+                            "recovery",
+                            "restoration",
+                            "enhancement",
+                            "replacement"
+                        ],
+                        correctAnswer: "replacement"
+                    },
+                    {
+                        question: "Which of these is correct? (Equation related to population dynamics)",
+                        options: [
+                            "R + G = M + F",
+                            "R + M = G + F",
+                            "R + F = M + G",
+                            "R + G + M + F = 0"
+                        ],
+                        correctAnswer: "R + G = M + F"
+                    }
+                ];
+
+                // Shuffle the questions for a fresh experience each time
+                const quizData = shuffleArray(originalQuizData);
+
+                // Function to render the quiz questions
+                function renderQuiz() {
+                    const form = document.getElementById('quiz-form');
+                    form.innerHTML = ''; // Clear existing content
+
+                    quizData.forEach((item, index) => {
+                        const qNumber = index + 1;
+                        
+                        // Shuffle options for the current question
+                        const shuffledOptions = shuffleArray([...item.options]);
+                        
+                        const questionHtml = `
+                            <div class="question-container p-6 bg-white dark:bg-gray-800 rounded-xl shadow-lg border border-gray-200 dark:border-gray-700" data-question-index="${index}">
+                                <p class="text-xl font-semibold mb-6 text-gray-800 dark:text-white">
+                                    <span class="text-primary mr-2">${qNumber}.</span> ${item.question.replace('a. b. c. d.', '______').replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')}
+                                </p>
+                                <div class="options-group space-y-4">
+                                    ${shuffledOptions.map((option, optIndex) => `
+                                        <div>
+                                            <label class="option-label text-gray-700 dark:text-gray-300 hover:border-primary dark:hover:border-primary" for="q${qNumber}-opt${optIndex}">
+                                                <input type="radio" id="q${qNumber}-opt${optIndex}" name="question-${index}" value="${option}">
+                                                <span class="option-text ml-4 text-base w-full">${option}</span>
+                                            </label>
+                                        </div>
+                                    `).join('')}
+                                </div>
+                            </div>
+                        `;
+                        form.innerHTML += questionHtml;
+                    });
+
+                    // Add the submit button at the end
+                    const submitButtonHtml = `
+                        <div class="pt-8 flex justify-center">
+                            <button type="submit" id="submit-quiz-btn" class="px-8 py-3 bg-primary text-white text-lg font-semibold rounded-full shadow-lg hover:bg-green-700 transition duration-300">
+                                Submit and Show Results
+                            </button>
+                        </div>
+                    `;
+                    form.innerHTML += submitButtonHtml;
+                    
+                    // Attach click listener to all radio buttons for visual selection
+                    document.querySelectorAll('input[type="radio"]').forEach(radio => {
+                        radio.addEventListener('click', function() {
+                            // Find the options group for this question
+                            const optionsGroup = this.closest('.options-group');
+                            // Remove 'selected' class from all options in this group
+                            optionsGroup.querySelectorAll('.option-label').forEach(label => {
+                                label.classList.remove('selected');
+                            });
+                            // Add 'selected' class to the label of the clicked radio button
+                            this.closest('.option-label').classList.add('selected');
+                        });
+                    });
+                }
+
+                // Function to handle quiz submission and grading
+                function handleSubmit(event) {
+                    event.preventDefault();
+                    
+                    if (document.getElementById('quiz-form').classList.contains('quiz-submitted')) {
+                        // Prevent re-submission if already graded
+                        return;
+                    }
+
+                    let score = 0;
+                    
+                    quizData.forEach((item, index) => {
+                        const qContainer = document.querySelector(`[data-question-index="${index}"]`);
+                        const selectedOption = document.querySelector(`input[name="question-${index}"]:checked`);
+                        const options = qContainer.querySelectorAll('.option-label');
+                        
+                        let isCorrect = false;
+
+                        if (selectedOption) {
+                            if (selectedOption.value === item.correctAnswer) {
+                                score++;
+                                isCorrect = true;
+                            }
+                        }
+
+                        // Apply feedback styling to all options
+                        options.forEach(label => {
+                            const input = label.querySelector('input');
+                            
+                            // Remove selected state to prepare for final feedback
+                            label.classList.remove('selected'); 
+
+                            // Check if the current option is the correct answer
+                            if (input.value === item.correctAnswer) {
+                                label.classList.add('feedback-correct');
+                            }
+                            
+                            // Check if the user selected this option and it was wrong
+                            if (input === selectedOption && !isCorrect) {
+                                label.classList.add('feedback-incorrect');
+                                // Ensure the correct answer is also highlighted green if the user was wrong
+                                options.forEach(l => {
+                                    if (l.querySelector('input').value === item.correctAnswer) {
+                                        l.classList.add('feedback-correct');
+                                    }
+                                });
+                            }
+                        });
+                    });
+
+                    // 1. Display Score
+                    const scoreText = document.getElementById('score-text');
+                    scoreText.textContent = `You scored ${score} out of ${quizData.length} points!`;
+                    document.getElementById('result-box').classList.remove('hidden');
+
+                    // 2. Disable Form and Update Button
+                    document.getElementById('quiz-form').classList.add('quiz-submitted');
+                    const submitBtn = document.getElementById('submit-quiz-btn');
+                    submitBtn.textContent = 'Results Shown';
+                    submitBtn.classList.remove('hover:bg-green-700');
+                    submitBtn.classList.add('bg-gray-400', 'cursor-default');
+
+                    // Scroll to results
+                    document.getElementById('result-box').scrollIntoView({ behavior: 'smooth', block: 'start' });
+                }
+
+                // Initialize quiz and attach event listener
+                window.onload = function() {
+                    renderQuiz();
+                    document.getElementById('quiz-form').addEventListener('submit', handleSubmit);
+                    lucide.createIcons(); // Initialize Lucide icons
+                };
+            </script>
+        </form>
+
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-gray-200 dark:bg-gray-800 text-gray-600 dark:text-gray-400 py-6 mt-12 border-t border-gray-300 dark:border-gray-700">
+        <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 text-center text-sm">
+            <p>A part of the NPTEL Online Certification Course. Good luck with your studies!</p>
+        </div>
+    </footer>
+
+    <!-- Initialize Lucide Icons -->
+    <script>
+        lucide.createIcons();
+    </script>
+</body>
+</html>
+
+
+
